@@ -4,7 +4,7 @@
 
 class Engine final {
 public:
-	static void Initialise(int* argc, char* argv[]) { printf("Engine"); }
+	static void Initialise(int* argc, char* argv[]) { printf("Engine\n"); }
 private:
 	Engine() = default;
 };

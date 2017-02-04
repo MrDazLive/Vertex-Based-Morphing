@@ -5,7 +5,7 @@ public:
 	static void Initialise(int*, char*[]);
 	static void Quit();
 private:
-	Renderer() = default;
+	Renderer() = delete;
 
 	int static m_window;
 };

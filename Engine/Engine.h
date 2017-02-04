@@ -1,10 +1,10 @@
 #pragma once
 
-#include <stdio.h>
-
 class Engine final {
 public:
-	static void Initialise(int* argc, char* argv[]) { printf("Engine\n"); }
+	static void Initialise(int*, char*[]);
+	static void Loop();
+	static void Quit();
 private:
 	Engine() = default;
 };

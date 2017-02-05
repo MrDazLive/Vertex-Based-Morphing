@@ -17,6 +17,9 @@ public:
 private:
 					Engine			() = delete;
 
+	static void		IdleUpdate		();
+	static void		EventUpdate		();
+
 	static void		ResumeScene		();
 	static void		SuspendScene	();
 

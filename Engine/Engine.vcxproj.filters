@@ -36,6 +36,9 @@
     <ClInclude Include="Enumerators\KeyCode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Time\Time.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Input\Input.cpp">
@@ -45,6 +48,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Scene\Scene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Time\Time.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

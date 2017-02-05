@@ -1,8 +1,11 @@
 #include "Engine.h"
 
+#include <iostream>
 #include <GL\glut.h>
+
 #include "Input\Input.h"
 #include "Scene\Scene.h"
+#include "Time\Time.h"
 
 std::vector<Scene*>	Engine::m_activeScene;
 
@@ -11,6 +14,11 @@ void Engine::Initialise(int* argc, char* argv[]) {
 	glutKeyboardUpFunc(Input::KeyboardReleaseFunction);
 	glutSpecialFunc(Input::KeyboardSpecialFunction);
 	glutSpecialUpFunc(Input::KeyboardSpecialReleaseFunction);
+
+	glutIdleFunc(IdleUpdate);
+	glutDisplayFunc(EventUpdate);
+
+	Time::Initialise();
 }
 
 void Engine::Loop() {
@@ -22,6 +30,16 @@ void Engine::Quit() {
 		ptr->OnFocusLeave();
 		ptr->OnClose();
 	}
+}
+
+void Engine::IdleUpdate() {
+	Time::OnUpdate();
+	Scene* ptr = getCurrentScene();
+	if (ptr != nullptr) ptr->OnUpdate();
+}
+
+void Engine::EventUpdate() {
+
 }
 
 void Engine::OpenScene(const std::string& name) {

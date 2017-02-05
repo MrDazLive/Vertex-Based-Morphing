@@ -3,6 +3,8 @@
 
 #include <Engine\Input\Input.h>
 
+#include <iostream>
+
 int main(int argc, char* argv[]) {
 	Renderer::Initialise(&argc, argv);
 	Engine::Initialise(&argc, argv);

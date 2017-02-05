@@ -18,28 +18,30 @@ public:
 	static T*				getWithName		(const std::string&);
 	static T**				getAllWithName	(const std::string&);
 protected:
-							Handler			(T*, const std::string&);
+							Handler			(T* const, const std::string&);
 
 private:
-	static	unsigned int										m_count;
-	static	std::unordered_map<unsigned int, T*>				m_objectsByIndex;
-	static	std::unordered_map<std::string, std::vector<T*>>	m_objectsByName;
+	template <typename U, typename V> using Map = std::unordered_map<U, V>;
 
-	const	std::string											m_name{ "" };
-	const	unsigned int										m_index{ 0 };
+	static	unsigned int						m_count;
+	static	Map<unsigned int, T*>				m_objectsByIndex;
+	static	Map<std::string, std::vector<T*>>	m_objectsByName;
+
+	const	std::string							m_name{ "" };
+	const	unsigned int						m_index{ 0 };
 };
 
 template <typename T>
 unsigned int Handler<T>::m_count = 0;
 
 template <typename T>
-std::unordered_map<unsigned int, T*> Handler<T>::m_objectsByIndex;
+Handler<T>::Map<unsigned int, T*> Handler<T>::m_objectsByIndex;
 
 template <typename T>
-std::unordered_map<std::string, std::vector<T*>> Handler<T>::m_objectsByName;
+Handler<T>::Map<std::string, std::vector<T*>> Handler<T>::m_objectsByName;
 
 template <typename T>
-Handler<T>::Handler(T* object, const std::string& name) : m_name(name), m_index(m_count++) {
+Handler<T>::Handler(T* const object, const std::string& name) : m_name(name), m_index(m_count++) {
 	m_objectsByIndex.emplace(m_index, object);
 	m_objectsByName[m_name].push_back(object);
 }

@@ -2,10 +2,10 @@
 
 #include <iostream>
 
-Array<KeyState>		Input::m_keyState;
-ArrayBinding		Input::m_keyBinding[3]{};
+Input::Array<KeyState>		Input::m_keyState;
+Input::ArrayBinding			Input::m_keyBinding[3]{};
 
-void Input::BindKey(const KeyCode key, const KeyState state, Binding action) {
+void Input::BindKey(const KeyCode key, const KeyState state, KeyBinding action) {
 	Input::m_keyBinding[state][key].push_back(action);
 }
 
@@ -34,7 +34,7 @@ void Input::KeyboardSpecialReleaseFunction(int key, int x, int y) {
 }
 
 void Input::KeyboardHandle(const KeyCode key, const KeyState state) {
-	for (Binding binding : m_keyBinding[state][key]) {
+	for (KeyBinding binding : m_keyBinding[state][key]) {
 		binding();
 	}
 }

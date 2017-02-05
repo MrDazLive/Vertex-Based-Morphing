@@ -2,14 +2,21 @@
 
 #include "../Utilities/Handler.h"
 
+class GameObject;
+
 class Scene : public Handler<Scene> {
 public:
-	Scene(const std::string& name) : Handler<Scene>(this, name) {}
-	~Scene() = default;
+					Scene			(const std::string&);
+					~Scene			() = default;
 
-	void OnOpen() {}
-	void OnFocusEnter() {}
-	void OnFocusLeave() {}
-	void OnClose() {}
+			void	OnUpdate		();
+
+	virtual void	OnOpen			() {}
+	virtual void	OnFocusEnter	() {}
+	virtual void	OnFocusLeave	() {}
+	virtual void	OnClose			() {}
 protected:
+	void			AddGameObject	(GameObject* const);
+private:
+	std::vector<GameObject*> m_gameObject;
 };

@@ -144,6 +144,7 @@
   <ItemGroup>
     <ClCompile Include="Input\Input.cpp" />
     <ClCompile Include="Engine.cpp" />
+    <ClCompile Include="Scene\Scene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

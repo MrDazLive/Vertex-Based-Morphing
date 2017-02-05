@@ -36,7 +36,7 @@ void Engine::OpenScene(const std::string& name) {
 
 void Engine::SwapScene(const std::string& name, const unsigned int level = 0) {
 	unsigned int closeCount = m_activeScene.size() > level ? 
-		m_activeScene.size() - level :
+		(unsigned int)m_activeScene.size() - level :
 		0;
 
 	for (unsigned int i = 0; i < closeCount; i++) {

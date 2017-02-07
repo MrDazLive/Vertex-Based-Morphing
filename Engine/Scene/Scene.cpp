@@ -1,14 +1,14 @@
 #include "Scene.h"
 
-#include "GameObject.h"
+#include "GameObject/GameObject.h"
 
 Scene::Scene(const std::string& name) : Handler<Scene>(this, name) { }
 
 void Scene::OnUpdate() {
 	for (GameObject* const ptr : m_gameObject) {
-		if (ptr->active) {
+		//if (ptr->active) {
 			ptr->OnUpdate();
-		}
+		//}
 	}
 }
 

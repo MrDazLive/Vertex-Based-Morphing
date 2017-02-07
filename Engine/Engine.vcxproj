@@ -137,9 +137,10 @@
     <ClInclude Include="Enumerators\KeyCode.h" />
     <ClInclude Include="Enumerators\KeyState.h" />
     <ClInclude Include="Input\Input.h" />
-    <ClInclude Include="Scene\GameObject.h" />
+    <ClInclude Include="Scene\GameObject\GameObject.h" />
     <ClInclude Include="Scene\Scene.h" />
     <ClInclude Include="Time\Time.h" />
+    <ClInclude Include="Scene\GameObject\Component.h" />
     <ClInclude Include="Utilities\Handler.h" />
   </ItemGroup>
   <ItemGroup>

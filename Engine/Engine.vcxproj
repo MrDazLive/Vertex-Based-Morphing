@@ -146,6 +146,8 @@
   <ItemGroup>
     <ClCompile Include="Input\Input.cpp" />
     <ClCompile Include="Engine.cpp" />
+    <ClCompile Include="Scene\GameObject\Component.cpp" />
+    <ClCompile Include="Scene\GameObject\GameObject.cpp" />
     <ClCompile Include="Scene\Scene.cpp" />
     <ClCompile Include="Time\Time.cpp" />
   </ItemGroup>

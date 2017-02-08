@@ -37,7 +37,7 @@ class BaseComponent abstract : public Component {
 public:
 								~BaseComponent();
 
-	const unsigned int			getIndex		() const override;
+	const unsigned int			getIndex		() const override final;
 
 	static T**					getAll			();
 protected:

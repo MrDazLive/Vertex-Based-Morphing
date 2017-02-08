@@ -9,12 +9,11 @@ public:
 					Scene			(const std::string&);
 					~Scene			() = default;
 
-			void	OnUpdate		();
-
-	virtual void	OnOpen			() {}
-	virtual void	OnFocusEnter	() {}
-	virtual void	OnFocusLeave	() {}
-	virtual void	OnClose			() {}
+	virtual void	OnOpen			();
+	virtual void	OnFocusEnter	();
+	virtual void	OnUpdate		();
+	virtual void	OnFocusLeave	();
+	virtual void	OnClose			();
 protected:
 	void			AddGameObject	(GameObject* const);
 private:

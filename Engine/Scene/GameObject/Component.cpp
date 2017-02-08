@@ -17,7 +17,12 @@ const bool Component::isActive() const {
 }
 
 const void Component::setActive(bool status) {
-	m_active = status;
+	if (m_active != status) {
+		m_active = status;
+		m_active ?
+			this->OnEnable():
+			this->OnDisable();
+	}
 }
 
 unsigned int Component::getNewIndex() {

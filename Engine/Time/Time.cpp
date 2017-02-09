@@ -10,7 +10,7 @@ void Time::Initialise() {
 }
 
 void Time::OnUpdate() {
-	float now = getTime();
+	double now = getTime();
 	m_deltaTime = now - m_time;
 	m_time = now;
 }

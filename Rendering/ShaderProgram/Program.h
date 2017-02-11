@@ -4,10 +4,9 @@
 #include <GL\glew.h>
 #include <Utilities\BaseClass\Handler.h>
 
-#include "Shader.h"
-
 #define Variadic template <typename ... V>
 
+class Shader;
 class UniformBlock;
 
 class Program final : public Handler<Program> {

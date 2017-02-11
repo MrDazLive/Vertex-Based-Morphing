@@ -3,6 +3,7 @@
 #include <GL\glew.h>
 #include <GL\glut.h>
 
+#include "ShaderProgram\Shader.h"
 #include "ShaderProgram\Program.h"
 #include "BufferObjects\ArrayBuffer.h"
 

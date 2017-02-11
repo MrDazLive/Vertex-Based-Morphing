@@ -2,7 +2,7 @@
 
 #include "BufferObject.h"
 
-class UniformBuffer : public BufferObject {
+class UniformBuffer final : public BufferObject {
 public:
 	UniformBuffer(GLenum);
 	~UniformBuffer();

@@ -138,14 +138,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BufferObjects\BufferObject.h" />
+    <ClInclude Include="BufferObjects\ElementBuffer.h" />
     <ClInclude Include="BufferObjects\UniformBuffer.h" />
+    <ClInclude Include="BufferObjects\ArrayBuffer.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="UniformBlocks\Material.h" />
     <ClInclude Include="UniformBlocks\UniformBlock.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BufferObjects\BufferObject.cpp" />
+    <ClCompile Include="BufferObjects\ElementBuffer.cpp" />
     <ClCompile Include="BufferObjects\UniformBuffer.cpp" />
+    <ClCompile Include="BufferObjects\ArrayBuffer.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="UniformBlocks\Material.cpp" />
   </ItemGroup>

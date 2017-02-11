@@ -1,7 +1,6 @@
 #pragma once
 
 #include <GL\glew.h>
-#include <vector>
 
 #define Template template <typename T>
 
@@ -15,7 +14,7 @@ public:
 	const GLenum	getUsage		() const;
 
 	void			SetActive		();
-	void			BindRange		(GLuint, GLintptr, GLuint);
+	void			BindRange(GLuint, GLintptr = 0, GLuint = 0);
 
 	Template void	BufferData		(T* const, GLsizeiptr);
 protected:
@@ -23,9 +22,9 @@ protected:
 private:
 	static GLuint	GenBuffer		();
 
-	const GLuint	m_buffer;
-	const GLenum	m_target;
-	const GLenum	m_usage;
+	const GLuint	m_buffer		{ 0 };
+	const GLenum	m_target		{ 0 };
+	const GLenum	m_usage			{ 0 };
 };
 
 Template void BufferObject::BufferData(T* const data, GLsizeiptr size) {

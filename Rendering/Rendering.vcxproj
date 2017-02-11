@@ -144,6 +144,7 @@
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="UniformBlocks\Material.h" />
     <ClInclude Include="UniformBlocks\UniformBlock.h" />
+    <ClInclude Include="VertexObjects\VertexArray.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BufferObjects\BufferObject.cpp" />
@@ -152,6 +153,7 @@
     <ClCompile Include="BufferObjects\ArrayBuffer.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="UniformBlocks\Material.cpp" />
+    <ClCompile Include="VertexObjects\VertexArray.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -1,22 +1,27 @@
 #pragma once
 
-#include <Utilities\Handler.h>
+#include <Utilities\BaseClass\Handler.h>
 #include <GL\glew.h>
 
 #include "..\BufferObjects\UniformBuffer.h"
+//#include "..\ShaderProgram\Program.h"
 
 #define Template template <typename T>
+//#define Variadic template <typename ... V>
 
 Template class UniformBlock abstract : public Handler<T> {
 public:
-						~UniformBlock	();
+							~UniformBlock	();
 
-	static void			BufferBlock		();
+	static void				BufferBlock		();
+
+	//static void				BindBlock(const std::string&, const Program*);
+	//Variadic static void	BindBlock(const std::string&, const Program*, const V...);
 protected:
-						UniformBlock	(T* const, const std::string&);
+							UniformBlock	(T* const, const std::string&);
 
-	static unsigned int	getBlockSize	();
-	virtual void		BuildBlock		(float*) = 0;
+	static unsigned int		getBlockSize	();
+	virtual void			BuildBlock		(float*) = 0;
 private:
 	static UniformBuffer*	m_buffer;
 	static unsigned int		m_blockSize;
@@ -63,3 +68,16 @@ void UniformBlock<T>::BufferBlock() {
 
 	m_buffer->BufferData<float>(vec.data(), block);
 }
+
+/*Template
+void UniformBlock<T>::BindBlock(const std::string& name, const Program* ptr) {
+	m_buffer->SetActive();
+	const GLuint index = glGetUniformBlockIndex(ptr->getProgram(), name.c_str());
+	glUniformBlockBinding(ptr->getProgram(), index, 0);
+}
+
+Template Variadic
+void UniformBlock<T>::BindBlock(const std::string& name, const Program* ptr, const V... ptrs) {
+	BindBlock(ptr);
+	BindBlock(ptrs);
+}*/

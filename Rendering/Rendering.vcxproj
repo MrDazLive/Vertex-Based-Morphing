@@ -142,6 +142,8 @@
     <ClInclude Include="BufferObjects\UniformBuffer.h" />
     <ClInclude Include="BufferObjects\ArrayBuffer.h" />
     <ClInclude Include="Renderer.h" />
+    <ClInclude Include="ShaderProgram\Program.h" />
+    <ClInclude Include="ShaderProgram\Shader.h" />
     <ClInclude Include="UniformBlocks\Material.h" />
     <ClInclude Include="UniformBlocks\UniformBlock.h" />
     <ClInclude Include="VertexObjects\VertexArray.h" />
@@ -152,6 +154,8 @@
     <ClCompile Include="BufferObjects\UniformBuffer.cpp" />
     <ClCompile Include="BufferObjects\ArrayBuffer.cpp" />
     <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="ShaderProgram\Program.cpp" />
+    <ClCompile Include="ShaderProgram\Shader.cpp" />
     <ClCompile Include="UniformBlocks\Material.cpp" />
     <ClCompile Include="VertexObjects\VertexArray.cpp" />
   </ItemGroup>

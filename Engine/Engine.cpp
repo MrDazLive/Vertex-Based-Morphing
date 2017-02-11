@@ -1,5 +1,7 @@
 #include "Engine.h"
 
+#include <Rendering\Renderer.h>
+
 #include <iostream>
 #include <GL\glut.h>
 
@@ -39,7 +41,7 @@ void Engine::IdleUpdate() {
 }
 
 void Engine::EventUpdate() {
-
+	Renderer::Loop();
 }
 
 void Engine::OpenScene(const std::string& name) {

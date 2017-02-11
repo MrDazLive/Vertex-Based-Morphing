@@ -15,7 +15,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Handler.h">
+    <ClInclude Include="BaseClass\Handler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Helper\File.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -7,6 +7,8 @@
 #include "ShaderProgram\Program.h"
 #include "BufferObjects\ArrayBuffer.h"
 
+#include <Utilities\Container\Mesh.h>
+
 int Renderer::m_window = 0;
 
 ArrayBuffer* Renderer::m_array = nullptr;
@@ -21,11 +23,11 @@ void Renderer::Initialise(int* argc, char* argv[]) {
 	glewInit();
 	glClearColor(0.0f, 0.0f, 0.25f, 0.0f);
 
-	float vec[9] { -1.0f, -1.0f, 0.0f, 1.0f, -1.0f, 0.0f, 0.0f, 1.0f, 0.0f };
 	m_array = new ArrayBuffer(GL_STATIC_DRAW);
-	m_array->BufferData(vec, sizeof(vec));
+	m_array->BufferData(Mesh::getWithName("cone")->getPositionArray(), sizeof(Vector3) * Mesh::getWithName("cone")->getVertexCount());
 
-	Program* def = new Program("Default");
+	float vec[9] { -1.0f, -1.0f, 0.0f, 1.0f, -1.0f, 0.0f, 0.0f, 1.0f, 0.0f };
+	/*Program* def = new Program("Default");
 	m_program.push_back(def);
 	Shader vs(GL_VERTEX_SHADER);
 	Shader fs(GL_FRAGMENT_SHADER);
@@ -35,7 +37,7 @@ void Renderer::Initialise(int* argc, char* argv[]) {
 
 	def->AddShader(&vs, &fs);
 	def->Link();
-	def->SetActive();
+	def->SetActive();*/
 }
 
 void Renderer::Loop() {
@@ -45,7 +47,7 @@ void Renderer::Loop() {
 	glBindBuffer(GL_ARRAY_BUFFER, m_array->getBuffer());
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
-	glDrawArrays(GL_TRIANGLES, 0, 9);
+	glDrawArrays(GL_TRIANGLES, 0, Mesh::getWithName("cone")->getElementCount());
 
 	glDisableVertexAttribArray(0);
 

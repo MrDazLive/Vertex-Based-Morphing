@@ -142,6 +142,7 @@
     <ClInclude Include="Enumerators\KeyState.h" />
     <ClInclude Include="Input\Input.h" />
     <ClInclude Include="Scene\GameObject\GameObject.h" />
+    <ClInclude Include="Scene\GameObject\Transform.h" />
     <ClInclude Include="Scene\Scene.h" />
     <ClInclude Include="Time\Time.h" />
     <ClInclude Include="Scene\GameObject\Component.h" />
@@ -151,6 +152,7 @@
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Scene\GameObject\Component.cpp" />
     <ClCompile Include="Scene\GameObject\GameObject.cpp" />
+    <ClCompile Include="Scene\GameObject\Transform.cpp" />
     <ClCompile Include="Scene\Scene.cpp" />
     <ClCompile Include="Time\Time.cpp" />
   </ItemGroup>

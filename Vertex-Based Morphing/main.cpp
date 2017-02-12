@@ -4,6 +4,7 @@
 #include <Engine\Input\Input.h>
 
 #include <Utilities\Container\Mesh.h>
+#include <Engine\Scene\GameObject\GameObject.h>
 
 #include <iostream>
 

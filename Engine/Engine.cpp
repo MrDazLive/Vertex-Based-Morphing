@@ -18,7 +18,7 @@ void Engine::Initialise(int* argc, char* argv[]) {
 	glutSpecialUpFunc(Input::KeyboardSpecialReleaseFunction);
 
 	glutIdleFunc(IdleUpdate);
-	glutDisplayFunc(EventUpdate);
+	glutDisplayFunc(DisplayUpdate);
 
 	Time::Initialise();
 }
@@ -38,9 +38,10 @@ void Engine::IdleUpdate() {
 	Time::OnUpdate();
 	Scene* ptr = getCurrentScene();
 	if (ptr != nullptr) ptr->OnUpdate();
+	glutPostRedisplay();
 }
 
-void Engine::EventUpdate() {
+void Engine::DisplayUpdate() {
 	Renderer::Loop();
 }
 

@@ -3,9 +3,9 @@
 #include <functional>
 #include <Utilities\BaseClass\Handler.h>
 
-#define Template template <typename T>
+#include "Transform.h"
 
-class Component;
+#define Template template <typename T>
 
 class GameObject final : public Handler<GameObject> {
 public:
@@ -24,17 +24,20 @@ public:
 	Template Component* const	AddComponent	();
 	Template Component* const	GetComponent	();
 	Template void		RemoveComponent	();
+
+	Transform*			transform		{ nullptr };
 private:
 	using Map = std::unordered_map<unsigned int, Component*>;
 
 	void				ComponentMethod	(std::function<void(Component* const)>);
 
-	bool				m_active	{ true };
-	Map					m_component	{ };
+	bool				m_active		{ true };
+	Map					m_component		{ };
 };
 
 Template Component* const GameObject::AddComponent() {
 	Component* ptr = new T(this);
+	unsigned int p = ptr->getIndex();
 	m_component.emplace(ptr->getIndex(), ptr);
 	return ptr;
 }

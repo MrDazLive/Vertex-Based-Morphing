@@ -149,6 +149,7 @@
     <ClInclude Include="BufferObjects\UniformBuffer.h" />
     <ClInclude Include="BufferObjects\ArrayBuffer.h" />
     <ClInclude Include="Camera\Camera.h" />
+    <ClInclude Include="Geometry\Geometry.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="ShaderProgram\Program.h" />
     <ClInclude Include="ShaderProgram\Shader.h" />
@@ -162,6 +163,7 @@
     <ClCompile Include="BufferObjects\UniformBuffer.cpp" />
     <ClCompile Include="BufferObjects\ArrayBuffer.cpp" />
     <ClCompile Include="Camera\Camera.cpp" />
+    <ClCompile Include="Geometry\Geometry.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="ShaderProgram\Program.cpp" />
     <ClCompile Include="ShaderProgram\Shader.cpp" />

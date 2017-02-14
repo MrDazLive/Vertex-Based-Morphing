@@ -3,7 +3,7 @@
 #include "Camera\Camera.h"
 #include "ShaderProgram\Shader.h"
 #include "ShaderProgram\Program.h"
-#include "BufferObjects\ArrayBuffer.h"
+#include "Geometry\Geometry.h"
 
 #include <Utilities\Container\Mesh.h>
 
@@ -12,8 +12,12 @@
 
 int Renderer::m_window = 0;
 
-ArrayBuffer* Renderer::m_array = nullptr;
+Geometry* Renderer::m_geometry = nullptr;
 std::vector<Program*> Renderer::m_program;
+
+Renderer::~Renderer() {
+	Renderer::Quit();
+}
 
 void Renderer::Initialise(int* argc, char* argv[]) {
 	glutInit(argc, argv);
@@ -21,14 +25,19 @@ void Renderer::Initialise(int* argc, char* argv[]) {
 	glutInitWindowSize(1080, 720);
 	m_window = glutCreateWindow("Vertex-Based Rendering");
 
+	const float aspectRatio = 1080.0f / 720.0f;
+	glm::mat4 projection = glm::perspective(1.31f, aspectRatio, 1.0f, 1000.0f);
+
 	glewInit();
 	glClearColor(0.0f, 0.0f, 0.25f, 0.0f);
 
-	m_array = new ArrayBuffer(GL_STATIC_DRAW);
-	m_array->BufferData(Mesh::getWithName("cone")->getPositionArray(), sizeof(glm::vec3) * Mesh::getWithName("cone")->getVertexCount());
+	m_geometry = new Geometry();
+	m_geometry->FillBuffers();
+	m_geometry->BuildArray();
 
 	Program* def = new Program("Default");
 	m_program.push_back(def);
+
 	Shader vs(GL_VERTEX_SHADER);
 	Shader fs(GL_FRAGMENT_SHADER);
 
@@ -36,29 +45,46 @@ void Renderer::Initialise(int* argc, char* argv[]) {
 	fs.LoadFromFile("Resource/Shader/red.fs");
 
 	def->AddShader(&vs, &fs);
+
+	def->AddInAttribute("position", "normal", "uv");
+	def->AddOutAttribute("colour");
 	def->Link();
+
 	def->SetActive();
+	GLint index = glGetUniformLocation(m_program[0]->getProgram(), "projection");
+	glUniformMatrix4fv(index, 1, GL_FALSE, glm::value_ptr(projection));
+
+	index = glGetUniformLocation(m_program[0]->getProgram(), "model");
+	glUniformMatrix4fv(index, 1, GL_FALSE, glm::value_ptr(glm::mat4()));
+
+	Program::Reset();
 }
 
 void Renderer::Loop() {
 	glClear(GL_COLOR_BUFFER_BIT);
 
+	m_program[0]->SetActive();
+	m_geometry->ActivateArray();
+
 	GLint index = glGetUniformLocation(m_program[0]->getProgram(), "view");
-	glUniformMatrix4fv(index, 1, GL_TRUE, glm::value_ptr(Camera::ViewMatrix()));
+	glUniformMatrix4fv(index, 1, GL_FALSE, glm::value_ptr(Camera::ViewMatrix()));
 
-	glEnableVertexAttribArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, m_array->getBuffer());
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
-
-	glDrawElements(GL_TRIANGLES, Mesh::getWithName("cone")->getElementCount(), GL_UNSIGNED_INT, Mesh::getWithName("cone")->getElementArray());
-
-	glDisableVertexAttribArray(0);
+	//glDrawElements(GL_TRIANGLES, Mesh::getWithName("cone")->getElementCount(), GL_UNSIGNED_INT, 0);
+	//glDrawElements(GL_TRIANGLES, Mesh::getWithName("cone")->getElementCount(), GL_UNSIGNED_INT, Mesh::getWithName("cone")->getElementArray());
+	glDrawElementsBaseVertex(GL_TRIANGLES, Mesh::getWithName("cone")->getElementCount(), GL_UNSIGNED_INT, Mesh::getWithName("cone")->getElementArray(), 0);// Mesh::getWithName("cone")->getVertexCount());
 	
+	VertexArray::Reset();
+	Program::Reset();
+
 	glutSwapBuffers();
 }
 
 void Renderer::Quit() {
 	glutDestroyWindow(m_window);
-	delete m_array;
+	delete m_geometry;
 	delete[] m_program.data();
+}
+
+void Renderer::DrawRequest(const unsigned int mesh, const unsigned int material, const glm::mat4& transform) {
+
 }

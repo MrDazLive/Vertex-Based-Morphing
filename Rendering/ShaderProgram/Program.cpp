@@ -52,6 +52,10 @@ void Program::SetSubroutine(GLenum type, const std::string& name) {
 	glUniformSubroutinesuiv(type, 1, &index);
 }
 
+void Program::Reset() {
+	glUseProgram(0);
+}
+
 void Program::AddShader(const Shader* shader) {
 	glAttachShader(m_program, shader->getShader());
 }

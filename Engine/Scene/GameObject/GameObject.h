@@ -4,6 +4,7 @@
 #include <Utilities\BaseClass\Handler.h>
 
 #include "Transform.h"
+#include "Renderable.h"
 
 #define Template template <typename T>
 
@@ -21,11 +22,12 @@ public:
 	void				OnSleep			();
 	void				OnEnd			();
 
-	Template Component* const	AddComponent	();
-	Template Component* const	GetComponent	();
+	Template T* const	AddComponent	();
+	Template T* const	GetComponent	();
 	Template void		RemoveComponent	();
 
 	Transform*			transform		{ nullptr };
+	Renderable*			renderable		{ nullptr };
 private:
 	using Map = std::unordered_map<unsigned int, Component*>;
 
@@ -35,16 +37,16 @@ private:
 	Map					m_component		{ };
 };
 
-Template Component* const GameObject::AddComponent() {
-	Component* ptr = new T(this);
+Template T* const GameObject::AddComponent() {
+	T* ptr = new T(this);
 	unsigned int p = ptr->getIndex();
 	m_component.emplace(ptr->getIndex(), ptr);
 	return ptr;
 }
 
-Template Component* const GameObject::GetComponent() {
+Template T* const GameObject::GetComponent() {
 	T obj(this);
-	Component* ptr = m_component[obj.getIndex()];
+	T* ptr = m_component[obj.getIndex()];
 	return ptr;
 }
 

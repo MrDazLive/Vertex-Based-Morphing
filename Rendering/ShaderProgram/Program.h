@@ -24,6 +24,8 @@ public:
 	void			SetActive();
 	void			SetSubroutine			(GLenum, const std::string&);
 
+	static void		Reset					();
+
 	void			AddShader				(const Shader*);
 	void			AddInAttribute			(const std::string&);
 	void			AddOutAttribute			(const std::string&);

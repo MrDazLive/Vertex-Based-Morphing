@@ -6,5 +6,7 @@ class ArrayBuffer final : public BufferObject {
 public:
 	ArrayBuffer(GLenum);
 	~ArrayBuffer();
+
+	static void Reset();
 private:
 };

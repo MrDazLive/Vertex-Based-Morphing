@@ -16,6 +16,10 @@ void VertexArray::SetActive() {
 	glBindVertexArray(m_array);
 }
 
+void VertexArray::Reset() {
+	glBindVertexArray(0);
+}
+
 GLuint VertexArray::GenArray() {
 	GLuint index{ 0 };
 	glGenVertexArrays(1, &index);

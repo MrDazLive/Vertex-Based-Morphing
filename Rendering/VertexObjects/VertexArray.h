@@ -13,6 +13,8 @@ public:
 
 	void			SetActive				();
 
+	static void		Reset					();
+
 	Template void	AddAttribute			(GLint, const GLvoid* = 0);
 	Template void	AddAttributeDivisor		(GLint, const GLvoid* = 0);
 private:
@@ -23,9 +25,8 @@ private:
 };
 
 Template void VertexArray::AddAttribute(GLint size, const GLvoid *ptr) {
-	setActive();
 	glEnableVertexAttribArray(m_attributeCount);
-	glVertexAttribPointer(m_attributeCount, size, GL_FLOAT, GL_FALSE, sizeof(T), pointer);
+	glVertexAttribPointer(m_attributeCount, size, GL_FLOAT, GL_FALSE, sizeof(T), ptr);
 	m_attributeCount++;
 }
 

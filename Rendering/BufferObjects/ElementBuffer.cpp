@@ -7,3 +7,7 @@ ElementBuffer::ElementBuffer() : BufferObject(GL_ELEMENT_ARRAY_BUFFER, GL_STATIC
 ElementBuffer::~ElementBuffer() {
 
 }
+
+void ElementBuffer::Reset() {
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+}

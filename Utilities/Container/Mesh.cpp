@@ -11,11 +11,11 @@ Mesh::~Mesh() {
 }
 
 const unsigned int Mesh::getElementCount() const {
-	return (unsigned int)m_elementArray.capacity();
+	return (unsigned int)m_elementArray.size();
 }
 
 const unsigned int Mesh::getVertexCount() const {
-	return (unsigned int)m_vertexArray.capacity();
+	return (unsigned int)m_vertexArray.size();
 }
 
 const unsigned int*	Mesh::getElementArray() const {

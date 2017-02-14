@@ -9,8 +9,9 @@
 
 #include "..\Container\Vertex.h"
 
-namespace File {
-	std::string toString(const std::string& file) {
+class File {
+public:
+	static std::string toString(const std::string& file) {
 		std::fstream f(file);
 		assert(f.is_open());
 		std::string string;
@@ -20,13 +21,13 @@ namespace File {
 		return string;
 	}
 
-	void toMesh(const std::string& file, std::vector<Vertex>& vertices, std::vector<unsigned int>& elements) {
+	static void toMesh(const std::string& file, std::vector<Vertex>& vertices, std::vector<unsigned int>& elements) {
 		std::fstream f(file);
 		assert(f.is_open());
 
-		std::vector<Vector3> p;
-		std::vector<Vector3> n;
-		std::vector<Vector2> t;
+		std::vector<glm::vec3> p;
+		std::vector<glm::vec3> n;
+		std::vector<glm::vec2> t;
 		std::string line;
 		std::getline(f, line);
 		while (std::getline(f, line)) {
@@ -43,7 +44,7 @@ namespace File {
 				vertices.push_back(v);
 			}
 			else if (line.substr(0, 2) == "vn") {
-				Vector3 v;
+				glm::vec3 v;
 				std::istringstream stream(line.substr(3));
 				stream >> v.x;
 				stream >> v.y;
@@ -51,7 +52,7 @@ namespace File {
 				n.push_back(v);
 			}
 			else if (line.substr(0, 2) == "vt") {
-				Vector2 v;
+				glm::vec2 v;
 				std::istringstream stream(line.substr(3));
 				stream >> v.x;
 				stream >> v.y;
@@ -88,4 +89,4 @@ namespace File {
 			}
 		}
 	}
-}
+};

@@ -19,5 +19,5 @@ private:
 
 	const GLuint	m_shader		{};
 	const GLenum	m_type			{};
-	GLuint			m_status		{ GL_FALSE };
+	GLuint			m_status		{};
 };

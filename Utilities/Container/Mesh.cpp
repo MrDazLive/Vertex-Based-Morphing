@@ -26,15 +26,15 @@ const Vertex* Mesh::getVertexArray() const {
 	return m_vertexArray.data();
 }
 
-const Vector3* Mesh::getPositionArray() const {
+const glm::vec3* Mesh::getPositionArray() const {
 	return m_positionsArray.data();
 }
 
-const Vector3* Mesh::getNormalArray() const {
+const glm::vec3* Mesh::getNormalArray() const {
 	return m_normalArray.data();
 }
 
-const Vector2* Mesh::getUVArray() const {
+const glm::vec2* Mesh::getUVArray() const {
 	return m_uvArray.data();
 }
 

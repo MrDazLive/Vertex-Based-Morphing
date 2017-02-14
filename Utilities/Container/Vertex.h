@@ -1,11 +1,10 @@
 #pragma once
 
-#include "Vector2.h"
-#include "Vector3.h"
+#include <glm\glm.hpp>
 
 struct Vertex final {
 public:
-	Vector3 position;
-	Vector3 normal;
-	Vector2 uv;
+	glm::vec3 position;
+	glm::vec3 normal;
+	glm::vec2 uv;
 };

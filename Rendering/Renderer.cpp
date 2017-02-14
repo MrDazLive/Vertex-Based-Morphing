@@ -1,14 +1,14 @@
 #include "Renderer.h"
 
-#include <GL\glew.h>
-#include <GL\glut.h>
-
+#include "Camera\Camera.h"
 #include "ShaderProgram\Shader.h"
 #include "ShaderProgram\Program.h"
 #include "BufferObjects\ArrayBuffer.h"
 
-#include <Utilities\Container\Matrix4.h>
 #include <Utilities\Container\Mesh.h>
+
+#include <GL\glut.h>
+#include <glm\gtc\type_ptr.hpp>
 
 int Renderer::m_window = 0;
 
@@ -25,10 +25,8 @@ void Renderer::Initialise(int* argc, char* argv[]) {
 	glClearColor(0.0f, 0.0f, 0.25f, 0.0f);
 
 	m_array = new ArrayBuffer(GL_STATIC_DRAW);
-	m_array->BufferData(Mesh::getWithName("cone")->getPositionArray(), sizeof(Vector3) * Mesh::getWithName("cone")->getVertexCount());
+	m_array->BufferData(Mesh::getWithName("cone")->getPositionArray(), sizeof(glm::vec3) * Mesh::getWithName("cone")->getVertexCount());
 
-	/*float vec[9] { -1.0f, -1.0f, 0.0f, 1.0f, -1.0f, 0.0f, 0.0f, 1.0f, 0.0f };
-	m_array->BufferData(vec, sizeof(vec));
 	Program* def = new Program("Default");
 	m_program.push_back(def);
 	Shader vs(GL_VERTEX_SHADER);
@@ -39,26 +37,23 @@ void Renderer::Initialise(int* argc, char* argv[]) {
 
 	def->AddShader(&vs, &fs);
 	def->Link();
-	def->SetActive();*/
+	def->SetActive();
 }
-
-/*void Renderer::Uniform(const Matrix4& mat) {
-	GLint index = glGetUniformLocation(m_program[0]->getProgram(), "transform");
-	glUniformMatrix4fv(index, 1, GL_TRUE, &mat.value[0][0]);
-}*/
 
 void Renderer::Loop() {
 	glClear(GL_COLOR_BUFFER_BIT);
+
+	GLint index = glGetUniformLocation(m_program[0]->getProgram(), "view");
+	glUniformMatrix4fv(index, 1, GL_TRUE, glm::value_ptr(Camera::ViewMatrix()));
 
 	glEnableVertexAttribArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, m_array->getBuffer());
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
-	glDrawArrays(GL_TRIANGLES, 0, Mesh::getWithName("cone")->getElementCount());
-	//glDrawArrays(GL_TRIANGLES, 0, 9);
+	glDrawElements(GL_TRIANGLES, Mesh::getWithName("cone")->getElementCount(), GL_UNSIGNED_INT, Mesh::getWithName("cone")->getElementArray());
 
 	glDisableVertexAttribArray(0);
-
+	
 	glutSwapBuffers();
 }
 

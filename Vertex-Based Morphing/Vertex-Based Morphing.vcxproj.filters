@@ -22,5 +22,6 @@
   <ItemGroup>
     <None Include="Resource\Shader\red.vs" />
     <None Include="Resource\Shader\red.fs" />
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>

@@ -20,6 +20,10 @@ public:
 	void			DrawRequest			(const unsigned int, const unsigned int, const glm::mat4&);
 private:
 	struct Command;
+	struct Instance {
+		glm::mat4 model;
+		unsigned int material;
+	};
 	struct MeshOffsets {
 		unsigned int elementOffset;
 		unsigned int vertexOffset;
@@ -32,5 +36,5 @@ private:
 	VertexArray		m_vertexArray		{};
 
 	std::unordered_map<unsigned int, MeshOffsets>										m_meshOffsets;
-	std::unordered_map<unsigned int, std::map<unsigned int, std::vector<glm::mat4>>>	m_commandList;
+	std::unordered_map<unsigned int, std::map<unsigned int, std::vector<Instance>>>		m_commandList;
 };

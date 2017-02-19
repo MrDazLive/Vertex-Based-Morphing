@@ -26,8 +26,8 @@ void Renderer::Initialise(int* argc, char* argv[]) {
 	glutInitWindowSize(1080, 720);
 	m_window = glutCreateWindow("Vertex-Based Rendering");
 
-	const float aspectRatio = 1080.0f / 720.0f;
-	glm::mat4 projection = glm::perspective(1.31f, aspectRatio, 1.0f, 1000.0f);
+	glEnable(GL_CULL_FACE);
+	glEnable(GL_DEPTH_TEST);
 
 	glewInit();
 	glClearColor(0.0f, 0.0f, 0.25f, 0.0f);
@@ -47,7 +47,7 @@ void Renderer::Initialise(int* argc, char* argv[]) {
 
 	def->AddShader(&r_vs, &r_fs);
 
-	def->AddInAttribute("position", "normal", "uv", "model");
+	def->AddInAttribute("vertex.position", "vertex.normal", "vertex.uv", "instance.model", "instance.material");
 	def->AddOutAttribute("colour");
 	def->Link();
 
@@ -62,9 +62,12 @@ void Renderer::Initialise(int* argc, char* argv[]) {
 
 	blue->AddShader(&b_vs, &b_fs);
 
-	blue->AddInAttribute("position", "normal", "uv", "model");
+	blue->AddInAttribute("vertex.position", "vertex.normal", "vertex.uv", "instance.model", "instance.material");
 	blue->AddOutAttribute("colour");
 	blue->Link();
+
+	const float aspectRatio = 1080.0f / 720.0f;
+	glm::mat4 projection = glm::perspective(1.31f, aspectRatio, 1.0f, 1000.0f);
 
 	for (Program* ptr : m_program) {
 		ptr->SetActive();
@@ -76,7 +79,7 @@ void Renderer::Initialise(int* argc, char* argv[]) {
 }
 
 void Renderer::Loop() {
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	m_geometry->Draw();
 	

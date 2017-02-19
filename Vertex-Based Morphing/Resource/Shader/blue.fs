@@ -1,10 +1,10 @@
 #version 450
 
-in vec3 o_normal;
+in vec2 o_uv;
 
 out vec4 colour;
 
 void main()
 {
-    colour = vec4(0.0, 0.0, 1.0, 1.0);
+    colour = vec4(o_uv, 0.0, 1.0);
 }

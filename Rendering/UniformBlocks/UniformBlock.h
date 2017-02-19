@@ -4,10 +4,10 @@
 #include <GL\glew.h>
 
 #include "..\BufferObjects\UniformBuffer.h"
-//#include "..\ShaderProgram\Program.h"
+#include "..\ShaderProgram\Program.h"
 
 #define Template template <typename T>
-//#define Variadic template <typename ... V>
+#define Variadic template <typename ... V>
 
 Template class UniformBlock abstract : public Handler<T> {
 public:
@@ -15,8 +15,8 @@ public:
 
 	static void				BufferBlock		();
 
-	//static void				BindBlock(const std::string&, const Program*);
-	//Variadic static void	BindBlock(const std::string&, const Program*, const V...);
+	static void				BindBlock(const std::string&, Program* const);
+	Variadic static void	BindBlock(const std::string&, Program* const, const V...);
 protected:
 							UniformBlock	(T* const, const std::string&);
 
@@ -36,18 +36,13 @@ unsigned int UniformBlock<T>::m_blockSize = 0;
 Template
 UniformBlock<T>::UniformBlock(T* const object, const std::string& name) : Handler<T>(object, name) {
 	if (!m_buffer) {
-		m_buffer = new UniformBuffer(GL_DYNAMIC_DRAW);
+		m_buffer = new UniformBuffer(GL_STATIC_DRAW);
 	}
 }
 
 Template
 UniformBlock<T>::~UniformBlock() {
 	delete m_buffer;
-}
-
-Template
-unsigned int UniformBlock<T>::getBlockSize() {
-	return m_blockSize;
 }
 
 Template
@@ -66,18 +61,19 @@ void UniformBlock<T>::BufferBlock() {
 		}
 	}
 
-	m_buffer->BufferData<float>(vec.data(), block);
+	m_buffer->BindRange(0, 0, count * block * sizeof(float));
+	m_buffer->BufferData<float>(vec.data(), count * block * sizeof(float));
 }
 
-/*Template
-void UniformBlock<T>::BindBlock(const std::string& name, const Program* ptr) {
+Template
+void UniformBlock<T>::BindBlock(const std::string& name, Program* const ptr) {
 	m_buffer->SetActive();
 	const GLuint index = glGetUniformBlockIndex(ptr->getProgram(), name.c_str());
 	glUniformBlockBinding(ptr->getProgram(), index, 0);
 }
 
 Template Variadic
-void UniformBlock<T>::BindBlock(const std::string& name, const Program* ptr, const V... ptrs) {
-	BindBlock(ptr);
-	BindBlock(ptrs);
-}*/
+void UniformBlock<T>::BindBlock(const std::string& name, Program* const ptr, const V... ptrs) {
+	BindBlock(name, ptr);
+	BindBlock(name, ptrs...);
+}

@@ -24,13 +24,31 @@ int main(int argc, char* argv[]) {
 
 	Material mat("Default");
 	mat.setShader("Default");
+	mat.setColour({ 1.0f, 0.5f, 0.5f });
+
+	Material mat2("Material");
+	mat2.setShader("Default");
+	mat2.setColour({ 0.5f, 1.0f, 0.0f });
+
+	Material::BufferBlock();
+	Program** ptrs = Program::getAll();
+	const unsigned int count = Program::getCount();
+	for (unsigned int i = 0; i < count; i++) {
+		Material::BindBlock("Material", ptrs[i]);
+	}
 
 	GameObject g("cone");
 	g.renderable->setMesh("cone");
 	g.renderable->setMaterial("Default");
 
+	GameObject g2("cone2");
+	g2.renderable->setMesh("cone");
+	g2.renderable->setMaterial("Material");
+	g2.transform->setScale({ 1, -1, 1 });
+
 	Scene s("Scene");
 	s.AddGameObject(&g);
+	s.AddGameObject(&g2);
 	Engine::OpenScene("Scene");
 
 	Input::BindKey(KeyCode::ESC, KeyState::Down, Renderer::Quit);
@@ -43,6 +61,9 @@ int main(int argc, char* argv[]) {
 
 	Input::BindKey(KeyCode::Q, KeyState::Up, [&]() { mat.setShader("Default"); });
 	Input::BindKey(KeyCode::Q, KeyState::Down, [&]() { mat.setShader("Blue"); });
+
+	Input::BindKey(KeyCode::E, KeyState::Up, [&]() { g.renderable->setMaterial("Default"); });
+	Input::BindKey(KeyCode::E, KeyState::Down, [&]() { g.renderable->setMaterial("Material"); });
 
 	Engine::Loop();
 

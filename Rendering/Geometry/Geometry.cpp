@@ -8,11 +8,11 @@
 #include <Utilities\Container\Mesh.h>
 
 struct Geometry::Command {
-	GLuint elementCount;
-	GLuint instanceCount;
-	GLuint elementIndex;
-	GLuint vertexIndex;
-	GLuint instanceIndex;
+	unsigned int elementCount;
+	unsigned int instanceCount;
+	unsigned int elementIndex;
+	unsigned int vertexIndex;
+	unsigned int instanceIndex;
 };
 
 void Geometry::FillBuffers() {
@@ -49,10 +49,11 @@ void Geometry::BuildArray() {
 	m_vertexArray.AddAttribute<Vertex>(3, (int*)(sizeof(glm::vec3)));
 	m_vertexArray.AddAttribute<Vertex>(2, (int*)(sizeof(glm::vec3) * 2));
 	m_instanceBuffer.SetActive();
-	m_vertexArray.AddAttributeDivisor<glm::mat4>(4);
-	m_vertexArray.AddAttributeDivisor<glm::mat4>(4, (int*)(sizeof(glm::vec4)));
-	m_vertexArray.AddAttributeDivisor<glm::mat4>(4, (int*)(sizeof(glm::vec4) * 2));
-	m_vertexArray.AddAttributeDivisor<glm::mat4>(4, (int*)(sizeof(glm::vec4) * 3));
+	m_vertexArray.AddAttributeDivisor<Instance>(4);
+	m_vertexArray.AddAttributeDivisor<Instance>(4, (int*)(sizeof(glm::vec4)));
+	m_vertexArray.AddAttributeDivisor<Instance>(4, (int*)(sizeof(glm::vec4) * 2));
+	m_vertexArray.AddAttributeDivisor<Instance>(4, (int*)(sizeof(glm::vec4) * 3));
+	m_vertexArray.AddAttributeDivisor<Instance>(1, (int*)(sizeof(glm::vec4) * 4));
 
 	ArrayBuffer::Reset();
 	ElementBuffer::Reset();
@@ -70,7 +71,7 @@ void Geometry::Draw() {
 		GLint index = glGetUniformLocation(program->getProgram(), "view");
 		glUniformMatrix4fv(index, 1, GL_FALSE, glm::value_ptr(Camera::ViewMatrix()));
 
-		std::vector<glm::mat4> instances;
+		std::vector<Instance> instances;
 		std::vector<Command> commands;
 
 		for (auto& mesh_it : program_it.second) {
@@ -82,14 +83,14 @@ void Geometry::Draw() {
 
 			command.vertexIndex = m_meshOffsets[mesh_it.first].vertexOffset;
 
-			command.instanceIndex = commands.size();
-			command.instanceCount = mesh_it.second.size();
+			command.instanceIndex = (unsigned int)commands.size();
+			command.instanceCount = (unsigned int)mesh_it.second.size();
 
 			commands.push_back(command);
 			instances.insert(instances.end(), mesh_it.second.data(), mesh_it.second.data() + command.instanceCount);
 		}
 
-		m_instanceBuffer.BufferData(instances.data(), instances.size() * sizeof(glm::mat4));
+		m_instanceBuffer.BufferData(instances.data(), instances.size() * sizeof(Instance));
 		m_indirectBuffer.BufferData(commands.data(), commands.size() * sizeof(Command));
 
 		//Command c = commands[0];
@@ -99,7 +100,7 @@ void Geometry::Draw() {
 		//glDrawElementsInstancedBaseVertexBaseInstance(GL_TRIANGLES, c.elementCount, GL_UNSIGNED_INT, (GLintptr*)(c.elementIndex * sizeof(unsigned int)), c.instanceCount, c.vertexIndex, c.instanceIndex);
 
 		m_indirectBuffer.SetActive();
-		glMultiDrawElementsIndirect(GL_TRIANGLES, GL_UNSIGNED_INT, nullptr, commands.size(), sizeof(Command));
+		glMultiDrawElementsIndirect(GL_TRIANGLES, GL_UNSIGNED_INT, nullptr, (unsigned int)commands.size(), sizeof(Command));
 	}
 
 	m_commandList.clear();
@@ -111,14 +112,14 @@ void Geometry::DrawRequest(const unsigned int mesh, const unsigned int material,
 	auto& p_it = m_commandList.find(shader);
 
 	if (p_it == m_commandList.end()) {
-		m_commandList.emplace(shader, std::map<unsigned int, std::vector<glm::mat4>>());
+		m_commandList.emplace(shader, std::map<unsigned int, std::vector<Instance>>());
 		p_it = m_commandList.find(shader);
 	}
 
 	auto& m_it = p_it->second.find(mesh);
 
 	if (m_it == p_it->second.end()) {
-		p_it->second.emplace(mesh, std::vector<glm::mat4>());
+		p_it->second.emplace(mesh, std::vector<Instance>());
 	}
-	p_it->second[mesh].push_back(transform);
+	p_it->second[mesh].push_back({ transform, material });
 }

@@ -1,18 +1,36 @@
-#version 450
+#version 400
 
-layout (location = 0) in vec3 position;
-layout (location = 1) in vec3 normal;
-layout (location = 2) in vec2 uv;
-layout (location = 3) in mat4 model;
+struct Vertex {
+	vec3 position;
+	vec3 normal;
+	vec2 uv;
+};
+
+struct Instance {
+	mat4 transform;
+	int material;
+};
+
+struct Material {
+	vec3 colour;
+	float pad;
+};
+
+layout(std140) uniform Block_Material {
+	Material material[2];
+};
+
+layout(location = 0) in Vertex vertex;
+layout(location = 3) in Instance instance;
 
 uniform mat4 view;
 uniform mat4 projection;
 
-out vec3 o_normal;
+out vec2 o_uv;
 
 void main()
 {
-	mat4 MVP = projection * view * model;
-    gl_Position = MVP * vec4(position, 1.0);
-	o_normal = normal;
+	mat4 MVP = projection * view * instance.transform;
+	gl_Position = MVP * vec4(vertex.position, 1.0);
+	o_uv = vertex.uv;
 }

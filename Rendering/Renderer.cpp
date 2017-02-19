@@ -91,8 +91,11 @@ void Renderer::Loop() {
 
 void Renderer::Quit() {
 	glutDestroyWindow(m_window);
+
 	delete m_geometry;
+	m_geometry = nullptr;
 	delete[] m_program.data();
+	m_program.clear();
 }
 
 void Renderer::DrawRequest(const unsigned int mesh, const unsigned int material, const glm::mat4& transform) {

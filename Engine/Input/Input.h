@@ -11,6 +11,9 @@ using KeyBinding = std::function<void(void)>;
 
 class Input final {
 public:
+	static void				Initialise						();
+	static void				OnUpdate						();
+
 	static void				BindKey							(const KeyCode, const KeyState, KeyBinding);
 	static void				KeyboardFunction				(unsigned char, int, int);
 	static void				KeyboardReleaseFunction			(unsigned char, int, int);

@@ -21,6 +21,7 @@ void Engine::Initialise(int* argc, char* argv[]) {
 	glutDisplayFunc(DisplayUpdate);
 
 	Time::Initialise();
+	Input::Initialise();
 }
 
 void Engine::Loop() {
@@ -36,6 +37,7 @@ void Engine::Quit() {
 
 void Engine::IdleUpdate() {
 	Time::OnUpdate();
+	Input::OnUpdate();
 	Scene* ptr = getCurrentScene();
 	if (ptr != nullptr) ptr->OnUpdate();
 	glutPostRedisplay();

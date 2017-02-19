@@ -35,11 +35,11 @@ int main(int argc, char* argv[]) {
 
 	Input::BindKey(KeyCode::ESC, KeyState::Down, Renderer::Quit);
 
-	Input::BindKey(KeyCode::W, KeyState::Hold, []() { Camera::Translate(glm::vec3(0.0f, 0.0f, 100.0f) * Time::getDeltaTime()); });
-	Input::BindKey(KeyCode::S, KeyState::Hold, []() { Camera::Translate(glm::vec3(0.0f, 0.0f, -100.0f) * Time::getDeltaTime()); });
+	Input::BindKey(KeyCode::W, KeyState::Hold, []() { Camera::Translate(glm::vec3(0.0f, 0.0f, 4.0f) * Time::getDeltaTime()); });
+	Input::BindKey(KeyCode::S, KeyState::Hold, []() { Camera::Translate(glm::vec3(0.0f, 0.0f, -4.0f) * Time::getDeltaTime()); });
 
-	Input::BindKey(KeyCode::A, KeyState::Hold, [&]() { g.transform->Rotate(glm::vec3(0.0f, 100.0f, 0.0f) * Time::getDeltaTime()); });
-	Input::BindKey(KeyCode::D, KeyState::Hold, [&]() { g.transform->Rotate(glm::vec3(0.0f, -100.0f, 0.0f) * Time::getDeltaTime()); });
+	Input::BindKey(KeyCode::A, KeyState::Hold, [&]() { g.transform->Rotate(glm::vec3(0.0f, 3.142f, 0.0f) * Time::getDeltaTime()); });
+	Input::BindKey(KeyCode::D, KeyState::Hold, [&]() { g.transform->Rotate(glm::vec3(0.0f, -3.142f, 0.0f) * Time::getDeltaTime()); });
 
 	Input::BindKey(KeyCode::Q, KeyState::Up, [&]() { mat.setShader("Default"); });
 	Input::BindKey(KeyCode::Q, KeyState::Down, [&]() { mat.setShader("Blue"); });

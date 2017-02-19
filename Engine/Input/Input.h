@@ -21,7 +21,7 @@ public:
 	static void				KeyboardSpecialFunction			(int, int, int);
 	static void				KeyboardSpecialReleaseFunction	(int, int, int);
 private:
-	template <typename T>	using Array						= std::array<T, 152>;
+	template <typename T>	using Array						= std::array<T, 255>;
 							using ArrayBinding				= Array<std::vector<KeyBinding>>;
 
 	Input() = default;

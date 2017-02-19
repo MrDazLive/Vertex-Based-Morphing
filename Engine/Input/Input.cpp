@@ -6,13 +6,13 @@ Input::Array<KeyState>		Input::m_keyState{};
 Input::ArrayBinding			Input::m_keyBinding[3]{};
 
 void Input::Initialise() {
-	for (unsigned int i = 0; i < 152; i++) {
+	for (unsigned int i = 0; i < 255; i++) {
 		m_keyState[i] = KeyState::Free;
 	}
 }
 
 void Input::OnUpdate() {
-	for (unsigned int i = 0; i < 152; i++) {
+	for (unsigned int i = 0; i < 255; i++) {
 		KeyState &state = m_keyState[i];
 		if (state != KeyState::Free) {
 			KeyboardHandle((KeyCode)i, state);

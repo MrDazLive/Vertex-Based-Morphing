@@ -4,7 +4,7 @@
 
 #define Template template <typename T>
 
-class BufferObject abstract {
+class BufferObject {
 public:
 					BufferObject	(GLenum, GLenum);
 					~BufferObject	();

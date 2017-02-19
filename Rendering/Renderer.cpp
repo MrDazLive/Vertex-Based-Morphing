@@ -1,14 +1,14 @@
 #include "Renderer.h"
 
-#include "Camera\Camera.h"
 #include "ShaderProgram\Shader.h"
 #include "ShaderProgram\Program.h"
 #include "Geometry\Geometry.h"
 
 #include <Utilities\Container\Mesh.h>
 
-#include <GL\glut.h>
+#include <glm\gtc\matrix_transform.hpp>
 #include <glm\gtc\type_ptr.hpp>
+#include <GL\glut.h>
 
 int Renderer::m_window = 0;
 
@@ -38,24 +38,38 @@ void Renderer::Initialise(int* argc, char* argv[]) {
 	Program* def = new Program("Default");
 	m_program.push_back(def);
 
-	Shader vs(GL_VERTEX_SHADER);
-	Shader fs(GL_FRAGMENT_SHADER);
+	Shader r_vs(GL_VERTEX_SHADER);
+	Shader r_fs(GL_FRAGMENT_SHADER);
 
-	vs.LoadFromFile("Resource/Shader/red.vs");
-	fs.LoadFromFile("Resource/Shader/red.fs");
+	r_vs.LoadFromFile("Resource/Shader/red.vs");
+	r_fs.LoadFromFile("Resource/Shader/red.fs");
 
-	def->AddShader(&vs, &fs);
+	def->AddShader(&r_vs, &r_fs);
 
-	def->AddInAttribute("position", "normal", "uv");
+	def->AddInAttribute("position", "normal", "uv", "model");
 	def->AddOutAttribute("colour");
 	def->Link();
 
-	def->SetActive();
-	GLint index = glGetUniformLocation(m_program[0]->getProgram(), "projection");
-	glUniformMatrix4fv(index, 1, GL_FALSE, glm::value_ptr(projection));
+	Program* blue = new Program("Blue");
+	m_program.push_back(blue);
 
-	index = glGetUniformLocation(m_program[0]->getProgram(), "model");
-	glUniformMatrix4fv(index, 1, GL_FALSE, glm::value_ptr(glm::mat4()));
+	Shader b_vs(GL_VERTEX_SHADER);
+	Shader b_fs(GL_FRAGMENT_SHADER);
+
+	b_vs.LoadFromFile("Resource/Shader/blue.vs");
+	b_fs.LoadFromFile("Resource/Shader/blue.fs");
+
+	blue->AddShader(&b_vs, &b_fs);
+
+	blue->AddInAttribute("position", "normal", "uv", "model");
+	blue->AddOutAttribute("colour");
+	blue->Link();
+
+	for (Program* ptr : m_program) {
+		ptr->SetActive();
+		GLint index = glGetUniformLocation(ptr->getProgram(), "projection");
+		glUniformMatrix4fv(index, 1, GL_FALSE, glm::value_ptr(projection));
+	}
 
 	Program::Reset();
 }
@@ -63,15 +77,7 @@ void Renderer::Initialise(int* argc, char* argv[]) {
 void Renderer::Loop() {
 	glClear(GL_COLOR_BUFFER_BIT);
 
-	m_program[0]->SetActive();
-	m_geometry->ActivateArray();
-
-	GLint index = glGetUniformLocation(m_program[0]->getProgram(), "view");
-	glUniformMatrix4fv(index, 1, GL_FALSE, glm::value_ptr(Camera::ViewMatrix()));
-
-	//glDrawElements(GL_TRIANGLES, Mesh::getWithName("cone")->getElementCount(), GL_UNSIGNED_INT, 0);
-	//glDrawElements(GL_TRIANGLES, Mesh::getWithName("cone")->getElementCount(), GL_UNSIGNED_INT, Mesh::getWithName("cone")->getElementArray());
-	glDrawElementsBaseVertex(GL_TRIANGLES, Mesh::getWithName("cone")->getElementCount(), GL_UNSIGNED_INT, Mesh::getWithName("cone")->getElementArray(), 0);// Mesh::getWithName("cone")->getVertexCount());
+	m_geometry->Draw();
 	
 	VertexArray::Reset();
 	Program::Reset();
@@ -86,5 +92,5 @@ void Renderer::Quit() {
 }
 
 void Renderer::DrawRequest(const unsigned int mesh, const unsigned int material, const glm::mat4& transform) {
-
+	m_geometry->DrawRequest(mesh, material, transform);
 }

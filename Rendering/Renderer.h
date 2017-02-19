@@ -14,6 +14,7 @@ public:
 
 	static void		DrawRequest		(const unsigned int, const unsigned int, const glm::mat4&);
 private:
+
 					Renderer		() = delete;
 					~Renderer		();
 

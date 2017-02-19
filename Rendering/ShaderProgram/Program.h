@@ -7,7 +7,6 @@
 #define Variadic template <typename ... V>
 
 class Shader;
-class UniformBlock;
 
 class Program final : public Handler<Program> {
 public:

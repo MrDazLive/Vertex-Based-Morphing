@@ -27,5 +27,6 @@ const unsigned int Renderable::getMaterial() const {
 }
 
 void Renderable::OnUpdate() {
-	getGameObject()->transform->getTransformMatrix();
+	const glm::mat4 transform = getGameObject()->transform->getTransformMatrix();
+	Renderer::DrawRequest(m_mesh, m_material, transform);
 }

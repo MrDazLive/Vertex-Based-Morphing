@@ -154,6 +154,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Resource\Shader\blue.fs" />
+    <None Include="Resource\Shader\blue.vs" />
     <None Include="Resource\Shader\red.fs" />
     <None Include="Resource\Shader\red.vs" />
   </ItemGroup>

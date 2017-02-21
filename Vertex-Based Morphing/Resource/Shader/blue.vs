@@ -8,7 +8,7 @@ struct Vertex {
 
 struct Instance {
 	mat4 transform;
-	int material;
+	uint material;
 };
 
 struct Material {

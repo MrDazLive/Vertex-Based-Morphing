@@ -55,14 +55,13 @@ void Geometry::BuildArray() {
 	m_vertexArray.AddAttributeDivisor<Instance>(4, (int*)(sizeof(glm::vec4) * 3));
 	m_vertexArray.AddAttributeDivisor<Instance>(1, (int*)(sizeof(glm::vec4) * 4));
 
+	VertexArray::Reset();
 	ArrayBuffer::Reset();
 	ElementBuffer::Reset();
-	VertexArray::Reset();
 }
 
 void Geometry::Draw() {
 	m_vertexArray.SetActive();
-	m_elementBuffer.SetActive();
 
 	for (auto& program_it : m_commandList) {
 		Program* program = Program::getWithIndex(program_it.first);

@@ -46,9 +46,6 @@ void Renderer::Initialise(int* argc, char* argv[]) {
 	r_fs.LoadFromFile("Resource/Shader/red.fs");
 
 	def->AddShader(&r_vs, &r_fs);
-
-	def->AddInAttribute("vertex.position", "vertex.normal", "vertex.uv", "instance.model", "instance.material");
-	def->AddOutAttribute("colour");
 	def->Link();
 
 	Program* blue = new Program("Blue");
@@ -61,9 +58,6 @@ void Renderer::Initialise(int* argc, char* argv[]) {
 	b_fs.LoadFromFile("Resource/Shader/blue.fs");
 
 	blue->AddShader(&b_vs, &b_fs);
-
-	blue->AddInAttribute("vertex.position", "vertex.normal", "vertex.uv", "instance.model", "instance.material");
-	blue->AddOutAttribute("colour");
 	blue->Link();
 
 	const float aspectRatio = 1080.0f / 720.0f;

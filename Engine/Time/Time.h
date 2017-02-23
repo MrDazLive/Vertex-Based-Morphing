@@ -5,11 +5,11 @@ public:
 	static void		Initialise		();
 	static void		OnUpdate		();
 
-	static double	getTime			();
-	static double	getDeltaTime	();
+	static float	getTime			();
+	static float	getDeltaTime	();
 private:
 					Time			() = delete;
 
-	static double	m_time;
-	static double	m_deltaTime;
+	static float	m_time;
+	static float	m_deltaTime;
 };

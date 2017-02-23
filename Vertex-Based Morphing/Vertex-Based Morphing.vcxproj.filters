@@ -19,4 +19,11 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resource\Shader\red.vs" />
+    <None Include="Resource\Shader\red.fs" />
+    <None Include="packages.config" />
+    <None Include="Resource\Shader\blue.fs" />
+    <None Include="Resource\Shader\blue.vs" />
+  </ItemGroup>
 </Project>

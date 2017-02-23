@@ -1,5 +1,7 @@
 #include "Engine.h"
 
+#include <Rendering\Renderer.h>
+
 #include <iostream>
 #include <GL\glut.h>
 
@@ -16,9 +18,10 @@ void Engine::Initialise(int* argc, char* argv[]) {
 	glutSpecialUpFunc(Input::KeyboardSpecialReleaseFunction);
 
 	glutIdleFunc(IdleUpdate);
-	glutDisplayFunc(EventUpdate);
+	glutDisplayFunc(DisplayUpdate);
 
 	Time::Initialise();
+	Input::Initialise();
 }
 
 void Engine::Loop() {
@@ -34,12 +37,14 @@ void Engine::Quit() {
 
 void Engine::IdleUpdate() {
 	Time::OnUpdate();
+	Input::OnUpdate();
 	Scene* ptr = getCurrentScene();
 	if (ptr != nullptr) ptr->OnUpdate();
+	glutPostRedisplay();
 }
 
-void Engine::EventUpdate() {
-
+void Engine::DisplayUpdate() {
+	Renderer::Loop();
 }
 
 void Engine::OpenScene(const std::string& name) {

@@ -1,9 +1,8 @@
 #include "GameObject.h"
 
-#include "Component.h"
-
 GameObject::GameObject(const std::string& name) : Handler<GameObject>(this, name) {
-
+	transform = AddComponent<Transform>();
+	renderable = AddComponent<Renderable>();
 }
 
 GameObject::~GameObject() {

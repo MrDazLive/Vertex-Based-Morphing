@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Utilities/Handler.h"
+#include <Utilities\BaseClass\Handler.h>
 
 class GameObject;
 
@@ -14,7 +14,7 @@ public:
 	virtual void	OnUpdate		();
 	virtual void	OnFocusLeave	();
 	virtual void	OnClose			();
-protected:
+//protected:
 	void			AddGameObject	(GameObject* const);
 private:
 	std::vector<GameObject*> m_gameObject;

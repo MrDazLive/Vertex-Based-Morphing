@@ -13,6 +13,11 @@ public:
 
 	void			SetActive				();
 
+	void			EnableAttribute			(const GLuint);
+	void			EnableAttributeRange	(GLuint, const GLuint);
+	void			DisableAttribute		(const GLuint);
+	void			DisableAttributeRange	(GLuint, const GLuint);
+
 	static void		Reset					();
 
 	Template void	AddAttribute			(GLint, const GLvoid* = 0);

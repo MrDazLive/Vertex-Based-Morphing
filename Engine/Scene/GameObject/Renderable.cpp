@@ -18,12 +18,12 @@ void Renderable::setMaterial(const std::string& name) {
 	m_material = Material::getWithName(name)->getIndex();
 }
 
-const unsigned int Renderable::getMesh() const {
-	return m_mesh;
+Mesh* const Renderable::getMesh() const {
+	return Mesh::getWithIndex(m_mesh);
 }
 
-const unsigned int Renderable::getMaterial() const {
-	return m_material;
+Material* const Renderable::getMaterial() const {
+	return Material::getWithIndex(m_material);
 }
 
 void Renderable::OnUpdate() {

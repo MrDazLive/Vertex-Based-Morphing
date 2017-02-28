@@ -67,9 +67,6 @@ void Geometry::Draw() {
 		Program* program = Program::getWithIndex(program_it.first);
 		program->SetActive();
 
-		GLint index = glGetUniformLocation(program->getProgram(), "view");
-		glUniformMatrix4fv(index, 1, GL_FALSE, glm::value_ptr(Camera::ViewMatrix()));
-
 		std::vector<Instance> instances;
 		std::vector<Command> commands;
 

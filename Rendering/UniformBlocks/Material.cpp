@@ -28,7 +28,7 @@ void Material::setColour(const glm::vec3& colour) {
 	m_colour = colour;
 }
 
-void Material::BuildBlock(float* ptr) {
+void Material::BuildBlock(float* const ptr) {
 	ptr[0] = m_colour.x;
 	ptr[1] = m_colour.y;
 	ptr[2] = m_colour.z;

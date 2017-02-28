@@ -7,7 +7,6 @@
 #include "..\ShaderProgram\Program.h"
 
 #define Template template <typename T>
-#define Variadic template <typename ... V>
 
 Template class UniformBlock abstract : public Handler<T> {
 public:
@@ -15,13 +14,14 @@ public:
 
 	static void				BufferBlock		();
 
-	static void				BindBlock(const std::string&, Program* const);
-	Variadic static void	BindBlock(const std::string&, Program* const, const V...);
+	static void				BindBlock		(const std::string&, Program* const);
+	Variadic static void	BindBlock		(const std::string&, Program* const, const V...);
 protected:
 							UniformBlock	(T* const, const std::string&);
 
 	static unsigned int		getBlockSize	();
-	virtual void			BuildBlock		(float*) = 0;
+
+	virtual void			BuildBlock		(float* const) = 0;
 private:
 	static UniformBuffer*	m_buffer;
 	static unsigned int		m_blockSize;
@@ -61,7 +61,6 @@ void UniformBlock<T>::BufferBlock() {
 		}
 	}
 
-	m_buffer->BindRange(0, 0, count * block * sizeof(float));
 	m_buffer->BufferData<float>(vec.data(), count * block * sizeof(float));
 }
 
@@ -69,7 +68,8 @@ Template
 void UniformBlock<T>::BindBlock(const std::string& name, Program* const ptr) {
 	m_buffer->SetActive();
 	const GLuint index = glGetUniformBlockIndex(ptr->getProgram(), name.c_str());
-	glUniformBlockBinding(ptr->getProgram(), index, 0);
+	glBindBufferBase(GL_UNIFORM_BUFFER, index, m_buffer->getBuffer());
+	glUniformBlockBinding(ptr->getProgram(), index, index);
 }
 
 Template Variadic

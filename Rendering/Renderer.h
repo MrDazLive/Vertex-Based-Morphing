@@ -5,6 +5,7 @@
 
 class Program;
 class Geometry;
+class Perspective;
 
 class Renderer final {
 public:
@@ -21,5 +22,6 @@ private:
 	int static						m_window;
 
 	static Geometry*				m_geometry;
+	static Perspective*				m_perspective;
 	static std::vector<Program*>	m_program;
 };

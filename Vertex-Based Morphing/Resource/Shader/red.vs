@@ -16,15 +16,17 @@ struct Material {
 	float pad;
 };
 
+layout(std140) uniform Block_Perspective {
+	mat4 projection;
+	mat4 view;
+};
+
 layout(std140) uniform Block_Material {
 	Material material[2];
 };
 
 layout(location = 0) in Vertex vertex;
 layout(location = 3) in Instance instance;
-
-uniform mat4 view;
-uniform mat4 projection;
 
 out vec3 o_normal;
 

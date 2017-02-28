@@ -17,7 +17,7 @@ public:
 	void					setShader		(const std::string&);
 	void					setColour		(const glm::vec3&);
 protected:
-	void					BuildBlock		(float*) final override;
+	void					BuildBlock		(float* const) final override;
 
 	unsigned int			m_shader		{ 0 };
 	glm::vec3				m_colour		{ 1.0f, 1.0f, 1.0f };

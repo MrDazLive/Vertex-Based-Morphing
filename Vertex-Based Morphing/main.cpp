@@ -28,7 +28,7 @@ int main(int argc, char* argv[]) {
 	Program** ptrs = Program::getAll();
 	const unsigned int count = Program::getCount();
 	for (unsigned int i = 0; i < count; i++) {
-		Material::BindBlock("Material", ptrs[i]);
+	    Material::BindBlock("Block_Material", ptrs[i]);
 	}
 
 	GameObject g("object");
@@ -52,8 +52,8 @@ int main(int argc, char* argv[]) {
 	Input::BindKey(KeyCode::A, KeyState::Hold, [&]() { g.transform->Rotate(glm::vec3(0.0f, 3.142f, 0.0f) * Time::getDeltaTime()); });
 	Input::BindKey(KeyCode::D, KeyState::Hold, [&]() { g.transform->Rotate(glm::vec3(0.0f, -3.142f, 0.0f) * Time::getDeltaTime()); });
 
-	Input::BindKey(KeyCode::Q, KeyState::Up, [&]() { mat.setShader("Default"); });
-	Input::BindKey(KeyCode::Q, KeyState::Down, [&]() { mat.setShader("Blue"); });
+	Input::BindKey(KeyCode::Q, KeyState::Up, [&]() { g.renderable->getMaterial()->setShader("Default"); });
+	Input::BindKey(KeyCode::Q, KeyState::Down, [&]() { g.renderable->getMaterial()->setShader("Blue"); });
 
 	Input::BindKey(KeyCode::E, KeyState::Up, [&]() { g.renderable->setMesh("hand"); });
 	Input::BindKey(KeyCode::E, KeyState::Down, [&]() { g.renderable->setMesh("dragon_hand"); });

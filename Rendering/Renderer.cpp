@@ -3,8 +3,10 @@
 #include "ShaderProgram\Shader.h"
 #include "ShaderProgram\Program.h"
 #include "Geometry\Geometry.h"
+#include "Camera\Camera.h"
 
-#include <Utilities\Container\Mesh.h>
+#include "UniformBlocks\Material.h"
+#include "UniformBlocks\Perspective.h"
 
 #include <glm\gtc\matrix_transform.hpp>
 #include <glm\gtc\type_ptr.hpp>
@@ -14,6 +16,7 @@
 int Renderer::m_window = 0;
 
 Geometry* Renderer::m_geometry = nullptr;
+Perspective* Renderer::m_perspective = nullptr;// new Perspective("Main");
 std::vector<Program*> Renderer::m_program;
 
 Renderer::~Renderer() {
@@ -61,20 +64,22 @@ void Renderer::Initialise(int* argc, char* argv[]) {
 	blue->AddShader(&b_vs, &b_fs);
 	blue->Link();
 
+	m_perspective = new Perspective("Main");
+
+	Perspective::BindBlock("Block_Perspective", def, blue);
+
 	const float aspectRatio = 1080.0f / 720.0f;
 	glm::mat4 projection = glm::perspective(1.31f, aspectRatio, 1.0f, 1000.0f);
-
-	for (Program* ptr : m_program) {
-		ptr->SetActive();
-		GLint index = glGetUniformLocation(ptr->getProgram(), "projection");
-		glUniformMatrix4fv(index, 1, GL_FALSE, glm::value_ptr(projection));
-	}
+	m_perspective->setProjection(projection);
 
 	Program::Reset();
 }
 
 void Renderer::Loop() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	m_perspective->setView(Camera::ViewMatrix());
+	Perspective::BufferBlock();
 
 	m_geometry->Draw();
 	
@@ -89,6 +94,8 @@ void Renderer::Quit() {
 
 	delete m_geometry;
 	m_geometry = nullptr;
+	delete m_perspective;
+	m_perspective = nullptr;
 	delete[] m_program.data();
 	m_program.clear();
 }

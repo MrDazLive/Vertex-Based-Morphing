@@ -13,22 +13,16 @@
 #include <iostream>
 
 int main(int argc, char* argv[]) {
-	Mesh m("cone");
-	m.LoadFromFile("Resource/Mesh/cone.obj");
-
-	Mesh m2("box");
-	m2.LoadFromFile("Resource/Mesh/box.obj");
+	Mesh objects[3] { "hand", "dragon_hand", "torso" };
+	for (Mesh& obj : objects) {
+		obj.LoadFromFile("Resource/Mesh/" + obj.getName() + ".obj");
+	}
 
 	Renderer::Initialise(&argc, argv);
 	Engine::Initialise(&argc, argv);
 
 	Material mat("Default");
 	mat.setShader("Default");
-	mat.setColour({ 1.0f, 0.5f, 0.5f });
-
-	Material mat2("Material");
-	mat2.setShader("Default");
-	mat2.setColour({ 0.5f, 1.0f, 0.0f });
 
 	Material::BufferBlock();
 	Program** ptrs = Program::getAll();
@@ -37,24 +31,23 @@ int main(int argc, char* argv[]) {
 		Material::BindBlock("Material", ptrs[i]);
 	}
 
-	GameObject g("cone");
-	g.renderable->setMesh("cone");
+	GameObject g("object");
+	g.renderable->setMesh("torso");
 	g.renderable->setMaterial("Default");
-
-	GameObject g2("cone2");
-	g2.renderable->setMesh("cone");
-	g2.renderable->setMaterial("Material");
-	g2.transform->setScale({ 1, -1, 1 });
+	//g.transform->setPosition({ 0.0f, -5.0f, 10.0f });
+	g.transform->setScale({ 1.8f, 1.8f, 1.8f });
 
 	Scene s("Scene");
 	s.AddGameObject(&g);
-	s.AddGameObject(&g2);
 	Engine::OpenScene("Scene");
 
 	Input::BindKey(KeyCode::ESC, KeyState::Down, Renderer::Quit);
 
-	Input::BindKey(KeyCode::W, KeyState::Hold, []() { Camera::Translate(glm::vec3(0.0f, 0.0f, 4.0f) * Time::getDeltaTime()); });
-	Input::BindKey(KeyCode::S, KeyState::Hold, []() { Camera::Translate(glm::vec3(0.0f, 0.0f, -4.0f) * Time::getDeltaTime()); });
+	Input::BindKey(KeyCode::UP, KeyState::Hold, []() { Camera::Translate(glm::vec3(0.0f, 0.0f, 4.0f) * Time::getDeltaTime()); });
+	Input::BindKey(KeyCode::DOWN, KeyState::Hold, []() { Camera::Translate(glm::vec3(0.0f, 0.0f, -4.0f) * Time::getDeltaTime()); });
+
+	Input::BindKey(KeyCode::W, KeyState::Hold, [&]() { g.transform->Rotate(glm::vec3(3.142f, 0.0f, 0.0f) * Time::getDeltaTime()); });
+	Input::BindKey(KeyCode::S, KeyState::Hold, [&]() { g.transform->Rotate(glm::vec3(-3.142f, 0.0f, 0.0f) * Time::getDeltaTime()); });
 
 	Input::BindKey(KeyCode::A, KeyState::Hold, [&]() { g.transform->Rotate(glm::vec3(0.0f, 3.142f, 0.0f) * Time::getDeltaTime()); });
 	Input::BindKey(KeyCode::D, KeyState::Hold, [&]() { g.transform->Rotate(glm::vec3(0.0f, -3.142f, 0.0f) * Time::getDeltaTime()); });
@@ -62,8 +55,8 @@ int main(int argc, char* argv[]) {
 	Input::BindKey(KeyCode::Q, KeyState::Up, [&]() { mat.setShader("Default"); });
 	Input::BindKey(KeyCode::Q, KeyState::Down, [&]() { mat.setShader("Blue"); });
 
-	Input::BindKey(KeyCode::E, KeyState::Up, [&]() { g.renderable->setMaterial("Default"); });
-	Input::BindKey(KeyCode::E, KeyState::Down, [&]() { g.renderable->setMaterial("Material"); });
+	Input::BindKey(KeyCode::E, KeyState::Up, [&]() { g.renderable->setMesh("hand"); });
+	Input::BindKey(KeyCode::E, KeyState::Down, [&]() { g.renderable->setMesh("dragon_hand"); });
 
 	Engine::Loop();
 

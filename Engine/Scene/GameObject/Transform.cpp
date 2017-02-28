@@ -23,31 +23,38 @@ const glm::vec3& Transform::getScale() const {
 }
 
 const glm::mat4	 Transform::getTransformMatrix() const {
-	float cos[3]{ std::cos(m_rotation.x), std::cos(m_rotation.y), std::cos(m_rotation.z) };
-	float sin[3]{ std::sin(m_rotation.x), std::sin(m_rotation.y), std::sin(m_rotation.z) };
+	float cos[3]{ std::cosf(m_rotation.x), std::cosf(m_rotation.y), std::cosf(m_rotation.z) };
+	float sin[3]{ std::sinf(m_rotation.x), std::sinf(m_rotation.y), std::sinf(m_rotation.z) };
 
-	glm::mat4 m;
-	m[0][0] = cos[1] * cos[2] * m_scale.x;
-	m[0][1] = -sin[2];
-	m[0][2] = sin[1];
-	m[0][3] = m_position.x;
+	glm::mat4 translate;
+	translate[3][0] = m_position.x;
+	translate[3][1] = m_position.y;
+	translate[3][2] = m_position.z;
 
-	m[1][0] = sin[2];
-	m[1][1] = cos[0] * cos[2] * m_scale.y;
-	m[1][2] = -sin[0];
-	m[1][3] = m_position.y;
+	glm::mat4 rotateX;
+	rotateX[1][1] = cos[0];
+	rotateX[1][2] = -sin[0];
+	rotateX[2][1] = sin[0];
+	rotateX[2][2] = cos[0];
 
-	m[2][0] = -sin[1];
-	m[2][1] = sin[0];
-	m[2][2] = cos[0] * cos[1] * m_scale.z;
-	m[2][3] = m_position.z;
+	glm::mat4 rotateY;
+	rotateY[0][0] = cos[1];
+	rotateY[0][2] = -sin[1];
+	rotateY[2][0] = sin[1];
+	rotateY[2][2] = cos[1];
 
-	m[3][0] = 0.0f;
-	m[3][1] = 0.0f;
-	m[3][2] = 0.0f;
-	m[3][3] = 1;
+	glm::mat4 rotateZ;
+	rotateZ[0][0] = cos[2];
+	rotateZ[0][1] = -sin[2];
+	rotateZ[1][0] = sin[2];
+	rotateZ[1][1] = cos[2];
 
-	return m;
+	glm::mat4 scale;
+	scale[0][0] = m_scale.x;
+	scale[1][1] = m_scale.y;
+	scale[2][2] = m_scale.z;
+
+	return translate * rotateX * rotateY * rotateZ * scale;
 }
 
 void Transform::setPosition(const glm::vec3& position) {

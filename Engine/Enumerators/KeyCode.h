@@ -54,8 +54,9 @@ enum KeyCode {
 	F10 = 137,
 	F11 = 138,
 	F12 = 139,
-	LEFT = 140,
-	UP = 141,
-	RIGHT = 142,
-	DOWN = 143
+
+	LEFT = 227,
+	UP = 228,
+	RIGHT = 229,
+	DOWN = 230
 };

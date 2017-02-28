@@ -26,11 +26,12 @@ void Renderer::Initialise(int* argc, char* argv[]) {
 	glutInitWindowSize(1080, 720);
 	m_window = glutCreateWindow("Vertex-Based Rendering");
 
-	glEnable(GL_CULL_FACE);
-	glEnable(GL_DEPTH_TEST);
-
 	glewInit();
 	glClearColor(0.0f, 0.0f, 0.25f, 0.0f);
+
+	glDepthMask(GL_TRUE);
+	glEnable(GL_CULL_FACE);
+	glEnable(GL_DEPTH_TEST);
 
 	m_geometry = new Geometry();
 	m_geometry->FillBuffers();

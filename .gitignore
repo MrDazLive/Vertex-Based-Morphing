@@ -53,8 +53,10 @@ artifacts/
 *.obj
 *.pch
 *.pdb
+*.pdn
 *.pgc
 *.pgd
+*.png
 *.rsp
 *.sbr
 *.tlb

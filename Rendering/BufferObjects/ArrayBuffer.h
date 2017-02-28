@@ -4,9 +4,9 @@
 
 class ArrayBuffer final : public BufferObject {
 public:
-	ArrayBuffer(GLenum);
-	~ArrayBuffer();
+    ArrayBuffer(GLenum);
+    ~ArrayBuffer();
 
-	static void Reset();
+    static void Reset();
 private:
 };

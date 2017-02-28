@@ -9,22 +9,22 @@ Component::~Component() {
 }
 
 const GameObject* Component::getGameObject() const {
-	return m_gameObject;
+    return m_gameObject;
 }
 
 const bool Component::isActive() const {
-	return m_active;
+    return m_active;
 }
 
 const void Component::setActive(bool status) {
-	if (m_active != status) {
-		m_active = status;
-		m_active ?
-			this->OnEnable():
-			this->OnDisable();
-	}
+    if (m_active != status) {
+        m_active = status;
+        m_active ?
+            this->OnEnable():
+            this->OnDisable();
+    }
 }
 
 unsigned int Component::getNewIndex() {
-	return ++m_count;
+    return ++m_count;
 }

@@ -4,9 +4,9 @@
 
 class UniformBuffer final : public BufferObject {
 public:
-	UniformBuffer(GLenum);
-	~UniformBuffer();
+    UniformBuffer(GLenum);
+    ~UniformBuffer();
 
-	static void Reset();
+    static void Reset();
 private:
 };

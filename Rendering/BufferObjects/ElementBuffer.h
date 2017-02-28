@@ -4,9 +4,9 @@
 
 class ElementBuffer final : public BufferObject {
 public:
-	ElementBuffer();
-	~ElementBuffer();
+    ElementBuffer();
+    ~ElementBuffer();
 
-	static void Reset();
+    static void Reset();
 private:
 };

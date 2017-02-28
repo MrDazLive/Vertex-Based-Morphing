@@ -2,14 +2,14 @@
 
 class Time final {
 public:
-	static void		Initialise		();
-	static void		OnUpdate		();
+    static void     Initialise      ();
+    static void     OnUpdate        ();
 
-	static float	getTime			();
-	static float	getDeltaTime	();
+    static float    getTime         ();
+    static float    getDeltaTime    ();
 private:
-					Time			() = delete;
+                    Time            () = delete;
 
-	static float	m_time;
-	static float	m_deltaTime;
+    static float    m_time;
+    static float    m_deltaTime;
 };

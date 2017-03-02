@@ -8,23 +8,30 @@
 #include <glm\glm.hpp>
 #include <unordered_map>
 
-class Geometry final {
+class Geometry {
 public:
                     Geometry            () = default;
                     ~Geometry           () = default;
 
-    void            FillBuffers         ();
-    void            BuildArray          ();
+    virtual void    FillBuffers         ();
+    virtual void    BuildArray          ();
 
-    void            Draw                ();
-    void            DrawRequest         (const unsigned int, const unsigned int, const glm::mat4&);
-private:
-    struct Command;
+    virtual void    Draw                ();
+    virtual void    DrawRequest         (const unsigned int, const unsigned int, const glm::mat4&);
+protected:
+    struct Command {
+        unsigned int elementCount;
+        unsigned int instanceCount;
+        unsigned int elementIndex;
+        unsigned int vertexIndex;
+        unsigned int instanceIndex;
+    };
     struct Instance {
         glm::mat4 model;
         unsigned int material;
     };
     struct MeshOffsets {
+        unsigned int elementCount;
         unsigned int elementOffset;
         unsigned int vertexOffset;
     };
@@ -36,5 +43,6 @@ private:
     VertexArray     m_vertexArray       {};
 
     std::unordered_map<unsigned int, MeshOffsets>                                       m_meshOffsets;
+private:
     std::unordered_map<unsigned int, std::map<unsigned int, std::vector<Instance>>>     m_commandList;
 };

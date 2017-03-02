@@ -155,10 +155,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="Resource\Shader\blue.fs" />
-    <None Include="Resource\Shader\blue.vs" />
-    <None Include="Resource\Shader\red.fs" />
-    <None Include="Resource\Shader\red.vs" />
+    <None Include="Resource\Shader\default.fs" />
+    <None Include="Resource\Shader\default.vs" />
+    <None Include="Resource\Shader\default_morph.fs" />
+    <None Include="Resource\Shader\default_morph.vs" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene\UniformMorphScene.h" />

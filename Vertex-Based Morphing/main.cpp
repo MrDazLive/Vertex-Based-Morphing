@@ -1,16 +1,18 @@
 #include <Engine\Engine.h>
 #include <Rendering\Renderer.h>
 
-#include <Engine\Time\Time.h>
-#include <Engine\Input\Input.h>
-
 #include <Utilities\Container\Mesh.h>
+
 #include <Rendering\Camera\Camera.h>
 #include <Rendering\UniformBlocks\Material.h>
 
+#include <Engine\Time\Time.h>
+#include <Engine\Input\Input.h>
+
 #include "Scene\UniformMorphScene.h"
 
-#include <iostream>
+#include <Rendering\Geometry\MorphSet.h>
+#include <Engine\Scene\GameObject\MorphRenderable.h>
 
 int main(int argc, char* argv[]) {
 #pragma region Utility Set-up
@@ -25,6 +27,11 @@ int main(int argc, char* argv[]) {
 
     Renderer::Initialise(&argc, argv);
 
+    MorphSet ms("hand");
+    ms.setMorphSet("hand", "dragon_hand");
+
+    Renderer::ConfirmMorphSets();
+
 #pragma endregion
 #pragma region Engine Set-up
 
@@ -32,9 +39,26 @@ int main(int argc, char* argv[]) {
 
     GameObject g("object");
     g.renderable->setMesh("hand");
-    g.renderable->setMaterial("Default");
+    g.renderable->setMaterial("Default_Morph");
     g.transform->setPosition({ 0.0f, -5.0f, 10.0f });
     g.transform->setScale({ 1.8f, 1.8f, 1.8f });
+    g.renderable->setActive(false);
+    MorphRenderable* mr = g.AddComponent<MorphRenderable>();
+    mr->setMorphSet("hand");
+    mr->setMaterial("Default_Morph");
+
+
+    GameObject g2("object2");
+    g2.renderable->setMesh("hand");
+    g2.renderable->setMaterial("Default");
+    g2.transform->setPosition({ 10.0f, -5.0f, 10.0f });
+    g2.transform->setScale({ 1.8f, 1.8f, 1.8f });
+
+    GameObject g3("object3");
+    g3.renderable->setMesh("dragon_hand");
+    g3.renderable->setMaterial("Default");
+    g3.transform->setPosition({ -10.0f, -5.0f, 10.0f });
+    g3.transform->setScale({ 1.8f, 1.8f, 1.8f });
 
     UniformMorphScene uniform_scene("Uniform Morph");
 
@@ -43,7 +67,7 @@ int main(int argc, char* argv[]) {
 #pragma endregion
 #pragma region Input Bindings
 
-    Input::BindKey(KeyCode::ESC, KeyState::Down, Renderer::Quit);
+    Input::BindKey(KeyCode::ESC, KeyState::Down, []() { Engine::Quit(); Renderer::Quit(); });
 
     Input::BindKey(KeyCode::UP, KeyState::Hold, []() { Camera::Translate(glm::vec3(0.0f, 0.0f, 4.0f) * Time::getDeltaTime()); });
     Input::BindKey(KeyCode::DOWN, KeyState::Hold, []() { Camera::Translate(glm::vec3(0.0f, 0.0f, -4.0f) * Time::getDeltaTime()); });

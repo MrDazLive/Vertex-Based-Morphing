@@ -20,7 +20,8 @@ public:
 
     static void     Reset                   ();
 
-    Template void   AddAttribute            (GLint, const GLvoid* = 0);
+    Template void   AddAttribute(GLint, const GLvoid* = 0);
+    Template void   AddAttribute(GLint, const GLuint, const GLvoid* = 0);
     Template void   AddAttributeDivisor     (GLint, const GLvoid* = 0);
 private:
     static GLuint   GenArray                ();
@@ -30,8 +31,12 @@ private:
 };
 
 Template void VertexArray::AddAttribute(GLint size, const GLvoid *ptr) {
+    AddAttribute<T>(size, 1, ptr);
+}
+
+Template void VertexArray::AddAttribute(GLint size, const GLuint count, const GLvoid *ptr) {
     glEnableVertexAttribArray(m_attributeCount);
-    glVertexAttribPointer(m_attributeCount, size, GL_FLOAT, GL_FALSE, sizeof(T), ptr);
+    glVertexAttribPointer(m_attributeCount, size, GL_FLOAT, GL_FALSE, sizeof(T) * count, ptr);
     m_attributeCount++;
 }
 

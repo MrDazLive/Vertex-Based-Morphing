@@ -2,6 +2,8 @@
 
 UniformMorphScene::UniformMorphScene(const std::string& name) : Scene(name) {
     AddGameObject(GameObject::getWithName("object"));
+    AddGameObject(GameObject::getWithName("object3"));
+    AddGameObject(GameObject::getWithName("object2"));
 }
 
 void UniformMorphScene::OnOpen() {

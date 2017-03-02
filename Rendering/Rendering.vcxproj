@@ -150,6 +150,8 @@
     <ClInclude Include="BufferObjects\ArrayBuffer.h" />
     <ClInclude Include="Camera\Camera.h" />
     <ClInclude Include="Geometry\Geometry.h" />
+    <ClInclude Include="Geometry\MorphGeometry.h" />
+    <ClInclude Include="Geometry\MorphSet.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="ShaderProgram\Program.h" />
     <ClInclude Include="ShaderProgram\Shader.h" />
@@ -165,6 +167,8 @@
     <ClCompile Include="BufferObjects\ArrayBuffer.cpp" />
     <ClCompile Include="Camera\Camera.cpp" />
     <ClCompile Include="Geometry\Geometry.cpp" />
+    <ClCompile Include="Geometry\MorphGeometry.cpp" />
+    <ClCompile Include="Geometry\MorphSet.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="ShaderProgram\Program.cpp" />
     <ClCompile Include="ShaderProgram\Shader.cpp" />

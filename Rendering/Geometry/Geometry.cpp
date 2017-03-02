@@ -1,19 +1,10 @@
 #include "Geometry.h"
 
-#include "..\Camera\Camera.h"
 #include "..\ShaderProgram\Program.h"
 #include "..\UniformBlocks\Material.h"
 
 #include <glm\gtc\type_ptr.hpp>
 #include <Utilities\Container\Mesh.h>
-
-struct Geometry::Command {
-    unsigned int elementCount;
-    unsigned int instanceCount;
-    unsigned int elementIndex;
-    unsigned int vertexIndex;
-    unsigned int instanceIndex;
-};
 
 void Geometry::FillBuffers() {
     std::vector<unsigned int> elements;
@@ -25,6 +16,7 @@ void Geometry::FillBuffers() {
         Mesh* ptr = ptrs[i];
         MeshOffsets data;
 
+        data.elementCount = ptr->getElementCount();
         data.elementOffset = (unsigned int)elements.size();
         elements.insert(elements.end(), ptr->getElementArray(), ptr->getElementArray() + ptr->getElementCount());
 
@@ -71,11 +63,10 @@ void Geometry::Draw() {
         std::vector<Command> commands;
 
         for (auto& mesh_it : program_it.second) {
-            const Mesh* mesh = Mesh::getWithIndex(mesh_it.first);
             Command command;
 
             command.elementIndex = m_meshOffsets[mesh_it.first].elementOffset;
-            command.elementCount = mesh->getElementCount();
+            command.elementCount = m_meshOffsets[mesh_it.first].elementCount;
 
             command.vertexIndex = m_meshOffsets[mesh_it.first].vertexOffset;
 

@@ -16,8 +16,9 @@
 int Renderer::m_window = 0;
 
 Geometry* Renderer::m_geometry = nullptr;
-Perspective* Renderer::m_perspective = nullptr;// new Perspective("Main");
+Perspective* Renderer::m_perspective = nullptr;
 std::vector<Program*> Renderer::m_program;
+std::vector<Material*> Renderer::m_material;
 
 Renderer::~Renderer() {
     Renderer::Quit();
@@ -68,6 +69,9 @@ void Renderer::Initialise(int* argc, char* argv[]) {
 
     Perspective::BindBlock("Block_Perspective", def, blue);
 
+    CreateMaterial("Default")->setShader("Default");
+    Material::BindBlock("Block_Material", def, blue);
+
     const float aspectRatio = 1080.0f / 720.0f;
     glm::mat4 projection = glm::perspective(1.31f, aspectRatio, 1.0f, 1000.0f);
     m_perspective->setProjection(projection);
@@ -91,15 +95,24 @@ void Renderer::Loop() {
 
 void Renderer::Quit() {
     glutDestroyWindow(m_window);
-
+    
     delete m_geometry;
     m_geometry = nullptr;
     delete m_perspective;
     m_perspective = nullptr;
     delete[] m_program.data();
     m_program.clear();
+    delete[] m_material.data();
+    m_material.clear();
 }
 
 void Renderer::DrawRequest(const unsigned int mesh, const unsigned int material, const glm::mat4& transform) {
     m_geometry->DrawRequest(mesh, material, transform);
+}
+
+Material* const Renderer::CreateMaterial(const std::string& name) {
+    Material* material = new Material(name);
+    m_material.push_back(material);
+    Material::BufferBlock();
+    return material;
 }

@@ -5,41 +5,43 @@
 #include <Engine\Input\Input.h>
 
 #include <Utilities\Container\Mesh.h>
-#include <Engine\Scene\Scene.h>
-#include <Engine\Scene\GameObject\GameObject.h>
 #include <Rendering\Camera\Camera.h>
 #include <Rendering\UniformBlocks\Material.h>
+
+#include "Scene\UniformMorphScene.h"
 
 #include <iostream>
 
 int main(int argc, char* argv[]) {
+#pragma region Utility Set-up
+
     Mesh objects[3] { "hand", "dragon_hand", "torso" };
     for (Mesh& obj : objects) {
         obj.LoadFromFile("Resource/Mesh/" + obj.getName() + ".obj");
     }
 
+#pragma endregion
+#pragma region Renderer Set-up
+
     Renderer::Initialise(&argc, argv);
+
+#pragma endregion
+#pragma region Engine Set-up
+
     Engine::Initialise(&argc, argv);
 
-    Material mat("Default");
-    mat.setShader("Default");
-
-    Material::BufferBlock();
-    Program** ptrs = Program::getAll();
-    const unsigned int count = Program::getCount();
-    for (unsigned int i = 0; i < count; i++) {
-        Material::BindBlock("Block_Material", ptrs[i]);
-    }
-
     GameObject g("object");
-    g.renderable->setMesh("torso");
+    g.renderable->setMesh("hand");
     g.renderable->setMaterial("Default");
-    //g.transform->setPosition({ 0.0f, -5.0f, 10.0f });
+    g.transform->setPosition({ 0.0f, -5.0f, 10.0f });
     g.transform->setScale({ 1.8f, 1.8f, 1.8f });
 
-    Scene s("Scene");
-    s.AddGameObject(&g);
-    Engine::OpenScene("Scene");
+    UniformMorphScene uniform_scene("Uniform Morph");
+
+    Engine::OpenScene("Uniform Morph");
+
+#pragma endregion
+#pragma region Input Bindings
 
     Input::BindKey(KeyCode::ESC, KeyState::Down, Renderer::Quit);
 
@@ -57,6 +59,10 @@ int main(int argc, char* argv[]) {
 
     Input::BindKey(KeyCode::E, KeyState::Up, [&]() { g.renderable->setMesh("hand"); });
     Input::BindKey(KeyCode::E, KeyState::Down, [&]() { g.renderable->setMesh("dragon_hand"); });
+
+    Input::BindKey(KeyCode::NUM1, KeyState::Down, []() { Engine::SwapScene("Uniform Morph"); });
+
+#pragma endregion
 
     Engine::Loop();
 

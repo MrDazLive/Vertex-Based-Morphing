@@ -151,6 +151,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Scene\UniformMorphScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -158,6 +159,9 @@
     <None Include="Resource\Shader\blue.vs" />
     <None Include="Resource\Shader\red.fs" />
     <None Include="Resource\Shader\red.vs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Scene\UniformMorphScene.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

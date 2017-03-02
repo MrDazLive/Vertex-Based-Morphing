@@ -11,7 +11,7 @@ public:
     static void     Quit            ();
 
     static void     OpenScene       (const std::string&);
-    static void     SwapScene       (const std::string&, const unsigned int);
+    static void     SwapScene       (const std::string&, const unsigned int = 0);
     static void     ReloadScene     ();
     static void     CloseScene      ();
 private:

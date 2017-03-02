@@ -18,6 +18,9 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Scene\UniformMorphScene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resource\Shader\red.vs" />
@@ -25,5 +28,10 @@
     <None Include="packages.config" />
     <None Include="Resource\Shader\blue.fs" />
     <None Include="Resource\Shader\blue.vs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Scene\UniformMorphScene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

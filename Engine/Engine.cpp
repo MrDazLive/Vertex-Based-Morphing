@@ -37,10 +37,10 @@ void Engine::Quit() {
 
 void Engine::IdleUpdate() {
     Time::OnUpdate();
-    Input::OnUpdate();
     Scene* ptr = getCurrentScene();
     if (ptr != nullptr) ptr->OnUpdate();
     glutPostRedisplay();
+    Input::OnUpdate();
 }
 
 void Engine::DisplayUpdate() {
@@ -57,7 +57,7 @@ void Engine::OpenScene(const std::string& name) {
     ptr->OnFocusEnter();
 }
 
-void Engine::SwapScene(const std::string& name, const unsigned int level = 0) {
+void Engine::SwapScene(const std::string& name, const unsigned int level) {
     unsigned int closeCount = m_activeScene.size() > level ? 
         (unsigned int)m_activeScene.size() - level :
         0;

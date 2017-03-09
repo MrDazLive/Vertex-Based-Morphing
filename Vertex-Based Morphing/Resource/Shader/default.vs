@@ -13,7 +13,7 @@ struct Instance {
 
 struct Material {
 	vec3 colour;
-	float pad;
+	float morph;
 };
 
 layout(std140) uniform Block_Perspective {

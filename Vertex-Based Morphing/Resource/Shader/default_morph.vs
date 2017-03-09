@@ -13,7 +13,7 @@ struct Instance {
 
 struct Material {
 	vec3 colour;
-	float pad;
+	float morph;
 };
 
 layout(std140) uniform Block_Perspective {
@@ -32,7 +32,9 @@ out vec3 o_normal;
 
 void main()
 {
+	Material mat = material[instance.material];
+
 	mat4 MVP = projection * view * instance.transform;
-	gl_Position = MVP * vec4(mix(vertex[0].position, vertex[1].position, 0.6f), 1.0);
-	o_normal = mix(vertex[0].normal, vertex[1].normal, 0.6f) * material[instance.material].colour;
+	gl_Position = MVP * vec4(mix(vertex[0].position, vertex[1].position, mat.morph), 1.0);
+	o_normal = mix(vertex[0].normal, vertex[1].normal, mat.morph) * mat.colour;
 }

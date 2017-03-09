@@ -38,8 +38,6 @@ int main(int argc, char* argv[]) {
     Engine::Initialise(&argc, argv);
 
     GameObject g("object");
-    g.renderable->setMesh("hand");
-    g.renderable->setMaterial("Default_Morph");
     g.transform->setPosition({ 0.0f, -5.0f, 10.0f });
     g.transform->setScale({ 1.8f, 1.8f, 1.8f });
     g.renderable->setActive(false);
@@ -78,11 +76,9 @@ int main(int argc, char* argv[]) {
     Input::BindKey(KeyCode::A, KeyState::Hold, [&]() { g.transform->Rotate(glm::vec3(0.0f, 3.142f, 0.0f) * Time::getDeltaTime()); });
     Input::BindKey(KeyCode::D, KeyState::Hold, [&]() { g.transform->Rotate(glm::vec3(0.0f, -3.142f, 0.0f) * Time::getDeltaTime()); });
 
-    Input::BindKey(KeyCode::Q, KeyState::Up, [&]() { g.renderable->getMaterial()->setShader("Default"); });
-    Input::BindKey(KeyCode::Q, KeyState::Down, [&]() { g.renderable->getMaterial()->setShader("Blue"); });
-
-    Input::BindKey(KeyCode::E, KeyState::Up, [&]() { g.renderable->setMesh("hand"); });
-    Input::BindKey(KeyCode::E, KeyState::Down, [&]() { g.renderable->setMesh("dragon_hand"); });
+    Material* material = Material::getWithName("Default_Morph");
+    Input::BindKey(KeyCode::N, KeyState::Hold, [&]() { material->slideMorph(-Time::getDeltaTime()); });
+    Input::BindKey(KeyCode::M, KeyState::Hold, [&]() { material->slideMorph(Time::getDeltaTime()); });
 
     Input::BindKey(KeyCode::NUM1, KeyState::Down, []() { Engine::SwapScene("Uniform Morph"); });
 

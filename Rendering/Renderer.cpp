@@ -86,6 +86,7 @@ void Renderer::Loop() {
 
     m_perspective->setView(Camera::ViewMatrix());
     Perspective::BufferBlock();
+    Material::BufferBlock();
 
     m_geometry->Draw();
     m_morphGeometry->Draw();
@@ -122,7 +123,6 @@ void Renderer::MorphDrawRequest(const unsigned int morphSet, const unsigned int 
 Material* const Renderer::CreateMaterial(const std::string& name) {
     Material* material = new Material(name);
     m_material.push_back(material);
-    Material::BufferBlock();
     return material;
 }
 

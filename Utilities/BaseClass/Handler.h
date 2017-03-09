@@ -3,6 +3,7 @@
 #include <vector>
 #include <string>
 #include <algorithm>
+#include <functional>
 #include <unordered_map>
 
 #define Template template <typename T>
@@ -22,6 +23,8 @@ public:
 
     static T**              getAll          ();
     static T**              getAllWithName  (const std::string&);
+
+    static void             forEach         (std::function<void(T* const)>);
 protected:
                             Handler         (T* const, const std::string&);
 
@@ -93,4 +96,11 @@ T** Handler<T>::getAllWithName(const std::string& name) {
 Template
 T** Handler<T>::getAll() {
     return m_objectsByIndex.data();
+}
+
+Template
+void Handler<T>::forEach(std::function<void(T* const)> method) {
+    for (T* const ptr : m_objectsByIndex) {
+        method(ptr);
+    }
 }

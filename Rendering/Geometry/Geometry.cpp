@@ -1,5 +1,6 @@
 #include "Geometry.h"
 
+#include "..\Renderer.h"
 #include "..\ShaderProgram\Program.h"
 #include "..\UniformBlocks\Material.h"
 
@@ -87,7 +88,10 @@ void Geometry::Draw() {
         //glDrawElementsInstancedBaseVertexBaseInstance(GL_TRIANGLES, c.elementCount, GL_UNSIGNED_INT, (GLintptr*)(c.elementIndex * sizeof(unsigned int)), c.instanceCount, c.vertexIndex, c.instanceIndex);
 
         m_indirectBuffer.SetActive();
-        glMultiDrawElementsIndirect(GL_TRIANGLES, GL_UNSIGNED_INT, nullptr, (unsigned int)commands.size(), sizeof(Command));
+        GLenum mode = Renderer::getRenderMode() == RenderMode::SHADED ?
+            GL_TRIANGLES :
+            GL_LINES;
+        glMultiDrawElementsIndirect(mode, GL_UNSIGNED_INT, nullptr, (unsigned int)commands.size(), sizeof(Command));
     }
 
     m_commandList.clear();

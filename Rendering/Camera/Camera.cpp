@@ -15,7 +15,7 @@ const glm::vec3& Camera::Position() {
     return m_position;
 }
 
-const glm::vec3& Camera::Direction() {
+const glm::vec3 Camera::Direction() {
     return glm::normalize(m_target - m_position);
 }
 

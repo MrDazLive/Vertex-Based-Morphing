@@ -15,6 +15,8 @@
 
 int Renderer::m_window = 0;
 
+RenderMode Renderer::m_renderMode = RenderMode::SHADED;
+
 Geometry* Renderer::m_geometry = nullptr;
 MorphGeometry* Renderer::m_morphGeometry = nullptr;
 Perspective* Renderer::m_perspective = nullptr;
@@ -110,6 +112,14 @@ void Renderer::Quit() {
     m_program.clear();
     delete[] m_material.data();
     m_material.clear();
+}
+
+const RenderMode Renderer::getRenderMode() {
+    return m_renderMode;
+}
+
+void Renderer::setRenderMode(const RenderMode& mode) {
+    m_renderMode = mode;
 }
 
 void Renderer::DrawRequest(const unsigned int mesh, const unsigned int material, const glm::mat4& transform) {

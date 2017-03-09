@@ -3,6 +3,8 @@
 #include <vector>
 #include <glm\glm.hpp>
 
+#include "Enumerators\RenderMode.h"
+
 class Program;
 class Material;
 class Geometry;
@@ -15,6 +17,10 @@ public:
     static void             Loop                ();
     static void             Quit                ();
 
+    static const RenderMode getRenderMode       ();
+
+    static void             setRenderMode       (const RenderMode&);
+
     static void             DrawRequest         (const unsigned int, const unsigned int, const glm::mat4&);
     static void             MorphDrawRequest    (const unsigned int, const unsigned int, const glm::mat4&);
     static Material* const  CreateMaterial      (const std::string&);
@@ -25,7 +31,9 @@ private:
                             Renderer            () = delete;
                             ~Renderer           ();
 
-    int static              m_window;
+    static int              m_window;
+
+    static RenderMode       m_renderMode;
 
     static Geometry*                m_geometry;
     static MorphGeometry*           m_morphGeometry;

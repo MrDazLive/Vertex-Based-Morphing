@@ -149,6 +149,7 @@
     <ClInclude Include="BufferObjects\UniformBuffer.h" />
     <ClInclude Include="BufferObjects\ArrayBuffer.h" />
     <ClInclude Include="Camera\Camera.h" />
+    <ClInclude Include="Enumerators\RenderMode.h" />
     <ClInclude Include="Geometry\Geometry.h" />
     <ClInclude Include="Geometry\MorphGeometry.h" />
     <ClInclude Include="Geometry\MorphSet.h" />

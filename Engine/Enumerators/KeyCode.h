@@ -1,6 +1,6 @@
 #pragma once
 
-enum KeyCode {
+enum class KeyCode {
     ESC = 27,
 
     NUM0 = 48,

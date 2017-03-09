@@ -107,5 +107,8 @@
     <ClInclude Include="Geometry\MorphGeometry.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Enumerators\RenderMode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

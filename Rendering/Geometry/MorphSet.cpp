@@ -5,7 +5,7 @@ MorphSet::MorphSet(const std::string& name) : Handler<MorphSet>(this, name) {
 }
 
 const unsigned int MorphSet::getSetSize() const {
-    return m_meshSet.size();
+    return (unsigned int)m_meshSet.size();
 }
 
 const unsigned int* MorphSet::getMeshSet() const {

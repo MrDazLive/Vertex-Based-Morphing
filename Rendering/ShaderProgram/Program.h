@@ -18,10 +18,12 @@ public:
     const GLuint    getOutAttributeCount    () const;
     const GLuint    getStatus               () const;
 
+    void            setVertexSubroutine     (const std::string&);
+    void            setFragmentSubroutine   (const std::string&);
+
     void            Link                    ();
     void            LogInfo                 ();
     void            SetActive               ();
-    void            SetSubroutine           (GLenum, const std::string&);
 
     static void     Reset                   ();
 
@@ -33,11 +35,14 @@ public:
     Variadic void   AddOutAttribute         (const std::string&, const V...);
 private:
     GLuint          GenProgram              ();
+    void            BindSubroutine          (const GLenum, const std::string&);
 
     const GLuint    m_program               { 0 };
     GLuint          m_inAttributeCount      { 0 };
     GLuint          m_outAttributeCount     { 0 };
     GLuint          m_status                { GL_FALSE };
+    std::string     m_vertexSubroutine      { "" };
+    std::string     m_fragmemtSubroutine    { "" };
 };
 
 Variadic

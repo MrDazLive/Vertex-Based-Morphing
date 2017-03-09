@@ -45,11 +45,16 @@ void Program::LogInfo() {
 
 void Program::SetActive() {
     glUseProgram(m_program);
+    BindSubroutine(GL_VERTEX_SHADER, m_vertexSubroutine);
+    BindSubroutine(GL_FRAGMENT_SHADER, m_fragmemtSubroutine);
 }
 
-void Program::SetSubroutine(GLenum type, const std::string& name) {
-    GLuint index = glGetSubroutineIndex(m_program, type, name.c_str());
-    glUniformSubroutinesuiv(type, 1, &index);
+void Program::setVertexSubroutine(const std::string& name) {
+    m_vertexSubroutine = name;
+}
+
+void Program::setFragmentSubroutine(const std::string& name) {
+    m_fragmemtSubroutine = name;
 }
 
 void Program::Reset() {
@@ -72,4 +77,9 @@ void Program::AddOutAttribute(const std::string& name) {
 
 GLuint Program::GenProgram() {
     return glCreateProgram();
+}
+
+void Program::BindSubroutine(const GLenum target, const std::string& name) {
+    GLuint index = glGetSubroutineIndex(m_program, target, name.c_str());
+    glUniformSubroutinesuiv(target, 1, &index);
 }

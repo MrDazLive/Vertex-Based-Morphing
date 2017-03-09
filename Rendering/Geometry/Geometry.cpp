@@ -81,12 +81,6 @@ void Geometry::Draw() {
         m_instanceBuffer.BufferData(instances.data(), instances.size() * sizeof(Instance));
         m_indirectBuffer.BufferData(commands.data(), commands.size() * sizeof(Command));
 
-        //Command c = commands[0];
-
-        //glDrawElementsBaseVertex(GL_TRIANGLES, c.elementCount, GL_UNSIGNED_INT, (GLintptr*)(c.elementIndex * sizeof(unsigned int)), c.vertexIndex);
-
-        //glDrawElementsInstancedBaseVertexBaseInstance(GL_TRIANGLES, c.elementCount, GL_UNSIGNED_INT, (GLintptr*)(c.elementIndex * sizeof(unsigned int)), c.instanceCount, c.vertexIndex, c.instanceIndex);
-
         m_indirectBuffer.SetActive();
         GLenum mode = Renderer::getRenderMode() == RenderMode::SHADED ?
             GL_TRIANGLES :

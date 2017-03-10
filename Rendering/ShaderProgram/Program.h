@@ -4,6 +4,7 @@
 #include <GL\glew.h>
 #include <Utilities\BaseClass\Handler.h>
 
+#define Template template <typename T>
 #define Variadic template <typename ... V>
 
 class Shader;
@@ -30,6 +31,7 @@ public:
     void            AddShader               (const Shader*);
     void            AddInAttribute          (const std::string&);
     void            AddOutAttribute         (const std::string&);
+    Template void   BindUniformBlock        (const std::string&);
     Variadic void   AddShader               (const Shader*, const V...);
     Variadic void   AddInAttribute          (const std::string&, const V...);
     Variadic void   AddOutAttribute         (const std::string&, const V...);
@@ -44,6 +46,11 @@ private:
     std::string     m_vertexSubroutine      { "" };
     std::string     m_fragmemtSubroutine    { "" };
 };
+
+Template
+void Program::BindUniformBlock(const std::string& name) {
+    T::BindBlock(name, this);
+}
 
 Variadic
 void Program::AddShader(const Shader* ptr, const V... var) {

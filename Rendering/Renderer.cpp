@@ -70,11 +70,12 @@ void Renderer::Initialise(int* argc, char* argv[]) {
 
     m_perspective = new Perspective("Main");
 
-    Perspective::BindBlock("Block_Perspective", def, blue);
+    Program::forEach([](Program* const ptr) { ptr->BindUniformBlock<Perspective>("Block_Perspective"); });
 
     CreateMaterial("Default")->setShader("Default");
     CreateMaterial("Default_Morph")->setShader("Default_Morph");
-    Material::BindBlock("Block_Material", def, blue);
+
+    Program::forEach([](Program* const ptr) { ptr->BindUniformBlock<Material>("Block_Material"); });
 
     const float aspectRatio = 1080.0f / 720.0f;
     glm::mat4 projection = glm::perspective(1.31f, aspectRatio, 1.0f, 1000.0f);

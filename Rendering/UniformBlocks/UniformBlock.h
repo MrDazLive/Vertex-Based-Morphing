@@ -35,9 +35,7 @@ unsigned int UniformBlock<T>::m_blockSize = 0;
 
 Template
 UniformBlock<T>::UniformBlock(T* const object, const std::string& name) : Handler<T>(object, name) {
-    if (!m_buffer) {
-        m_buffer = new UniformBuffer(GL_STATIC_DRAW);
-    }
+
 }
 
 Template
@@ -66,6 +64,9 @@ void UniformBlock<T>::BufferBlock() {
 
 Template
 void UniformBlock<T>::BindBlock(const std::string& name, Program* const ptr) {
+    if (!m_buffer) {
+        m_buffer = new UniformBuffer(GL_STATIC_DRAW);
+    }
     m_buffer->SetActive();
     const GLuint index = glGetUniformBlockIndex(ptr->getProgram(), name.c_str());
     glBindBufferBase(GL_UNIFORM_BUFFER, index, m_buffer->getBuffer());

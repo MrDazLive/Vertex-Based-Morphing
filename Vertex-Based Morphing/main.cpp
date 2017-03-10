@@ -37,26 +37,16 @@ int main(int argc, char* argv[]) {
 
     Engine::Initialise(&argc, argv);
 
-    GameObject g("object");
-    g.transform->setPosition({ 0.0f, -5.0f, 10.0f });
-    g.transform->setScale({ 1.8f, 1.8f, 1.8f });
+    GameObject g("morph");
     g.renderable->setActive(false);
-    MorphRenderable* mr = g.AddComponent<MorphRenderable>();
-    mr->setMorphSet("hand");
-    mr->setMaterial("Default_Morph");
+	MorphRenderable* r = g.AddComponent<MorphRenderable>();
+    r->setMaterial("Default_Morph");
 
-
-    GameObject g2("object2");
-    g2.renderable->setMesh("hand");
+    GameObject g2("root");
     g2.renderable->setMaterial("Default");
-    g2.transform->setPosition({ 10.0f, -5.0f, 10.0f });
-    g2.transform->setScale({ 1.8f, 1.8f, 1.8f });
 
-    GameObject g3("object3");
-    g3.renderable->setMesh("dragon_hand");
+    GameObject g3("target");
     g3.renderable->setMaterial("Default");
-    g3.transform->setPosition({ -10.0f, -5.0f, 10.0f });
-    g3.transform->setScale({ 1.8f, 1.8f, 1.8f });
 
     UniformMorphScene uniform_scene("Uniform Morph");
 
@@ -68,7 +58,7 @@ int main(int argc, char* argv[]) {
     Input::BindKey(KeyCode::ESC, KeyState::DOWN, []() { Engine::Quit(); Renderer::Quit(); });
 
     Input::BindKey(KeyCode::F1, KeyState::DOWN, []() { Renderer::setRenderMode(RenderMode::SHADED); });
-    Input::BindKey(KeyCode::F2, KeyState::DOWN, []() { Renderer::setRenderMode(RenderMode::WIREFRAME); });
+	Input::BindKey(KeyCode::F2, KeyState::DOWN, []() { Renderer::setRenderMode(RenderMode::WIREFRAME); });
 
     Input::BindKey(KeyCode::F5, KeyState::DOWN, []() { Program::forEach([](Program* const ptr) { ptr->setVertexSubroutine("linear"); }); });
     Input::BindKey(KeyCode::F6, KeyState::DOWN, []() { Program::forEach([](Program* const ptr) { ptr->setVertexSubroutine("cosine"); }); });
@@ -78,15 +68,14 @@ int main(int argc, char* argv[]) {
     Input::BindKey(KeyCode::UP, KeyState::HOLD, []() { Camera::Translate(glm::vec3(0.0f, 0.0f, 4.0f) * Time::getDeltaTime()); });
     Input::BindKey(KeyCode::DOWN, KeyState::HOLD, []() { Camera::Translate(glm::vec3(0.0f, 0.0f, -4.0f) * Time::getDeltaTime()); });
 
-	Input::BindKey(KeyCode::W, KeyState::HOLD, [&]() { GameObject::forEach([](GameObject* const ptr) { ptr->transform->Rotate(glm::vec3(3.142f, 0.0f, 0.0f) * Time::getDeltaTime()); }); });
-    Input::BindKey(KeyCode::S, KeyState::HOLD, [&]() { GameObject::forEach([](GameObject* const ptr) { ptr->transform->Rotate(glm::vec3(-3.142f, 0.0f, 0.0f) * Time::getDeltaTime()); }); });
+	Input::BindKey(KeyCode::W, KeyState::HOLD, []() { GameObject::forEach([](GameObject* const ptr) { ptr->transform->Rotate(glm::vec3(3.142f, 0.0f, 0.0f) * Time::getDeltaTime()); }); });
+    Input::BindKey(KeyCode::S, KeyState::HOLD, []() { GameObject::forEach([](GameObject* const ptr) { ptr->transform->Rotate(glm::vec3(-3.142f, 0.0f, 0.0f) * Time::getDeltaTime()); }); });
 
-    Input::BindKey(KeyCode::A, KeyState::HOLD, [&]() { GameObject::forEach([](GameObject* const ptr) { ptr->transform->Rotate(glm::vec3(0.0f, 3.142f, 0.0f) * Time::getDeltaTime()); });; });
-    Input::BindKey(KeyCode::D, KeyState::HOLD, [&]() { GameObject::forEach([](GameObject* const ptr) { ptr->transform->Rotate(glm::vec3(0.0f, -3.142f, 0.0f) * Time::getDeltaTime()); }); });
+    Input::BindKey(KeyCode::A, KeyState::HOLD, []() { GameObject::forEach([](GameObject* const ptr) { ptr->transform->Rotate(glm::vec3(0.0f, 3.142f, 0.0f) * Time::getDeltaTime()); });; });
+    Input::BindKey(KeyCode::D, KeyState::HOLD, []() { GameObject::forEach([](GameObject* const ptr) { ptr->transform->Rotate(glm::vec3(0.0f, -3.142f, 0.0f) * Time::getDeltaTime()); }); });
 
-    Material* material = Material::getWithName("Default_Morph");
-    Input::BindKey(KeyCode::N, KeyState::HOLD, [&]() { material->slideMorph(-Time::getDeltaTime() / 2); });
-    Input::BindKey(KeyCode::M, KeyState::HOLD, [&]() { material->slideMorph(Time::getDeltaTime() / 2); });
+    Input::BindKey(KeyCode::N, KeyState::HOLD, []() { Material::getWithName("Default_Morph")->slideMorph(-Time::getDeltaTime() / 2); });
+    Input::BindKey(KeyCode::M, KeyState::HOLD, []() { Material::getWithName("Default_Morph")->slideMorph(Time::getDeltaTime() / 2); });
 
     Input::BindKey(KeyCode::NUM1, KeyState::DOWN, []() { Engine::SwapScene("Uniform Morph"); });
 

@@ -46,7 +46,7 @@ Template T* const GameObject::AddComponent() {
 
 Template T* const GameObject::GetComponent() {
     T obj(this);
-    T* ptr = m_component[obj.getIndex()];
+    T* ptr = (T*)m_component[obj.getIndex()];
     return ptr;
 }
 

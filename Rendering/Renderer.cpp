@@ -120,6 +120,7 @@ const RenderMode Renderer::getRenderMode() {
 
 void Renderer::setRenderMode(const RenderMode& mode) {
     m_renderMode = mode;
+	glPolygonMode(GL_FRONT_AND_BACK, m_renderMode == RenderMode::SHADED ? GL_FILL : GL_LINE);
 }
 
 void Renderer::DrawRequest(const unsigned int mesh, const unsigned int material, const glm::mat4& transform) {

@@ -78,11 +78,11 @@ int main(int argc, char* argv[]) {
     Input::BindKey(KeyCode::UP, KeyState::HOLD, []() { Camera::Translate(glm::vec3(0.0f, 0.0f, 4.0f) * Time::getDeltaTime()); });
     Input::BindKey(KeyCode::DOWN, KeyState::HOLD, []() { Camera::Translate(glm::vec3(0.0f, 0.0f, -4.0f) * Time::getDeltaTime()); });
 
-    Input::BindKey(KeyCode::W, KeyState::HOLD, [&]() { g.transform->Rotate(glm::vec3(3.142f, 0.0f, 0.0f) * Time::getDeltaTime()); });
-    Input::BindKey(KeyCode::S, KeyState::HOLD, [&]() { g.transform->Rotate(glm::vec3(-3.142f, 0.0f, 0.0f) * Time::getDeltaTime()); });
+	Input::BindKey(KeyCode::W, KeyState::HOLD, [&]() { GameObject::forEach([](GameObject* const ptr) { ptr->transform->Rotate(glm::vec3(3.142f, 0.0f, 0.0f) * Time::getDeltaTime()); }); });
+    Input::BindKey(KeyCode::S, KeyState::HOLD, [&]() { GameObject::forEach([](GameObject* const ptr) { ptr->transform->Rotate(glm::vec3(-3.142f, 0.0f, 0.0f) * Time::getDeltaTime()); }); });
 
-    Input::BindKey(KeyCode::A, KeyState::HOLD, [&]() { g.transform->Rotate(glm::vec3(0.0f, 3.142f, 0.0f) * Time::getDeltaTime()); });
-    Input::BindKey(KeyCode::D, KeyState::HOLD, [&]() { g.transform->Rotate(glm::vec3(0.0f, -3.142f, 0.0f) * Time::getDeltaTime()); });
+    Input::BindKey(KeyCode::A, KeyState::HOLD, [&]() { GameObject::forEach([](GameObject* const ptr) { ptr->transform->Rotate(glm::vec3(0.0f, 3.142f, 0.0f) * Time::getDeltaTime()); });; });
+    Input::BindKey(KeyCode::D, KeyState::HOLD, [&]() { GameObject::forEach([](GameObject* const ptr) { ptr->transform->Rotate(glm::vec3(0.0f, -3.142f, 0.0f) * Time::getDeltaTime()); }); });
 
     Material* material = Material::getWithName("Default_Morph");
     Input::BindKey(KeyCode::N, KeyState::HOLD, [&]() { material->slideMorph(-Time::getDeltaTime() / 2); });

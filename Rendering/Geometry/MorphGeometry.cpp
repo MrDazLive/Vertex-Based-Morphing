@@ -1,7 +1,6 @@
 #include "MorphGeometry.h"
 
 #include "MorphSet.h"
-#include "..\Renderer.h"
 #include "..\Camera\Camera.h"
 #include "..\ShaderProgram\Program.h"
 #include "..\UniformBlocks\Material.h"
@@ -106,10 +105,7 @@ void MorphGeometry::Draw() {
             m_indirectBuffer.BufferData(commands.data(), commands.size() * sizeof(Command));
 
             m_indirectBuffer.SetActive();
-            GLenum mode = Renderer::getRenderMode() == RenderMode::SHADED ?
-                GL_TRIANGLES :
-                GL_LINES;
-            glMultiDrawElementsIndirect(mode, GL_UNSIGNED_INT, nullptr, (unsigned int)commands.size(), sizeof(Command));
+            glMultiDrawElementsIndirect(GL_TRIANGLES, GL_UNSIGNED_INT, nullptr, (unsigned int)commands.size(), sizeof(Command));
         }
     }
 

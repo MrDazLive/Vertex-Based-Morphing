@@ -1,12 +1,11 @@
 #pragma once
 
 #include <functional>
+#include <Utilities\Helper\Global.h>
 #include <Utilities\BaseClass\Handler.h>
 
 #include "Transform.h"
 #include "Renderable.h"
-
-#define Template template <typename T>
 
 class GameObject final : public Handler<GameObject> {
 public:

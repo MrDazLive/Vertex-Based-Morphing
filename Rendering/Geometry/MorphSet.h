@@ -1,9 +1,8 @@
 #pragma once
 
+#include <Utilities\Helper\Global.h>
 #include <Utilities\Container\Mesh.h>
 #include <Utilities\BaseClass\Handler.h>
-
-#define Variadic template <typename ... V>
 
 class MorphSet final : public Handler<MorphSet> {
 public:

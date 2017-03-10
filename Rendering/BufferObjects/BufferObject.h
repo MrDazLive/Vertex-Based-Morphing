@@ -1,8 +1,7 @@
 #pragma once
 
 #include <GL\glew.h>
-
-#define Template template <typename T>
+#include <Utilities\Helper\Global.h>
 
 class BufferObject {
 public:

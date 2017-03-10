@@ -1,12 +1,11 @@
 #pragma once
 
-#include <Utilities\BaseClass\Handler.h>
 #include <GL\glew.h>
+#include <Utilities\Helper\Global.h>
+#include <Utilities\BaseClass\Handler.h>
 
 #include "..\BufferObjects\UniformBuffer.h"
 #include "..\ShaderProgram\Program.h"
-
-#define Template template <typename T>
 
 Template class UniformBlock abstract : public Handler<T> {
 public:

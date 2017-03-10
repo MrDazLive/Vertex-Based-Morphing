@@ -6,7 +6,7 @@
 #include <functional>
 #include <unordered_map>
 
-#define Template template <typename T>
+#include "..\Helper\Global.h"
 
 Template
 class Handler abstract {

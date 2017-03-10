@@ -2,10 +2,8 @@
 
 #include <string>
 #include <GL\glew.h>
+#include <Utilities\Helper\Global.h>
 #include <Utilities\BaseClass\Handler.h>
-
-#define Template template <typename T>
-#define Variadic template <typename ... V>
 
 class Shader;
 

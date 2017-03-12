@@ -1,21 +1,22 @@
 #pragma once
 
 #include <Utilities\BaseClass\Handler.h>
+#include <Engine\Scene\GameObject\GameObject.h>
 
 class GameObject;
 
-class Scene : public Handler<Scene> {
+class Scene abstract : public Handler<Scene> {
 public:
-					Scene			(const std::string&);
-					~Scene			() = default;
+                    Scene           (const std::string&);
+                    ~Scene          () = default;
 
-	virtual void	OnOpen			();
-	virtual void	OnFocusEnter	();
-	virtual void	OnUpdate		();
-	virtual void	OnFocusLeave	();
-	virtual void	OnClose			();
-//protected:
-	void			AddGameObject	(GameObject* const);
+    virtual void    OnOpen          ();
+    virtual void    OnFocusEnter    ();
+    virtual void    OnUpdate        ();
+    virtual void    OnFocusLeave    ();
+    virtual void    OnClose         ();
+protected:
+    void            AddGameObject   (GameObject* const);
 private:
-	std::vector<GameObject*> m_gameObject;
+    std::vector<GameObject*> m_gameObject;
 };

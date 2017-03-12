@@ -11,22 +11,22 @@ Renderable::Renderable(GameObject* const ptr) : BaseComponent<Renderable>(this, 
 }
 
 void Renderable::setMesh(const std::string& name) {
-	m_mesh = Mesh::getWithName(name)->getIndex();
+    m_mesh = Mesh::getWithName(name)->getIndex();
 }
 
 void Renderable::setMaterial(const std::string& name) {
-	m_material = Material::getWithName(name)->getIndex();
+    m_material = Material::getWithName(name)->getIndex();
 }
 
-const unsigned int Renderable::getMesh() const {
-	return m_mesh;
+Mesh* const Renderable::getMesh() const {
+    return Mesh::getWithIndex(m_mesh);
 }
 
-const unsigned int Renderable::getMaterial() const {
-	return m_material;
+Material* const Renderable::getMaterial() const {
+    return Material::getWithIndex(m_material);
 }
 
 void Renderable::OnUpdate() {
-	const glm::mat4 transform = getGameObject()->transform->getTransformMatrix();
-	Renderer::DrawRequest(m_mesh, m_material, transform);
+    const glm::mat4 transform = getGameObject()->transform->getTransformMatrix();
+    Renderer::DrawRequest(m_mesh, m_material, transform);
 }

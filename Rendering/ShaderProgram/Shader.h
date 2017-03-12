@@ -5,19 +5,19 @@
 
 class Shader final {
 public:
-					Shader			(GLenum);
-					~Shader			();
+                    Shader          (GLenum);
+                    ~Shader         ();
 
-	const GLuint	getShader		() const;
-	const GLuint	getStatus		() const;
-	const GLenum	getType			() const;
+    const GLuint    getShader       () const;
+    const GLuint    getStatus       () const;
+    const GLenum    getType         () const;
 
-	void			LogInfo			();
-	void			LoadFromFile	(const std::string&);
+    void            LogInfo         ();
+    void            LoadFromFile    (const std::string&);
 private:
-	static GLuint	GenShader		(GLenum);
+    static GLuint   GenShader       (GLenum);
 
-	const GLuint	m_shader		{};
-	const GLenum	m_type			{};
-	GLuint			m_status		{};
+    const GLuint    m_shader        {};
+    const GLenum    m_type          {};
+    GLuint          m_status        {};
 };

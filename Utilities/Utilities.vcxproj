@@ -138,6 +138,7 @@
     <ClInclude Include="Container\Mesh.h" />
     <ClInclude Include="Container\Vertex.h" />
     <ClInclude Include="Helper\File.h" />
+    <ClInclude Include="Helper\Global.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Container\Mesh.cpp" />

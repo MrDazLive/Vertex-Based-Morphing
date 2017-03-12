@@ -1,67 +1,90 @@
 #include <Engine\Engine.h>
 #include <Rendering\Renderer.h>
 
-#include <Engine\Time\Time.h>
-#include <Engine\Input\Input.h>
-
 #include <Utilities\Container\Mesh.h>
-#include <Engine\Scene\Scene.h>
-#include <Engine\Scene\GameObject\GameObject.h>
+
 #include <Rendering\Camera\Camera.h>
 #include <Rendering\UniformBlocks\Material.h>
 
-#include <iostream>
+#include <Engine\Time\Time.h>
+#include <Engine\Input\Input.h>
+
+#include "Scene\UniformMorphScene.h"
+
+#include <Rendering\Geometry\MorphSet.h>
+#include <Engine\Scene\GameObject\MorphRenderable.h>
 
 int main(int argc, char* argv[]) {
-	Mesh objects[3] { "hand", "dragon_hand", "torso" };
-	for (Mesh& obj : objects) {
-		obj.LoadFromFile("Resource/Mesh/" + obj.getName() + ".obj");
-	}
+#pragma region Utility Set-up
 
-	Renderer::Initialise(&argc, argv);
-	Engine::Initialise(&argc, argv);
+    Mesh objects[3] { "hand", "dragon_hand", "torso" };
+    for (Mesh& obj : objects) {
+        obj.LoadFromFile("Resource/Mesh/" + obj.getName() + ".obj");
+    }
 
-	Material mat("Default");
-	mat.setShader("Default");
+#pragma endregion
+#pragma region Renderer Set-up
 
-	Material::BufferBlock();
-	Program** ptrs = Program::getAll();
-	const unsigned int count = Program::getCount();
-	for (unsigned int i = 0; i < count; i++) {
-		Material::BindBlock("Material", ptrs[i]);
-	}
+    Renderer::Initialise(&argc, argv);
 
-	GameObject g("object");
-	g.renderable->setMesh("torso");
-	g.renderable->setMaterial("Default");
-	//g.transform->setPosition({ 0.0f, -5.0f, 10.0f });
-	g.transform->setScale({ 1.8f, 1.8f, 1.8f });
+    MorphSet ms("hand");
+    ms.setMorphSet("hand", "dragon_hand");
 
-	Scene s("Scene");
-	s.AddGameObject(&g);
-	Engine::OpenScene("Scene");
+    Renderer::ConfirmMorphSets();
 
-	Input::BindKey(KeyCode::ESC, KeyState::Down, Renderer::Quit);
+#pragma endregion
+#pragma region Engine Set-up
 
-	Input::BindKey(KeyCode::UP, KeyState::Hold, []() { Camera::Translate(glm::vec3(0.0f, 0.0f, 4.0f) * Time::getDeltaTime()); });
-	Input::BindKey(KeyCode::DOWN, KeyState::Hold, []() { Camera::Translate(glm::vec3(0.0f, 0.0f, -4.0f) * Time::getDeltaTime()); });
+    Engine::Initialise(&argc, argv);
 
-	Input::BindKey(KeyCode::W, KeyState::Hold, [&]() { g.transform->Rotate(glm::vec3(3.142f, 0.0f, 0.0f) * Time::getDeltaTime()); });
-	Input::BindKey(KeyCode::S, KeyState::Hold, [&]() { g.transform->Rotate(glm::vec3(-3.142f, 0.0f, 0.0f) * Time::getDeltaTime()); });
+    GameObject g("morph");
+    g.renderable->setActive(false);
+	MorphRenderable* r = g.AddComponent<MorphRenderable>();
+    r->setMaterial("Default_Morph");
 
-	Input::BindKey(KeyCode::A, KeyState::Hold, [&]() { g.transform->Rotate(glm::vec3(0.0f, 3.142f, 0.0f) * Time::getDeltaTime()); });
-	Input::BindKey(KeyCode::D, KeyState::Hold, [&]() { g.transform->Rotate(glm::vec3(0.0f, -3.142f, 0.0f) * Time::getDeltaTime()); });
+    GameObject g2("root");
+    g2.renderable->setMaterial("Default");
 
-	Input::BindKey(KeyCode::Q, KeyState::Up, [&]() { mat.setShader("Default"); });
-	Input::BindKey(KeyCode::Q, KeyState::Down, [&]() { mat.setShader("Blue"); });
+    GameObject g3("target");
+    g3.renderable->setMaterial("Default");
 
-	Input::BindKey(KeyCode::E, KeyState::Up, [&]() { g.renderable->setMesh("hand"); });
-	Input::BindKey(KeyCode::E, KeyState::Down, [&]() { g.renderable->setMesh("dragon_hand"); });
+    UniformMorphScene uniform_scene("Uniform Morph");
 
-	Engine::Loop();
+    Engine::OpenScene("Uniform Morph");
 
-	Engine::Quit();
-	Renderer::Quit();
+#pragma endregion
+#pragma region Input Bindings
 
-	return 0;
+    Input::BindKey(KeyCode::ESC, KeyState::DOWN, []() { Engine::Quit(); Renderer::Quit(); });
+
+    Input::BindKey(KeyCode::F1, KeyState::DOWN, []() { Renderer::setRenderMode(RenderMode::SHADED); });
+	Input::BindKey(KeyCode::F2, KeyState::DOWN, []() { Renderer::setRenderMode(RenderMode::WIREFRAME); });
+
+    Input::BindKey(KeyCode::F5, KeyState::DOWN, []() { Program::forEach([](Program* const ptr) { ptr->setVertexSubroutine("linear"); }); });
+    Input::BindKey(KeyCode::F6, KeyState::DOWN, []() { Program::forEach([](Program* const ptr) { ptr->setVertexSubroutine("cosine"); }); });
+    Input::BindKey(KeyCode::F7, KeyState::DOWN, []() { Program::forEach([](Program* const ptr) { ptr->setVertexSubroutine("quadratic"); }); });
+    Input::BindKey(KeyCode::F8, KeyState::DOWN, []() { Program::forEach([](Program* const ptr) { ptr->setVertexSubroutine("cubic"); }); });
+
+    Input::BindKey(KeyCode::UP, KeyState::HOLD, []() { Camera::Translate(glm::vec3(0.0f, 0.0f, 4.0f) * Time::getDeltaTime()); });
+    Input::BindKey(KeyCode::DOWN, KeyState::HOLD, []() { Camera::Translate(glm::vec3(0.0f, 0.0f, -4.0f) * Time::getDeltaTime()); });
+
+	Input::BindKey(KeyCode::W, KeyState::HOLD, []() { GameObject::forEach([](GameObject* const ptr) { ptr->transform->Rotate(glm::vec3(3.142f, 0.0f, 0.0f) * Time::getDeltaTime()); }); });
+    Input::BindKey(KeyCode::S, KeyState::HOLD, []() { GameObject::forEach([](GameObject* const ptr) { ptr->transform->Rotate(glm::vec3(-3.142f, 0.0f, 0.0f) * Time::getDeltaTime()); }); });
+
+    Input::BindKey(KeyCode::A, KeyState::HOLD, []() { GameObject::forEach([](GameObject* const ptr) { ptr->transform->Rotate(glm::vec3(0.0f, 3.142f, 0.0f) * Time::getDeltaTime()); });; });
+    Input::BindKey(KeyCode::D, KeyState::HOLD, []() { GameObject::forEach([](GameObject* const ptr) { ptr->transform->Rotate(glm::vec3(0.0f, -3.142f, 0.0f) * Time::getDeltaTime()); }); });
+
+    Input::BindKey(KeyCode::N, KeyState::HOLD, []() { Material::getWithName("Default_Morph")->slideMorph(-Time::getDeltaTime() / 2); });
+    Input::BindKey(KeyCode::M, KeyState::HOLD, []() { Material::getWithName("Default_Morph")->slideMorph(Time::getDeltaTime() / 2); });
+
+    Input::BindKey(KeyCode::NUM1, KeyState::DOWN, []() { Engine::SwapScene("Uniform Morph"); });
+
+#pragma endregion
+
+    Engine::Loop();
+
+    Engine::Quit();
+    Renderer::Quit();
+
+    return 0;
 }

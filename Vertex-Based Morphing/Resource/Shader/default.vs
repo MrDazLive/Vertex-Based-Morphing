@@ -13,7 +13,12 @@ struct Instance {
 
 struct Material {
 	vec3 colour;
-	float pad;
+	float morph;
+};
+
+layout(std140) uniform Block_Perspective {
+	mat4 projection;
+	mat4 view;
 };
 
 layout(std140) uniform Block_Material {
@@ -23,14 +28,11 @@ layout(std140) uniform Block_Material {
 layout(location = 0) in Vertex vertex;
 layout(location = 3) in Instance instance;
 
-uniform mat4 view;
-uniform mat4 projection;
-
-out vec2 o_uv;
+out vec3 o_normal;
 
 void main()
 {
 	mat4 MVP = projection * view * instance.transform;
 	gl_Position = MVP * vec4(vertex.position, 1.0);
-	o_uv = vertex.uv;
+	o_normal = vertex.normal * material[instance.material].colour;
 }

@@ -14,6 +14,8 @@
 #include <Rendering\Geometry\MorphSet.h>
 #include <Engine\Scene\GameObject\MorphRenderable.h>
 
+#include <Utilities\Container\OctTree.h>
+
 int main(int argc, char* argv[]) {
 #pragma region Utility Set-up
 

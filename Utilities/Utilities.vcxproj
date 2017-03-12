@@ -136,7 +136,9 @@
   <ItemGroup>
     <ClInclude Include="BaseClass\Handler.h" />
     <ClInclude Include="Container\Mesh.h" />
+    <ClInclude Include="Container\OctTree.h" />
     <ClInclude Include="Container\Vertex.h" />
+    <ClInclude Include="Enumerators\Axis.h" />
     <ClInclude Include="Helper\File.h" />
     <ClInclude Include="Helper\Global.h" />
   </ItemGroup>

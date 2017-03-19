@@ -1,5 +1,6 @@
 #include "Engine.h"
 
+#include <Physics\Physics.h>
 #include <Rendering\Renderer.h>
 
 #include <iostream>
@@ -44,6 +45,7 @@ void Engine::IdleUpdate() {
 }
 
 void Engine::DisplayUpdate() {
+    Physics::Loop();
     Renderer::Loop();
 }
 

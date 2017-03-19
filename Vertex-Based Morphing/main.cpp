@@ -15,6 +15,7 @@
 #include <Engine\Scene\GameObject\MorphRenderable.h>
 
 #include <Utilities\Container\OctTree.h>
+#include <Physics\Collision\MeshCollider.h>
 
 int main(int argc, char* argv[]) {
 #pragma region Utility Set-up
@@ -23,6 +24,7 @@ int main(int argc, char* argv[]) {
     for (Mesh& obj : objects) {
         obj.LoadFromFile("Resource/Mesh/" + obj.getName() + ".obj");
     }
+    MeshCollider col("hand");
 
 #pragma endregion
 #pragma region Renderer Set-up

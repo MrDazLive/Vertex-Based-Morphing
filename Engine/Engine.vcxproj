@@ -142,6 +142,7 @@
     <ClInclude Include="Enumerators\KeyCode.h" />
     <ClInclude Include="Enumerators\KeyState.h" />
     <ClInclude Include="Input\Input.h" />
+    <ClInclude Include="Scene\GameObject\Collider.h" />
     <ClInclude Include="Scene\GameObject\GameObject.h" />
     <ClInclude Include="Scene\GameObject\MorphRenderable.h" />
     <ClInclude Include="Scene\GameObject\Renderable.h" />
@@ -153,6 +154,7 @@
   <ItemGroup>
     <ClCompile Include="Input\Input.cpp" />
     <ClCompile Include="Engine.cpp" />
+    <ClCompile Include="Scene\GameObject\Collider.cpp" />
     <ClCompile Include="Scene\GameObject\Component.cpp" />
     <ClCompile Include="Scene\GameObject\GameObject.cpp" />
     <ClCompile Include="Scene\GameObject\MorphRenderable.cpp" />

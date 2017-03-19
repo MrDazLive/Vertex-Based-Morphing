@@ -27,7 +27,6 @@ public:
 
     static void             ConfirmMorphSets    ();
 private:
-
                             Renderer            () = delete;
                             ~Renderer           ();
 

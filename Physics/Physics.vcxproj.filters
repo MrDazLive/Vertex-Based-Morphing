@@ -21,6 +21,9 @@
     <ClInclude Include="Collision\MeshCollider.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Collision\RayHit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Physics.cpp">

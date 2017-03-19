@@ -2,6 +2,8 @@
 
 #include <Utilities\Container\Mesh.h>
 
+#include "RayHit.h"
+
 MeshCollider::MeshCollider(const std::string& name) : Handler<MeshCollider>(this, name), m_mesh(Mesh::getWithName(name)) {
     auto& triangle = [&](unsigned int tri, glm::vec3& val1, glm::vec3& val2, glm::vec3& val3) {
         const unsigned int* ele = m_mesh->getElementArray();
@@ -55,4 +57,8 @@ MeshCollider::MeshCollider(const std::string& name) : Handler<MeshCollider>(this
 
 MeshCollider::~MeshCollider() {
 
+}
+
+void MeshCollider::Raycast(const glm::vec3& position, const glm::vec3& direction, RayHit* const hit) {
+    if (hit->detected) hit->meshIndex = m_mesh->getIndex();
 }

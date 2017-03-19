@@ -1,5 +1,8 @@
 #include "Collider.h"
 
+#include "GameObject.h"
+
+#include <Physics\Physics.h>
 #include <Physics\Collision\MeshCollider.h>
 
 Collider::Collider(GameObject* const ptr) : BaseComponent<Collider>(this, ptr) {
@@ -15,5 +18,6 @@ MeshCollider* const Collider::getMesh() const {
 }
 
 void Collider::OnUpdate() {
-
+    const glm::mat4 transform = getGameObject()->transform->getTransformMatrix();
+    Physics::AddCollider(m_mesh, transform);
 }

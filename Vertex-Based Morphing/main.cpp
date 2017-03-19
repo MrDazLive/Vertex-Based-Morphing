@@ -1,21 +1,22 @@
 #include <Engine\Engine.h>
+#include <Physics\Physics.h>
 #include <Rendering\Renderer.h>
 
 #include <Utilities\Container\Mesh.h>
 
 #include <Rendering\Camera\Camera.h>
+#include <Rendering\Geometry\MorphSet.h>
 #include <Rendering\UniformBlocks\Material.h>
+
+#include <Physics\Collision\MeshCollider.h>
 
 #include <Engine\Time\Time.h>
 #include <Engine\Input\Input.h>
 
 #include "Scene\UniformMorphScene.h"
 
-#include <Rendering\Geometry\MorphSet.h>
+#include <Engine\Scene\GameObject\Collider.h>
 #include <Engine\Scene\GameObject\MorphRenderable.h>
-
-#include <Utilities\Container\OctTree.h>
-#include <Physics\Collision\MeshCollider.h>
 
 int main(int argc, char* argv[]) {
 #pragma region Utility Set-up
@@ -43,9 +44,9 @@ int main(int argc, char* argv[]) {
 
     GameObject g("morph");
     g.renderable->setActive(false);
-	MorphRenderable* r = g.AddComponent<MorphRenderable>();
-    r->setMaterial("Default_Morph");
-
+    g.AddComponent<Collider>();
+	g.AddComponent<MorphRenderable>()->setMaterial("Default_Morph");
+    
     GameObject g2("root");
     g2.renderable->setMaterial("Default");
 
@@ -59,7 +60,7 @@ int main(int argc, char* argv[]) {
 #pragma endregion
 #pragma region Input Bindings
 
-    Input::BindKey(KeyCode::ESC, KeyState::DOWN, []() { Engine::Quit(); Renderer::Quit(); });
+    Input::BindKey(KeyCode::ESC, KeyState::DOWN, []() { Engine::Quit(); Physics::Quit(); Renderer::Quit(); });
 
     Input::BindKey(KeyCode::F1, KeyState::DOWN, []() { Renderer::setRenderMode(RenderMode::SHADED); });
 	Input::BindKey(KeyCode::F2, KeyState::DOWN, []() { Renderer::setRenderMode(RenderMode::WIREFRAME); });
@@ -88,6 +89,7 @@ int main(int argc, char* argv[]) {
     Engine::Loop();
 
     Engine::Quit();
+    Physics::Quit();
     Renderer::Quit();
 
     return 0;

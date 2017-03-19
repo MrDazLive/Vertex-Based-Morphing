@@ -131,6 +131,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Collision\MeshCollider.h" />
+    <ClInclude Include="Collision\RayHit.h" />
     <ClInclude Include="Physics.h" />
   </ItemGroup>
   <ItemGroup>

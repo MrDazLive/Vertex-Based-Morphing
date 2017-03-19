@@ -114,7 +114,7 @@ void OctTree<T>::Populate(const T* const ptr, const unsigned int count) {
 
 #pragma endregion
 #pragma region Branch
-#include <iostream>
+
 Template
 OctTree<T>::Branch::Branch(OctTree* const master, const T* const ptr, const unsigned int count) : m_master(master) {
     std::vector<T> m_data;
@@ -154,7 +154,10 @@ OctTree<T>::Branch::Branch(OctTree* const master, const T* const ptr, const unsi
 
 Template
 OctTree<T>::Branch::~Branch() {
-    delete[] m_children;
+    for (Branch* child : m_children) {
+        delete child;
+        child = nullptr;
+    }
 }
 
 Template

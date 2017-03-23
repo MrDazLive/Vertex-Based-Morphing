@@ -25,12 +25,20 @@ void Physics::AddCollider(const unsigned int mesh, const glm::mat4& transform) {
     m_colliders[mesh].push_back(transform);
 }
 
+bool Physics::Raycast(const glm::vec3& position, const glm::vec3& direction) {
+    RayHit hit;
+    return Raycast(position, direction, &hit);
+}
+
 bool Physics::Raycast(const glm::vec3& position, const glm::vec3& direction, RayHit* const hit) {
     for (auto& it : m_colliders) {
         MeshCollider* const ptr = MeshCollider::getWithIndex(it.first);
         for (glm::mat4& transform : it.second) {
-            ptr->Raycast(position, direction, hit);
-            if (hit->detected) return true;
+            glm::mat4 transform_ = glm::inverse(transform);
+            glm::vec4 position_ = transform_ * glm::vec4(position, 0.0f);
+            glm::vec3 direction_ = (glm::mat3)transform_ * direction;
+            ptr->Raycast(position_, direction_, hit);
+            if (hit && hit->detected) return true;
         }
     }
     return false;

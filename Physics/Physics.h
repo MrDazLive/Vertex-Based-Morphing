@@ -13,6 +13,7 @@ public:
     static void         Quit        ();
 
     static void         AddCollider(const unsigned int, const glm::mat4&);
+    static bool         Raycast(const glm::vec3&, const glm::vec3&);
     static bool         Raycast(const glm::vec3&, const glm::vec3&, RayHit* const);
 private:
                         Physics     () = delete;

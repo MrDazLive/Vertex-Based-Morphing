@@ -14,9 +14,10 @@ void Input::Initialise() {
 void Input::OnUpdate() {
     for (unsigned int i = 0; i < 255; i++) {
         KeyState &state = m_keyState[i];
-        if (state != KeyState::FREE) {
+        if (state < KeyState::FREE) {
             KeyboardHandle((KeyCode)i, state);
             if (state == KeyState::UP) state = KeyState::FREE;
+            if (state == KeyState::DOWN) state = KeyState::TRANSITION;
         }
     }
 }

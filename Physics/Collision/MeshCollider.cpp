@@ -60,5 +60,5 @@ MeshCollider::~MeshCollider() {
 }
 
 void MeshCollider::Raycast(const glm::vec3& position, const glm::vec3& direction, RayHit* const hit) {
-    if (hit->detected) hit->meshIndex = m_mesh->getIndex();
+    if (hit && hit->detected) hit->meshIndex = m_mesh->getIndex();
 }

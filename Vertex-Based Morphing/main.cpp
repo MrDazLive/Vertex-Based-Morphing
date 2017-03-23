@@ -21,7 +21,7 @@
 int main(int argc, char* argv[]) {
 #pragma region Utility Set-up
 
-    Mesh objects[3] { "hand", "dragon_hand", "torso" };
+    Mesh objects[3]{ "hand", "dragon_hand", "torso" };
     for (Mesh& obj : objects) {
         obj.LoadFromFile("Resource/Mesh/" + obj.getName() + ".obj");
     }
@@ -45,8 +45,8 @@ int main(int argc, char* argv[]) {
     GameObject g("morph");
     g.renderable->setActive(false);
     g.AddComponent<Collider>();
-	g.AddComponent<MorphRenderable>()->setMaterial("Default_Morph");
-    
+    g.AddComponent<MorphRenderable>()->setMaterial("Default_Morph");
+
     GameObject g2("root");
     g2.renderable->setMaterial("Default");
 
@@ -63,7 +63,7 @@ int main(int argc, char* argv[]) {
     Input::BindKey(KeyCode::ESC, KeyState::DOWN, []() { Engine::Quit(); Physics::Quit(); Renderer::Quit(); });
 
     Input::BindKey(KeyCode::F1, KeyState::DOWN, []() { Renderer::setRenderMode(RenderMode::SHADED); });
-	Input::BindKey(KeyCode::F2, KeyState::DOWN, []() { Renderer::setRenderMode(RenderMode::WIREFRAME); });
+    Input::BindKey(KeyCode::F2, KeyState::DOWN, []() { Renderer::setRenderMode(RenderMode::WIREFRAME); });
 
     Input::BindKey(KeyCode::F5, KeyState::DOWN, []() { Program::forEach([](Program* const ptr) { ptr->setVertexSubroutine("linear"); }); });
     Input::BindKey(KeyCode::F6, KeyState::DOWN, []() { Program::forEach([](Program* const ptr) { ptr->setVertexSubroutine("cosine"); }); });
@@ -73,7 +73,7 @@ int main(int argc, char* argv[]) {
     Input::BindKey(KeyCode::UP, KeyState::HOLD, []() { Camera::Translate(glm::vec3(0.0f, 0.0f, 4.0f) * Time::getDeltaTime()); });
     Input::BindKey(KeyCode::DOWN, KeyState::HOLD, []() { Camera::Translate(glm::vec3(0.0f, 0.0f, -4.0f) * Time::getDeltaTime()); });
 
-	Input::BindKey(KeyCode::W, KeyState::HOLD, []() { GameObject::forEach([](GameObject* const ptr) { ptr->transform->Rotate(glm::vec3(3.142f, 0.0f, 0.0f) * Time::getDeltaTime()); }); });
+    Input::BindKey(KeyCode::W, KeyState::HOLD, []() { GameObject::forEach([](GameObject* const ptr) { ptr->transform->Rotate(glm::vec3(3.142f, 0.0f, 0.0f) * Time::getDeltaTime()); }); });
     Input::BindKey(KeyCode::S, KeyState::HOLD, []() { GameObject::forEach([](GameObject* const ptr) { ptr->transform->Rotate(glm::vec3(-3.142f, 0.0f, 0.0f) * Time::getDeltaTime()); }); });
 
     Input::BindKey(KeyCode::A, KeyState::HOLD, []() { GameObject::forEach([](GameObject* const ptr) { ptr->transform->Rotate(glm::vec3(0.0f, 3.142f, 0.0f) * Time::getDeltaTime()); });; });
@@ -83,6 +83,8 @@ int main(int argc, char* argv[]) {
     Input::BindKey(KeyCode::M, KeyState::HOLD, []() { Material::getWithName("Default_Morph")->slideMorph(Time::getDeltaTime() / 2); });
 
     Input::BindKey(KeyCode::NUM1, KeyState::DOWN, []() { Engine::SwapScene("Uniform Morph"); });
+
+    Input::BindKey(KeyCode::R, KeyState::DOWN, [](){ Physics::Raycast(Camera::Position(), Camera::Direction()); });
 
 #pragma endregion
 

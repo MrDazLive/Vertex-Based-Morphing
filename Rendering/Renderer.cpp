@@ -95,7 +95,7 @@ void Renderer::Initialise(int* argc, char* argv[]) {
     Program::forEach([](Program* const ptr) { ptr->BindUniformBlock<Material>("Block_Material"); });
 
     const float aspectRatio = 1080.0f / 720.0f;
-    glm::mat4 projection = glm::perspective(1.31f, aspectRatio, 1.0f, 1000.0f);
+    glm::mat4 projection = glm::perspective(1.31f, aspectRatio, 0.01f, 1000.0f);
     m_perspective->setProjection(projection);
 
     Program::Reset();

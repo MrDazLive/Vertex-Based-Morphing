@@ -73,14 +73,37 @@ void MeshCollider::Raycast(const glm::vec3& position, const glm::vec3& direction
 
     glm::vec3 point1 = position;
     glm::vec3 point2;
-    std::vector<unsigned int> tri;
+    std::vector<unsigned int> triangle;
     for (float i = 1; i <= range; i += 0.1f) {
-        m_octTree.Collect(point1, tri);
+        m_octTree.Collect(point1, triangle);
         point2 = position + dir * i;
-        if (!tri.empty()) {
-            hit->triangle = tri[0];
-            hit->detected = true;
-            break;
+        if (!triangle.empty()) {
+            const unsigned int* const elements = m_mesh->getElementArray();
+            const glm::vec3* const positions = m_mesh->getPositionArray();
+            for (unsigned int tri : triangle) {
+                glm::vec3 position[3]{
+                    positions[elements[tri * 3]],
+                    positions[elements[tri * 3 + 1]],
+                    positions[elements[tri * 3 + 2]]
+                };
+
+                glm::vec3 pq = point2 - point1;
+                glm::vec3 pa = position[0] - point1;
+                glm::vec3 pb = position[1] - point1;
+                glm::vec3 pc = position[2] - point1;
+
+                glm::vec3 m = glm::cross(pq, pc);
+                bool col = true;
+                col &= 0.0f < glm::dot(pb, m);
+                col &= 0.0f < -glm::dot(pa, m);
+                col &= 0.0f < glm::dot(glm::cross(pq, pb), pa);
+
+                if (col) {
+                    hit->triangle = tri;
+                    hit->detected = true;
+                    break;
+                }
+            }
         }
         point1 = point2;
     }

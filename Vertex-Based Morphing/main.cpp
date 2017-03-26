@@ -24,11 +24,12 @@
 
 void Morph() {
     RayHit hit;
-    Physics::Raycast(Camera::Position(), Camera::Direction(), &hit);
-    GameObject* const obj = GameObject::getWithIndex(hit.colliderIndex);
-    const MorphRenderable* const ren = obj->GetComponent<MorphRenderable>();
-    MorphSet* const set = ren->getMorphSet();
-    set->AdjustWeight(hit.triangle);
+    if (Physics::Raycast(Camera::Position(), Camera::Direction(), &hit)) {
+        GameObject* const obj = GameObject::getWithIndex(hit.colliderIndex);
+        const MorphRenderable* const ren = obj->GetComponent<MorphRenderable>();
+        MorphSet* const set = ren->getMorphSet();
+        set->AdjustWeight(hit.triangle);
+    }
 }
 
 int main(int argc, char* argv[]) {

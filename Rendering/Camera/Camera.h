@@ -8,7 +8,7 @@ public:
     static const void           Translate   (const glm::vec3&);
 
     static const glm::vec3&     Position    ();
-    static const glm::vec3     Direction   ();
+    static const glm::vec3      Direction   ();
     static const glm::mat4      ViewMatrix  ();
 private:
                                 Camera      () = delete;

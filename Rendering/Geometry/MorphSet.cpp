@@ -22,9 +22,9 @@ void MorphSet::AdjustWeights(unsigned int* const data, const unsigned int count)
     std::vector<unsigned int> vertex;
     const unsigned int* const ptr = Mesh::getWithIndex(m_meshSet[0])->getElementArray();
     for (unsigned int i = 0; i < count; i++) {
-        vertex.push_back(ptr[data[i]]);
-        vertex.push_back(ptr[data[i + 1]]);
-        vertex.push_back(ptr[data[i + 2]]);
+        vertex.push_back(ptr[data[i] * 3]);
+        vertex.push_back(ptr[data[i] * 3 + 1]);
+        vertex.push_back(ptr[data[i] * 3 + 2]);
     }
 
     std::sort(vertex.begin(), vertex.end());

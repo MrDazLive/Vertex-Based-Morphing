@@ -41,8 +41,6 @@ MeshCollider::MeshCollider(const std::string& name) : Handler<MeshCollider>(this
     std::vector<unsigned int> indices;
     for (unsigned int i = 0; i < triCount; i++) { indices.push_back(i); }
 
-    m_octTree.setBranchByMedian();
-
     m_octTree.setValueMethod(Axis::X, [&](unsigned int tri) { return mid(tri).x; });
     m_octTree.setValueMethod(Axis::Y, [&](unsigned int tri) { return mid(tri).y; });
     m_octTree.setValueMethod(Axis::Z, [&](unsigned int tri) { return mid(tri).z; });
@@ -60,6 +58,8 @@ MeshCollider::MeshCollider(const std::string& name) : Handler<MeshCollider>(this
     m_octTree.setDistributeMethod(Axis::Y, [&](unsigned int tri, float div) { return dist(min(tri).y, max(tri).y, div); });
     m_octTree.setDistributeMethod(Axis::Z, [&](unsigned int tri, float div) { return dist(min(tri).z, max(tri).z, div); });
 
+    m_octTree.setBranchByMedian();
+    m_octTree.setBranchStrength(8);
     m_octTree.Populate(indices.data(), triCount);
 }
 

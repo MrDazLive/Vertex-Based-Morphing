@@ -8,7 +8,7 @@ Component::Component(GameObject* const obj) : m_gameObject(obj) {
 Component::~Component() {
 }
 
-const GameObject* Component::getGameObject() const {
+GameObject* const Component::getGameObject() const {
     return m_gameObject;
 }
 

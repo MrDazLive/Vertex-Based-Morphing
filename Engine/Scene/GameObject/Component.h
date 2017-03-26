@@ -11,7 +11,7 @@ public:
 
                                 ~Component      ();
 
-    const GameObject*           getGameObject   () const;
+    GameObject* const           getGameObject   () const;
     const bool                  isActive        () const;
     const void                  setActive       (bool);
 
@@ -28,7 +28,7 @@ protected:
     static unsigned int         getNewIndex     ();
 private:
     bool                        m_active        { true };
-    const GameObject* const     m_gameObject    { nullptr };
+    GameObject* const           m_gameObject    { nullptr };
 
     static unsigned int         m_count;
 };

@@ -19,5 +19,5 @@ MeshCollider* const Collider::getMesh() const {
 
 void Collider::OnUpdate() {
     const glm::mat4 transform = getGameObject()->transform->getTransformMatrix();
-    Physics::AddCollider(m_mesh, transform);
+    Physics::AddCollider(m_mesh, transform, this->getGameObject()->getIndex());
 }

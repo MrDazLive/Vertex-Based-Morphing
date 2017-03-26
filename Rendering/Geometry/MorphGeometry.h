@@ -2,7 +2,7 @@
 
 #include "Geometry.h"
 
-class MorphGeometry final : public Geometry{
+class MorphGeometry final : public Geometry {
 public:
             MorphGeometry   () = default;
             ~MorphGeometry  () = default;
@@ -14,4 +14,6 @@ public:
     void    DrawRequest     (const unsigned int, const unsigned int, const glm::mat4&) final override;
 private:
     std::unordered_map<unsigned int, std::map<unsigned int, std::map<unsigned int, std::vector<Instance>>>> m_commandList;
+
+    ArrayBuffer             m_morphBuffer       { GL_DYNAMIC_DRAW };
 };

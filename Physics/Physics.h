@@ -12,11 +12,16 @@ public:
     static void         Loop        ();
     static void         Quit        ();
 
-    static void         AddCollider(const unsigned int, const glm::mat4&);
+    static void         AddCollider(const unsigned int, const glm::mat4&, const unsigned int);
     static bool         Raycast(const glm::vec3&, const glm::vec3&);
     static bool         Raycast(const glm::vec3&, const glm::vec3&, RayHit* const);
 private:
+    struct Instance {
+        glm::mat4 transform;
+        unsigned int index;
+    };
+
                         Physics     () = delete;
 
-    static std::unordered_map<unsigned int, std::vector<glm::mat4>>     m_colliders;
+    static std::unordered_map<unsigned int, std::vector<Instance>>     m_colliders;
 };

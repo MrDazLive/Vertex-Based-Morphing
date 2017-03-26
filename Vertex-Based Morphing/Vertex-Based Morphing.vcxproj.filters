@@ -21,6 +21,9 @@
     <ClCompile Include="Scene\UniformMorphScene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Scene\LocalMorphScene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -28,9 +31,13 @@
     <None Include="Resource\Shader\default_morph.vs" />
     <None Include="Resource\Shader\default.fs" />
     <None Include="Resource\Shader\default.vs" />
+    <None Include="Resource\Shader\local_morph.vs" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene\UniformMorphScene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\LocalMorphScene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

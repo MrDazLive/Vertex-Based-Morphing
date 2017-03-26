@@ -151,6 +151,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Scene\LocalMorphScene.cpp" />
     <ClCompile Include="Scene\UniformMorphScene.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -159,8 +160,10 @@
     <None Include="Resource\Shader\default.vs" />
     <None Include="Resource\Shader\default_morph.fs" />
     <None Include="Resource\Shader\default_morph.vs" />
+    <None Include="Resource\Shader\local_morph.vs" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Scene\LocalMorphScene.h" />
     <ClInclude Include="Scene\UniformMorphScene.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

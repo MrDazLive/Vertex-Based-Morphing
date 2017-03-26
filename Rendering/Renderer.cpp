@@ -44,29 +44,45 @@ void Renderer::Initialise(int* argc, char* argv[]) {
     m_geometry->FillBuffers();
     m_geometry->BuildArray();
 
-    Program* def = new Program("Default");
-    m_program.push_back(def);
+    {
+        Program* pro = new Program("Default");
+        m_program.push_back(pro);
 
-    Shader r_vs(GL_VERTEX_SHADER);
-    Shader r_fs(GL_FRAGMENT_SHADER);
+        Shader vs(GL_VERTEX_SHADER);
+        Shader fs(GL_FRAGMENT_SHADER);
 
-    r_vs.LoadFromFile("Resource/Shader/default.vs");
-    r_fs.LoadFromFile("Resource/Shader/default.fs");
+        vs.LoadFromFile("Resource/Shader/default.vs");
+        fs.LoadFromFile("Resource/Shader/default.fs");
 
-    def->AddShader(&r_vs, &r_fs);
-    def->Link();
+        pro->AddShader(&vs, &fs);
+        pro->Link();
+    }
+    {
+        Program* pro = new Program("Default_Morph");
+        m_program.push_back(pro);
 
-    Program* blue = new Program("Default_Morph");
-    m_program.push_back(blue);
+        Shader vs(GL_VERTEX_SHADER);
+        Shader fs(GL_FRAGMENT_SHADER);
 
-    Shader b_vs(GL_VERTEX_SHADER);
-    Shader b_fs(GL_FRAGMENT_SHADER);
+        vs.LoadFromFile("Resource/Shader/default_morph.vs");
+        fs.LoadFromFile("Resource/Shader/default_morph.fs");
 
-    b_vs.LoadFromFile("Resource/Shader/default_morph.vs");
-    b_fs.LoadFromFile("Resource/Shader/default_morph.fs");
+        pro->AddShader(&vs, &fs);
+        pro->Link();
+    }
+    {
+        Program* pro = new Program("Local_Morph");
+        m_program.push_back(pro);
 
-    blue->AddShader(&b_vs, &b_fs);
-    blue->Link();
+        Shader vs(GL_VERTEX_SHADER);
+        Shader fs(GL_FRAGMENT_SHADER);
+
+        vs.LoadFromFile("Resource/Shader/local_morph.vs");
+        fs.LoadFromFile("Resource/Shader/default_morph.fs");
+
+        pro->AddShader(&vs, &fs);
+        pro->Link();
+    }
 
     m_perspective = new Perspective("Main");
 
@@ -74,6 +90,7 @@ void Renderer::Initialise(int* argc, char* argv[]) {
 
     CreateMaterial("Default")->setShader("Default");
     CreateMaterial("Default_Morph")->setShader("Default_Morph");
+    CreateMaterial("Local_Morph")->setShader("Local_Morph");
 
     Program::forEach([](Program* const ptr) { ptr->BindUniformBlock<Material>("Block_Material"); });
 

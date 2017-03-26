@@ -22,6 +22,7 @@ void UniformMorphScene::OnFocusEnter() {
 	ptr->transform->setPosition({ 0.0f, -5.0f, 10.0f });
 	ptr->transform->setScale({ 1.8f, 1.8f, 1.8f });
     ptr->GetComponent<Collider>()->setMesh("hand");
+    ptr->GetComponent<MorphRenderable>()->setMaterial("Default_Morph");
 	ptr->GetComponent<MorphRenderable>()->setMorphSet("hand");
 
 	ptr = GameObject::getWithName("root");

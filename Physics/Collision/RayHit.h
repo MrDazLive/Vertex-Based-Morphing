@@ -5,5 +5,5 @@ public:
     bool                        detected        { false };
     unsigned int                meshIndex       { 0 };
     unsigned int                colliderIndex   { 0 };
-    std::vector<unsigned int>   triangles;
+    unsigned int                triangle        { 0 };
 };

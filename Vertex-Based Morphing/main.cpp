@@ -28,7 +28,7 @@ void Morph() {
     GameObject* const obj = GameObject::getWithIndex(hit.colliderIndex);
     const MorphRenderable* const ren = obj->GetComponent<MorphRenderable>();
     MorphSet* const set = ren->getMorphSet();
-    set->AdjustWeights(hit.triangles.data(), hit.triangles.size());
+    set->AdjustWeight(hit.triangle);
 }
 
 int main(int argc, char* argv[]) {

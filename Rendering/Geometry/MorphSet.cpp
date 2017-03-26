@@ -18,20 +18,16 @@ const float* MorphSet::getWeights() const {
     return m_morphWeights.data();
 }
 
-void MorphSet::AdjustWeights(unsigned int* const data, const unsigned int count) {
-    std::vector<unsigned int> vertex;
+void MorphSet::AdjustWeight(unsigned int triangle, const float& step) {
     const unsigned int* const ptr = Mesh::getWithIndex(m_meshSet[0])->getElementArray();
-    for (unsigned int i = 0; i < count; i++) {
-        vertex.push_back(ptr[data[i] * 3]);
-        vertex.push_back(ptr[data[i] * 3 + 1]);
-        vertex.push_back(ptr[data[i] * 3 + 2]);
-    }
 
-    std::sort(vertex.begin(), vertex.end());
-    vertex.erase(unique(vertex.begin(), vertex.end()), vertex.end());
+    unsigned int vertex[3];
+    vertex[0] = ptr[triangle * 3];
+    vertex[1] = ptr[triangle * 3 + 1];
+    vertex[2] = ptr[triangle * 3 + 2];
 
     for (const unsigned int index : vertex) {
-        m_morphWeights[index] = glm::min(1.0f, m_morphWeights[index] + 0.1f);
+        m_morphWeights[index] = glm::min(1.0f, m_morphWeights[index] + step);
     }
 }
 

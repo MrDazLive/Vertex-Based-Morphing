@@ -71,12 +71,18 @@ void MeshCollider::Raycast(const glm::vec3& position, const glm::vec3& direction
     const unsigned int range = 200;
     const glm::vec3& dir = glm::normalize(direction);
 
-    for (float i = 0; i <= range; i += 0.1f) {
-        m_octTree.Collect(position + (dir * i), hit->triangles);
-        if (!hit->triangles.empty()) {
+    glm::vec3 point1 = position;
+    glm::vec3 point2;
+    std::vector<unsigned int> tri;
+    for (float i = 1; i <= range; i += 0.1f) {
+        m_octTree.Collect(point1, tri);
+        point2 = position + dir * i;
+        if (!tri.empty()) {
+            hit->triangle = tri[0];
             hit->detected = true;
             break;
         }
+        point1 = point2;
     }
 
     if (hit->detected) hit->meshIndex = m_mesh->getIndex();

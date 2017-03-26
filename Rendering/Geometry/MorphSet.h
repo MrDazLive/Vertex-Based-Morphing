@@ -15,7 +15,7 @@ public:
     const unsigned int*         getMeshSet      () const;
     const float*                getWeights      () const;
 
-    void                        AdjustWeights   (unsigned int* const, const unsigned int);
+    void                        AdjustWeight    (unsigned int, const float& = 1.0f);
 
     static const unsigned int   MaxSetSize      ();
 private:

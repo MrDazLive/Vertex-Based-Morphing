@@ -31,6 +31,7 @@ bool Physics::Raycast(const glm::vec3& position, const glm::vec3& direction) {
 }
 
 bool Physics::Raycast(const glm::vec3& position, const glm::vec3& direction, RayHit* const hit) {
+    if (!hit) return false;
     for (auto& it : m_colliders) {
         MeshCollider* const ptr = MeshCollider::getWithIndex(it.first);
         for (glm::mat4& transform : it.second) {
@@ -38,7 +39,7 @@ bool Physics::Raycast(const glm::vec3& position, const glm::vec3& direction, Ray
             glm::vec4 position_ = transform_ * glm::vec4(position, 0.0f);
             glm::vec3 direction_ = (glm::mat3)transform_ * direction;
             ptr->Raycast(position_, direction_, hit);
-            if (hit && hit->detected) return true;
+            if (hit->detected) return true;
         }
     }
     return false;

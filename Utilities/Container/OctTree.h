@@ -3,6 +3,7 @@
 #include <vector>
 #include <algorithm>
 #include <functional>
+#include <glm\glm.hpp>
 
 #include "..\Helper\Global.h"
 #include "..\Enumerators\Axis.h"
@@ -19,22 +20,34 @@ public:
                             ~OctTree                ();
 
     const Value<T>&         getValueMethod          (const Axis&) const;
+    const Value<T>&         getMinMethod            (const Axis&) const;
+    const Value<T>&         getMaxMethod            (const Axis&) const;
     const Distribute<T>&    getDistributeMethod     (const Axis&) const;
     const unsigned int      getBranchStrength       () const;
     const bool              getBranchByMedian       () const;
 
     void                    setValueMethod          (const Axis&, const Value<T>&);
+    void                    setMinMethod            (const Axis&, const Value<T>&);
+    void                    setMaxMethod            (const Axis&, const Value<T>&);
     void                    setDistributeMethod     (const Axis&, const Distribute<T>&);
     void                    setBranchStrength       (const unsigned int);
     void                    setBranchByMedian       (const bool = true);
 
     void                    Clear                   ();
+    void                    MinMax                  ();
     void                    Populate                (const T* const, const unsigned int);
+    void                    Collect                 (const glm::vec3&, std::vector<T>&);
 private:
     class Branch final {
     public:
                             Branch                  (OctTree* const ,const T* const, const unsigned int);
                             ~Branch                 ();
+
+        const glm::vec3&    getMin                  () const;
+        const glm::vec3&    getMax                  () const;
+
+        void                MinMax                  ();
+        void                Collect                 (const glm::vec3&, std::vector<T>&);
     private:
         void                Sort                    (std::vector<T>&, const Axis&);
         void                Split                   (const std::vector<T>&, const Axis&, std::vector<T>&, std::vector<T>&);
@@ -42,6 +55,9 @@ private:
         OctTree* const      m_master                { nullptr };
         Branch*             m_children[8];
         std::vector<T>      m_data;
+
+        glm::vec3           m_min                   { 0.0f };
+        glm::vec3           m_max                   { 0.0f };
     };
 
     Branch*                 m_root                  { nullptr };
@@ -50,6 +66,8 @@ private:
     bool                    m_branchByMedian        { false };
 
     Value<T>                m_valueMethod[3];
+    Value<T>                m_minMethod[3];
+    Value<T>                m_maxMethod[3];
     Distribute<T>           m_distributeMethod[3];
 };
 
@@ -63,6 +81,16 @@ OctTree<T>::~OctTree() {
 Template
 const Value<T>& OctTree<T>::getValueMethod(const Axis& axis) const {
     return m_valueMethod[(unsigned int)axis];
+}
+
+Template
+const Value<T>& OctTree<T>::getMinMethod(const Axis& axis) const {
+    return m_minMethod[(unsigned int)axis];
+}
+
+Template
+const Value<T>& OctTree<T>::getMaxMethod(const Axis& axis) const {
+    return m_maxMethod[(unsigned int)axis];
 }
 
 Template
@@ -83,6 +111,16 @@ const bool OctTree<T>::getBranchByMedian() const {
 Template
 void OctTree<T>::setValueMethod(const Axis& axis, const Value<T>& method) {
     m_valueMethod[(unsigned int)axis] = method;
+}
+
+Template
+void OctTree<T>::setMinMethod(const Axis& axis, const Value<T>& method) {
+    m_minMethod[(unsigned int)axis] = method;
+}
+
+Template
+void OctTree<T>::setMaxMethod(const Axis& axis, const Value<T>& method) {
+    m_maxMethod[(unsigned int)axis] = method;
 }
 
 Template
@@ -107,9 +145,23 @@ void OctTree<T>::Clear() {
 }
 
 Template
+void OctTree<T>::MinMax() {
+    m_root->MinMax();
+}
+
+Template
 void OctTree<T>::Populate(const T* const ptr, const unsigned int count) {
     Clear();
     m_root = new Branch(this, ptr, count);
+    m_root->MinMax();
+}
+
+Template
+void OctTree<T>::Collect(const glm::vec3& point, std::vector<T>& list) {
+    m_root->Collect(point, list);
+
+    std::sort(list.begin(), list.end());
+    list.erase(unique(list.begin(), list.end()), list.end());
 }
 
 #pragma endregion
@@ -117,7 +169,6 @@ void OctTree<T>::Populate(const T* const ptr, const unsigned int count) {
 
 Template
 OctTree<T>::Branch::Branch(OctTree* const master, const T* const ptr, const unsigned int count) : m_master(master) {
-    std::vector<T> m_data;
     for (unsigned int i = 0; i < count; i++) {
         m_data.push_back(ptr[i]);
     }
@@ -157,6 +208,78 @@ OctTree<T>::Branch::~Branch() {
     for (Branch* child : m_children) {
         delete child;
         child = nullptr;
+    }
+}
+
+Template
+const glm::vec3& OctTree<T>::Branch::getMin() const {
+    return m_min;
+}
+
+Template
+const glm::vec3& OctTree<T>::Branch::getMax() const {
+    return m_max;
+}
+
+Template
+void OctTree<T>::Branch::MinMax() {
+    glm::vec3 min { std::numeric_limits<float>::max() };
+    glm::vec3 max { -std::numeric_limits<float>::max() };
+    std::vector<glm::vec3> minList;
+    std::vector<glm::vec3> maxList;
+    
+    if (m_data.empty()) {
+        for (Branch* const ptr : m_children) {
+            if (ptr) {
+                ptr->MinMax();
+                minList.push_back(ptr->getMin());
+                maxList.push_back(ptr->getMax());
+            }
+        }
+    } else {
+        for (const T& it : m_data) {
+            minList.push_back({
+                m_master->getMinMethod(Axis::X)(it),
+                m_master->getMinMethod(Axis::Y)(it),
+                m_master->getMinMethod(Axis::Z)(it) });
+            maxList.push_back({
+                m_master->getMaxMethod(Axis::X)(it),
+                m_master->getMaxMethod(Axis::Y)(it),
+                m_master->getMaxMethod(Axis::Z)(it) });
+        }
+    }
+
+    for (const glm::vec3& val : minList) {
+        min.x = glm::min(val.x, min.x);
+        min.y = glm::min(val.y, min.y);
+        min.z = glm::min(val.z, min.z);
+    }
+    for (const glm::vec3& val : maxList) {
+        max.x = glm::max(val.x, max.x);
+        max.y = glm::max(val.y, max.y);
+        max.z = glm::max(val.z, max.z);
+    }
+
+    m_min = min;
+    m_max = max;
+}
+
+Template
+void OctTree<T>::Branch::Collect(const glm::vec3& point, std::vector<T>& list) {
+    if (m_min.x <= point.x && m_max.x >= point.x &&
+        m_min.y <= point.y && m_max.y >= point.y &&
+        m_min.z <= point.z && m_max.z >= point.z) {
+        if (m_data.empty()) {
+            for (Branch* const ptr : m_children) {
+                if (ptr) {
+                    ptr->Collect(point, list);
+                }
+            }
+        } else {
+            for (const T& it : m_data) {
+                list.push_back(it);
+            }
+        }
     }
 }
 

@@ -47,6 +47,14 @@ MeshCollider::MeshCollider(const std::string& name) : Handler<MeshCollider>(this
     m_octTree.setValueMethod(Axis::Y, [&](unsigned int tri) { return mid(tri).y; });
     m_octTree.setValueMethod(Axis::Z, [&](unsigned int tri) { return mid(tri).z; });
 
+    m_octTree.setMinMethod(Axis::X, [&](unsigned int tri) { return min(tri).x; });
+    m_octTree.setMinMethod(Axis::Y, [&](unsigned int tri) { return min(tri).y; });
+    m_octTree.setMinMethod(Axis::Z, [&](unsigned int tri) { return min(tri).z; });
+
+    m_octTree.setMaxMethod(Axis::X, [&](unsigned int tri) { return max(tri).x; });
+    m_octTree.setMaxMethod(Axis::Y, [&](unsigned int tri) { return max(tri).y; });
+    m_octTree.setMaxMethod(Axis::Z, [&](unsigned int tri) { return max(tri).z; });
+
     auto& dist = [&](float min, float max, float div) {int out = 0; if (max < div) out--; if (min > div) out++; return out; };
     m_octTree.setDistributeMethod(Axis::X, [&](unsigned int tri, float div) { return dist(min(tri).x, max(tri).x, div); });
     m_octTree.setDistributeMethod(Axis::Y, [&](unsigned int tri, float div) { return dist(min(tri).y, max(tri).y, div); });
@@ -60,5 +68,14 @@ MeshCollider::~MeshCollider() {
 }
 
 void MeshCollider::Raycast(const glm::vec3& position, const glm::vec3& direction, RayHit* const hit) {
-    if (hit && hit->detected) hit->meshIndex = m_mesh->getIndex();
+    std::vector<unsigned int> list;
+    const unsigned int range = 200;
+    const glm::vec3& dir = glm::normalize(direction);
+
+    for (float i = 0; i <= range; i += 0.1f) {
+        m_octTree.Collect(position + (dir * i), list);
+        if (!list.empty()) break;
+    }
+
+    if (hit->detected) hit->meshIndex = m_mesh->getIndex();
 }

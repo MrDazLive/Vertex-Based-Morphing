@@ -22,13 +22,15 @@
 
 #include <Physics\Collision\RayHit.h>
 
-void Morph() {
+#include <iostream>
+
+void Morph(float weight) {
     RayHit hit;
-    if (Physics::Raycast(Camera::Position(), Camera::Direction(), &hit)) {
+    if (Physics::Raycast(Camera::Position(), Camera::DirectionFromPoint(Input::getCursorPosition()), &hit)) {
         GameObject* const obj = GameObject::getWithIndex(hit.colliderIndex);
         const MorphRenderable* const ren = obj->GetComponent<MorphRenderable>();
         MorphSet* const set = ren->getMorphSet();
-        set->AdjustWeight(hit.triangle);
+        set->AdjustWeight(hit.triangle, weight);
     }
 }
 
@@ -100,7 +102,8 @@ int main(int argc, char* argv[]) {
     Input::BindKey(KeyCode::NUM1, KeyState::DOWN, []() { Engine::SwapScene("Uniform Morph"); });
     Input::BindKey(KeyCode::NUM2, KeyState::DOWN, []() { Engine::SwapScene("Local Morph"); });
 
-    Input::BindKey(KeyCode::R, KeyState::DOWN, []() { Morph(); });
+    Input::BindKey(KeyCode::LEFT_MOUSE, KeyState::DOWN, []() { Morph(0.2f); });
+    Input::BindKey(KeyCode::RIGHT_MOUSE, KeyState::DOWN, []() { Morph(-0.2f); });
 
 #pragma endregion
 

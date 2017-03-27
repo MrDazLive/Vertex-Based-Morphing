@@ -28,9 +28,11 @@ Renderer::~Renderer() {
 }
 
 void Renderer::Initialise(int* argc, char* argv[]) {
+    const glm::vec2& resolution = Camera::Resolution();
+
     glutInit(argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
-    glutInitWindowSize(1080, 720);
+    glutInitWindowSize(resolution.x, resolution.y);
     m_window = glutCreateWindow("Vertex-Based Rendering");
 
     glewInit();
@@ -94,7 +96,7 @@ void Renderer::Initialise(int* argc, char* argv[]) {
 
     Program::forEach([](Program* const ptr) { ptr->BindUniformBlock<Material>("Block_Material"); });
 
-    const float aspectRatio = 1080.0f / 720.0f;
+    const float aspectRatio = resolution.x / resolution.y;
     glm::mat4 projection = glm::perspective(1.31f, aspectRatio, 0.01f, 1000.0f);
     m_perspective->setProjection(projection);
 

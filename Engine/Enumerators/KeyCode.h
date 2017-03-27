@@ -1,6 +1,14 @@
 #pragma once
 
 enum class KeyCode {
+    ///     Mouse Buttons
+    LEFT_MOUSE = 0,
+    MIDDLES_MOUSE = 1,
+    RIGHT_MOUSE = 2,
+    SCROLL_UP = 3,
+    SCROLL_DOWN = 4,
+    
+    ///     Standard Keys
     ESC = 27,
 
     NUM0 = 48,
@@ -41,7 +49,7 @@ enum class KeyCode {
     Y = 121,
     Z = 122,
 
-    ///    Special Characters
+    ///     Special Keys
     F1 = 128,
     F2 = 129,
     F3 = 130,

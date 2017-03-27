@@ -3,6 +3,7 @@
 #include <array>
 #include <vector>
 #include <functional>
+#include <glm\vec2.hpp>
 
 #include "../Enumerators/KeyCode.h"
 #include "../Enumerators/KeyState.h"
@@ -11,6 +12,8 @@ using KeyBinding = std::function<void(void)>;
 
 class Input final {
 public:
+    static const glm::vec2&     getCursorPosition               ();
+
     static void                 Initialise                      ();
     static void                 OnUpdate                        ();
 
@@ -20,6 +23,8 @@ public:
 
     static void                 KeyboardSpecialFunction         (int, int, int);
     static void                 KeyboardSpecialReleaseFunction  (int, int, int);
+
+    static void                 MouseFunction                   (int, int, int, int);
 private:
     template <typename T>       using Array                     = std::array<T, 255>;
                                 using ArrayBinding              = Array<std::vector<KeyBinding>>;
@@ -28,6 +33,7 @@ private:
 
     static void                 KeyboardHandle                  (const KeyCode, const KeyState);
 
+    static glm::vec2            m_cursorPosition;
     static Array<KeyState>      m_keyState;
     static ArrayBinding         m_keyBinding[3];
 };

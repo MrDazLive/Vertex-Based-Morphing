@@ -13,6 +13,7 @@ public:
                     MeshCollider    (const std::string&);
                     ~MeshCollider   ();
 
+    void            Refresh         ();
     void            Raycast         (const glm::vec3&, const glm::vec3&, RayHit* const);
 private:
     Mesh* const                     m_mesh          { nullptr };

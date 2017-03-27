@@ -27,7 +27,7 @@ void MorphSet::AdjustWeight(unsigned int triangle, const float& step) {
     vertex[2] = ptr[triangle * 3 + 2];
 
     for (const unsigned int index : vertex) {
-        m_morphWeights[index] = glm::min(1.0f, m_morphWeights[index] + step);
+        m_morphWeights[index] = glm::max(0.0f, glm::min(1.0f, m_morphWeights[index] + step));
     }
 }
 

@@ -141,9 +141,11 @@
     <ClInclude Include="Enumerators\Axis.h" />
     <ClInclude Include="Helper\File.h" />
     <ClInclude Include="Helper\Global.h" />
+    <ClInclude Include="Helper\lodepng.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Container\Mesh.cpp" />
+    <ClCompile Include="Helper\lodepng.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -156,6 +156,8 @@
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="ShaderProgram\Program.h" />
     <ClInclude Include="ShaderProgram\Shader.h" />
+    <ClInclude Include="Texture\Image.h" />
+    <ClInclude Include="Texture\Texture.h" />
     <ClInclude Include="UniformBlocks\Material.h" />
     <ClInclude Include="UniformBlocks\Perspective.h" />
     <ClInclude Include="UniformBlocks\UniformBlock.h" />
@@ -173,6 +175,8 @@
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="ShaderProgram\Program.cpp" />
     <ClCompile Include="ShaderProgram\Shader.cpp" />
+    <ClCompile Include="Texture\Image.cpp" />
+    <ClCompile Include="Texture\Texture.cpp" />
     <ClCompile Include="UniformBlocks\Material.cpp" />
     <ClCompile Include="UniformBlocks\Perspective.cpp" />
     <ClCompile Include="VertexObjects\VertexArray.cpp" />

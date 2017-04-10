@@ -1,7 +1,11 @@
 #include "Renderer.h"
 
+#include "Texture\Image.h"
+#include "Texture\Texture.h"
+
 #include "ShaderProgram\Shader.h"
 #include "ShaderProgram\Program.h"
+
 #include "Geometry\Geometry.h"
 #include "Geometry\MorphGeometry.h"
 #include "Camera\Camera.h"

@@ -26,6 +26,7 @@ MorphGeometry* Renderer::m_morphGeometry = nullptr;
 Perspective* Renderer::m_perspective = nullptr;
 std::vector<Program*> Renderer::m_program;
 std::vector<Material*> Renderer::m_material;
+std::vector<Texture*> Renderer::m_texture;
 
 Renderer::~Renderer() {
     Renderer::Quit();
@@ -136,6 +137,8 @@ void Renderer::Quit() {
     m_program.clear();
     delete[] m_material.data();
     m_material.clear();
+    delete[] m_texture.data();
+    m_texture.clear();
 }
 
 const RenderMode Renderer::getRenderMode() {
@@ -159,6 +162,13 @@ Material* const Renderer::CreateMaterial(const std::string& name) {
     Material* material = new Material(name);
     m_material.push_back(material);
     return material;
+}
+
+Texture* const Renderer::CreateTexture(const std::string& name, Image* const image) {
+    Texture* const texture = new Texture(name, GL_TEXTURE_2D);
+    texture->BufferImage(image);
+    m_texture.push_back(texture);
+    return texture;
 }
 
 void Renderer::ConfirmMorphSets() {

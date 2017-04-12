@@ -2,7 +2,8 @@
 
 #include "Image.h"
 
-Texture::Texture(GLenum target, GLenum attachment) : m_buffer(GenBuffer()), m_target(target), m_attachment(attachment) { }
+Texture::Texture(const std::string& name, GLenum target, GLenum attachment) :
+    Handler<Texture>(this, name), m_buffer(GenBuffer()), m_target(target), m_attachment(attachment) { }
 
 Texture::~Texture() {
     glDeleteTextures(1, &m_buffer);

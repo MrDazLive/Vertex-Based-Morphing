@@ -1,12 +1,13 @@
 #pragma once
 
 #include <GL\glew.h>
+#include <Utilities\BaseClass\Handler.h>
 
 class Image;
 
-class Texture {
+class Texture : public Handler<Texture> {
 public:
-                    Texture         (GLenum, GLenum = GL_COLOR_ATTACHMENT0);
+                    Texture         (const std::string&, GLenum, GLenum = GL_COLOR_ATTACHMENT0);
                     ~Texture        ();
 
     const GLuint    getBuffer       () const;

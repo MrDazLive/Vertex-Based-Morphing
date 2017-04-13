@@ -161,6 +161,7 @@
     <None Include="Resource\Shader\default_morph.fs" />
     <None Include="Resource\Shader\default_morph.vs" />
     <None Include="Resource\Shader\local_morph.vs" />
+    <None Include="Resource\Shader\types.glsl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene\LocalMorphScene.h" />

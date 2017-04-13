@@ -6,7 +6,7 @@ struct Vertex {
 	vec2 uv;
 };
 
-uniform sampler2D textures[3];
+uniform sampler2D textures[4];
 
 in Vertex o_vertex;
 flat in int o_diffuse;

@@ -26,6 +26,10 @@ protected:
         unsigned int vertexIndex;
         unsigned int instanceIndex;
     };
+    struct Instance {
+        glm::mat4 model;
+        unsigned int material;
+    };
     struct MeshOffsets {
         unsigned int elementCount;
         unsigned int elementOffset;
@@ -40,10 +44,6 @@ protected:
 
     std::unordered_map<unsigned int, MeshOffsets>                                       m_meshOffsets;
 private:
-    struct Instance {
-        glm::mat4 model;
-        unsigned int material;
-    };
 
     std::unordered_map<unsigned int, std::map<unsigned int, std::vector<Instance>>>     m_commandList;
 };

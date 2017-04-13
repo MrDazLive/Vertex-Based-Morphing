@@ -9,15 +9,15 @@ struct Vertex {
 
 struct Instance {
 	mat4 transform;
-	uint material[2];
+	uint material;
 };
 
 struct Material {
 	vec3 colour;
 	float diffuse;
 	float morph;
-	
-	float pad1;
+	float morphDiffuse;
+
 	float pad2;
 	float pad3;
 };
@@ -35,22 +35,24 @@ layout(location = 0) in Vertex vertex[2];
 layout(location = 6) in float morphWeight;
 layout(location = 7) in Instance instance;
 
-out vec3 o_normal;
+out float o_morph;
+out Vertex o_vertex[2];
+flat out Material o_material;
 
-subroutine vec3 Interpolate(vec3, vec3, float);
-subroutine uniform Interpolate interpolate;
+subroutine float ConvertWeight(float);
+subroutine uniform ConvertWeight convertWeight;
 
-subroutine(Interpolate) vec3 linear(vec3 min, vec3 max, float morph) {
+subroutine(ConvertWeight) float linear(float morph) {
 	float weight = morph;
-	return mix(min, max, weight);
+	return weight;
 }
 
-subroutine(Interpolate) vec3 cosine(vec3 min, vec3 max, float morph) {
+subroutine(ConvertWeight) float cosine(float morph) {
 	float weight = sin(morph * PI / 2);
-	return mix(min, max, weight);
+	return weight;
 }
 
-subroutine(Interpolate) vec3 quadratic(vec3 min, vec3 max, float morph) {
+subroutine(ConvertWeight) float quadratic(float morph) {
 	float weightA = morph;
 	float weightB = 1 - weightA;
 
@@ -62,10 +64,10 @@ subroutine(Interpolate) vec3 quadratic(vec3 min, vec3 max, float morph) {
 					+ b * weightA * weightB
 					+ c * weightA * weightA;
 
-	return mix(min, max, weight);
+	return weight;
 }
 
-subroutine(Interpolate) vec3 cubic(vec3 min, vec3 max, float morph) {
+subroutine(ConvertWeight) float cubic(float morph) {
 	float weightA = morph;
 	float weightB = 1 - weightA;
 
@@ -79,12 +81,17 @@ subroutine(Interpolate) vec3 cubic(vec3 min, vec3 max, float morph) {
 					+ c * weightA * weightA * weightB
 					+ d * weightA * weightA * weightA;
 	
-	return mix(min, max, weight);
+	return weight;
 }
 
 void main()
 {
 	mat4 MVP = projection * view * instance.transform;
-	gl_Position = MVP * vec4(interpolate(vertex[0].position, vertex[1].position, morphWeight), 1.0);
-	o_normal = interpolate(vertex[0].normal, vertex[1].normal, morphWeight) * material[instance.material[0]].colour;
+	float weight = convertWeight(morphWeight);
+
+	o_morph = weight;
+	o_vertex = vertex;
+	o_material = material[instance.material];
+
+	gl_Position = MVP * vec4(mix(vertex[0].position, vertex[1].position, weight), 1.0);
 }

@@ -15,8 +15,8 @@ struct Material {
 	vec3 colour;
 	float diffuse;
 	float morph;
-	
-	float pad1;
+	float morphDiffuse;
+
 	float pad2;
 	float pad3;
 };

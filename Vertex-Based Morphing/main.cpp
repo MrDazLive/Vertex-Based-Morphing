@@ -52,8 +52,8 @@ int main(int argc, char* argv[]) {
 
     Texture textures[4]{
         { "missing", GL_TEXTURE_2D },
-        { "torso_texture", GL_TEXTURE_2D },
         { "red", GL_TEXTURE_2D },
+        { "green", GL_TEXTURE_2D },
         { "blue", GL_TEXTURE_2D }
     };
 
@@ -73,11 +73,11 @@ int main(int argc, char* argv[]) {
         }
     });
 
-    {
-        Material* const m = Renderer::CreateMaterial("Torso");
-        m->setShader("Default");
-        m->setDiffuse("torso_texture");
-    }
+    Material::getWithName("Default_Morph")->setDiffuse("green");
+    Material::getWithName("Default_Morph")->setMorphDiffuse("red");
+
+    Material::getWithName("Local_Morph")->setDiffuse("green");
+    Material::getWithName("Local_Morph")->setMorphDiffuse("red");
 
     MorphSet ms("hand");
     ms.setMorphSet("hand", "dragon_hand");
@@ -95,7 +95,7 @@ int main(int argc, char* argv[]) {
     g.AddComponent<MorphRenderable>();
 
     GameObject g2("root");
-    g2.renderable->setMaterial("Torso");
+    g2.renderable->setMaterial("Default");
 
     GameObject g3("target");
     g3.renderable->setMaterial("Default");

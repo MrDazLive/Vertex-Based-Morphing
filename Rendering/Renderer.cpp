@@ -164,10 +164,14 @@ Material* const Renderer::CreateMaterial(const std::string& name) {
     return material;
 }
 
-Texture* const Renderer::CreateTexture(const std::string& name, Image* const image) {
+Texture* const Renderer::CreateTexture(const std::string& name) {
+    Image image;
+    image.LoadFromFile("Resource/Image/" + name + ".png");
+
     Texture* const texture = new Texture(name, GL_TEXTURE_2D);
-    texture->BufferImage(image);
+    texture->BufferImage(&image);
     m_texture.push_back(texture);
+
     return texture;
 }
 

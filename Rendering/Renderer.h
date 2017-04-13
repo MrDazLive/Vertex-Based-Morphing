@@ -26,7 +26,7 @@ public:
     static void             DrawRequest         (const unsigned int, const unsigned int, const glm::mat4&);
     static void             MorphDrawRequest    (const unsigned int, const unsigned int, const glm::mat4&);
     static Material* const  CreateMaterial      (const std::string&);
-    static Texture* const   CreateTexture       (const std::string&, Image* const);
+    static Texture* const   CreateTexture       (const std::string&);
 
     static void             ConfirmMorphSets    ();
 private:

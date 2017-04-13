@@ -50,27 +50,17 @@ int main(int argc, char* argv[]) {
 
     Renderer::Initialise(&argc, argv);
 
-    Texture textures[4]{
-        { "missing", GL_TEXTURE_2D },
-        { "red", GL_TEXTURE_2D },
-        { "green", GL_TEXTURE_2D },
-        { "blue", GL_TEXTURE_2D }
-    };
+    Renderer::CreateTexture("missing");
+    Renderer::CreateTexture("red");
+    Renderer::CreateTexture("green");
+    Renderer::CreateTexture("blue");
 
-    {
-        for (Texture& t : textures) {
-            Image image;
-            image.LoadFromFile("Resource/Image/" + t.getName() + ".png");
-            t.BufferImage(&image);
-        }
-    }
-
-    Program::forEach([&](Program* const ptr) {
+    Program::forEach([&](Program* const ptr_p) {
         int offset = 0;
-        ptr->SetActive();
-        for (Texture& t : textures) {
-            ptr->BindTexture(&t, "textures[" + std::to_string(offset++) + "]");
-        }
+        ptr_p->SetActive();
+        Texture::forEach([&](Texture* const ptr_t) {
+            ptr_p->BindTexture(ptr_t, "textures[" + std::to_string(offset++) + "]");
+        });
     });
 
     Material::getWithName("Default_Morph")->setDiffuse("green");

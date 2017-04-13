@@ -24,6 +24,7 @@ public:
     static void                 KeyboardSpecialFunction         (int, int, int);
     static void                 KeyboardSpecialReleaseFunction  (int, int, int);
 
+    static void                 CursorFunction                  (int, int);
     static void                 MouseFunction                   (int, int, int, int);
 private:
     template <typename T>       using Array                     = std::array<T, 255>;

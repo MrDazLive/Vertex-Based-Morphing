@@ -123,8 +123,8 @@ int main(int argc, char* argv[]) {
     Input::BindKey(KeyCode::NUM1, KeyState::DOWN, []() { Engine::SwapScene("Uniform Morph"); });
     Input::BindKey(KeyCode::NUM2, KeyState::DOWN, []() { Engine::SwapScene("Local Morph"); });
 
-    Input::BindKey(KeyCode::LEFT_MOUSE, KeyState::DOWN, []() { Morph(0.2f); });
-    Input::BindKey(KeyCode::RIGHT_MOUSE, KeyState::DOWN, []() { Morph(-0.2f); });
+    Input::BindKey(KeyCode::LEFT_MOUSE, KeyState::HOLD, []() { Morph(0.5f * Time::getDeltaTime()); });
+    Input::BindKey(KeyCode::RIGHT_MOUSE, KeyState::HOLD, []() { Morph(-0.5f * Time::getDeltaTime()); });
 
 #pragma endregion
 

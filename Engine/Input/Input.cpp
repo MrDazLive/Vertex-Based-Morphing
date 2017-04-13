@@ -20,7 +20,7 @@ void Input::OnUpdate() {
         if (state < KeyState::FREE) {
             KeyboardHandle((KeyCode)i, state);
             if (state == KeyState::UP) state = KeyState::FREE;
-            if (state == KeyState::DOWN) state = KeyState::TRANSITION;
+            if (state == KeyState::DOWN) state = KeyState::HOLD;
         }
     }
 }
@@ -32,12 +32,10 @@ void Input::BindKey(const KeyCode key, const KeyState state, KeyBinding action) 
 void Input::KeyboardFunction(unsigned char key, int x, int y) {
     KeyState &state = m_keyState[key];
     state = state == KeyState::FREE ? KeyState::DOWN : KeyState::HOLD;
-    m_cursorPosition = { x, y };
 }
 
 void Input::KeyboardReleaseFunction(unsigned char key, int x, int y) {
     m_keyState[key] = KeyState::UP;
-    m_cursorPosition = { x, y };
 }
 
 void Input::KeyboardSpecialFunction(int key, int x, int y) {
@@ -46,6 +44,10 @@ void Input::KeyboardSpecialFunction(int key, int x, int y) {
 
 void Input::KeyboardSpecialReleaseFunction(int key, int x, int y) {
     KeyboardReleaseFunction(key + 127, x, y);
+}
+
+void Input::CursorFunction(int x, int y) {
+    m_cursorPosition = { x, y };
 }
 
 void Input::MouseFunction(int key, int state, int x, int y) {

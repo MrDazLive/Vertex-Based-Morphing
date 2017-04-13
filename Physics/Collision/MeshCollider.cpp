@@ -59,7 +59,7 @@ MeshCollider::MeshCollider(const std::string& name) : Handler<MeshCollider>(this
     m_octTree.setDistributeMethod(Axis::Z, [&](unsigned int tri, float div) { return dist(min(tri).z, max(tri).z, div); });
 
     m_octTree.setBranchByMedian();
-    m_octTree.setBranchStrength(8);
+    m_octTree.setBranchStrength(16);
     m_octTree.Populate(indices.data(), triCount);
 }
 
@@ -107,6 +107,9 @@ void MeshCollider::Raycast(const glm::vec3& position, const glm::vec3& direction
                     hit->detected = true;
                     break;
                 }
+            }
+            if (hit->detected) {
+                break;
             }
         }
         point1 = point2;

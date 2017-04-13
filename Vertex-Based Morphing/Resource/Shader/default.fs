@@ -1,10 +1,19 @@
 #version 450
 
-in vec3 o_normal;
+struct Vertex {
+	vec3 position;
+	vec3 normal;
+	vec2 uv;
+};
+
+uniform sampler2D textures[3];
+
+in Vertex o_vertex;
+flat in int o_diffuse;
 
 out vec4 colour;
 
 void main()
 {
-    colour = vec4(o_normal / 2 + .5f, 1.0);
+    colour = texture(textures[o_diffuse], o_vertex.uv);
 }

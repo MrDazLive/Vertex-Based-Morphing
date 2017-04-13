@@ -5,6 +5,8 @@
 #include <Utilities\Container\Mesh.h>
 
 #include <Rendering\Camera\Camera.h>
+#include <Rendering\Texture\Image.h>
+#include <Rendering\Texture\Texture.h>
 #include <Rendering\Geometry\MorphSet.h>
 #include <Rendering\UniformBlocks\Material.h>
 
@@ -48,6 +50,35 @@ int main(int argc, char* argv[]) {
 
     Renderer::Initialise(&argc, argv);
 
+    Texture textures[4]{
+        { "missing", GL_TEXTURE_2D },
+        { "torso_texture", GL_TEXTURE_2D },
+        { "red", GL_TEXTURE_2D },
+        { "blue", GL_TEXTURE_2D }
+    };
+
+    {
+        for (Texture& t : textures) {
+            Image image;
+            image.LoadFromFile("Resource/Image/" + t.getName() + ".png");
+            t.BufferImage(&image);
+        }
+    }
+
+    Program::forEach([&](Program* const ptr) {
+        int offset = 0;
+        ptr->SetActive();
+        for (Texture& t : textures) {
+            ptr->BindTexture(&t, "textures[" + std::to_string(offset++) + "]");
+        }
+    });
+
+    {
+        Material* const m = Renderer::CreateMaterial("Torso");
+        m->setShader("Default");
+        m->setDiffuse("torso_texture");
+    }
+
     MorphSet ms("hand");
     ms.setMorphSet("hand", "dragon_hand");
 
@@ -64,7 +95,7 @@ int main(int argc, char* argv[]) {
     g.AddComponent<MorphRenderable>();
 
     GameObject g2("root");
-    g2.renderable->setMaterial("Default");
+    g2.renderable->setMaterial("Torso");
 
     GameObject g3("target");
     g3.renderable->setMaterial("Default");

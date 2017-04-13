@@ -21,7 +21,7 @@ const GLenum Texture::getAttachment() const {
     return m_attachment;
 }
 
-void Texture::SetActive() {
+void Texture::SetActive() const {
     glBindTexture(m_target, m_buffer);
 }
 

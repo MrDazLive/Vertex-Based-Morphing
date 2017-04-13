@@ -14,7 +14,7 @@ public:
     const GLenum    getTarget       () const;
     const GLenum    getAttachment   () const;
 
-    void            SetActive       ();
+    void            SetActive       () const;
     void            BufferImage     (Image* const);
 
     static void     Reset           (GLenum);

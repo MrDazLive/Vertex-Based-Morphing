@@ -9,12 +9,17 @@ struct Vertex {
 
 struct Instance {
 	mat4 transform;
-	uint material;
+	uint material[2];
 };
 
 struct Material {
 	vec3 colour;
+	float diffuse;
 	float morph;
+	
+	float pad1;
+	float pad2;
+	float pad3;
 };
 
 layout(std140) uniform Block_Perspective {
@@ -23,7 +28,7 @@ layout(std140) uniform Block_Perspective {
 };
 
 layout(std140) uniform Block_Material {
-	Material material[2];
+	Material material[3];
 };
 
 layout(location = 0) in Vertex vertex[2];
@@ -81,5 +86,5 @@ void main()
 {
 	mat4 MVP = projection * view * instance.transform;
 	gl_Position = MVP * vec4(interpolate(vertex[0].position, vertex[1].position, morphWeight), 1.0);
-	o_normal = interpolate(vertex[0].normal, vertex[1].normal, morphWeight) * material[instance.material].colour;
+	o_normal = interpolate(vertex[0].normal, vertex[1].normal, morphWeight) * material[instance.material[0]].colour;
 }

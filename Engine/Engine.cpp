@@ -18,6 +18,7 @@ void Engine::Initialise(int* argc, char* argv[]) {
     glutSpecialFunc(Input::KeyboardSpecialFunction);
     glutSpecialUpFunc(Input::KeyboardSpecialReleaseFunction);
     glutPassiveMotionFunc(Input::CursorFunction);
+    glutMotionFunc(Input::CursorFunction);
     glutMouseFunc(Input::MouseFunction);
     
     glutIdleFunc(IdleUpdate);

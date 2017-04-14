@@ -1,7 +1,8 @@
 #include "UniformMorphScene.h"
 
 #include <Engine\Scene\GameObject\Collider.h>
-#include <Engine\Scene\GameObject\MorphRenderable.h>
+
+#include "..\Component\MorphRenderable.h"
 
 UniformMorphScene::UniformMorphScene(const std::string& name) : Scene(name) {
     AddGameObject(GameObject::getWithName("morph"));

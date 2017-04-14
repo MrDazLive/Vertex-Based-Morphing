@@ -1,6 +1,6 @@
 #include "MorphRenderable.h"
 
-#include "GameObject.h"
+#include <Engine\Scene\GameObject\GameObject.h>
 
 #include <Rendering\Renderer.h>
 #include <Rendering\Geometry\MorphSet.h>

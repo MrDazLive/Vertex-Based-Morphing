@@ -150,6 +150,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Component\MorphRenderable.cpp" />
+    <ClCompile Include="Component\PointMorph.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Scene\LocalMorphScene.cpp" />
     <ClCompile Include="Scene\UniformMorphScene.cpp" />
@@ -164,6 +166,8 @@
     <None Include="Resource\Shader\types.glsl" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Component\MorphRenderable.h" />
+    <ClInclude Include="Component\PointMorph.h" />
     <ClInclude Include="Scene\LocalMorphScene.h" />
     <ClInclude Include="Scene\UniformMorphScene.h" />
   </ItemGroup>

@@ -45,8 +45,9 @@ Template T* const GameObject::AddComponent() {
 
 Template T* const GameObject::GetComponent() {
     T obj(this);
-    T* ptr = (T*)m_component[obj.getIndex()];
-    return ptr;
+    return m_component.find(obj.getIndex()) != m_component.end() ?
+        (T*)m_component[obj.getIndex()] :
+        nullptr;
 }
 
 Template void GameObject::RemoveComponent() {

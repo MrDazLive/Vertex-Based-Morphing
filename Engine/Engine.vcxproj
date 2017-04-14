@@ -144,7 +144,6 @@
     <ClInclude Include="Input\Input.h" />
     <ClInclude Include="Scene\GameObject\Collider.h" />
     <ClInclude Include="Scene\GameObject\GameObject.h" />
-    <ClInclude Include="Scene\GameObject\MorphRenderable.h" />
     <ClInclude Include="Scene\GameObject\Renderable.h" />
     <ClInclude Include="Scene\GameObject\Transform.h" />
     <ClInclude Include="Scene\Scene.h" />
@@ -157,7 +156,6 @@
     <ClCompile Include="Scene\GameObject\Collider.cpp" />
     <ClCompile Include="Scene\GameObject\Component.cpp" />
     <ClCompile Include="Scene\GameObject\GameObject.cpp" />
-    <ClCompile Include="Scene\GameObject\MorphRenderable.cpp" />
     <ClCompile Include="Scene\GameObject\Renderable.cpp" />
     <ClCompile Include="Scene\GameObject\Transform.cpp" />
     <ClCompile Include="Scene\Scene.cpp" />

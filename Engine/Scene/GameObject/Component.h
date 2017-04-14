@@ -3,6 +3,8 @@
 #include <vector>
 #include <algorithm>
 
+#include <Utilities\Helper\Global.h>
+
 class GameObject;
 
 class Component abstract {
@@ -26,6 +28,8 @@ public:
 protected:
                                 Component       (GameObject* const);
     static unsigned int         getNewIndex     ();
+
+    Template T* const           Requires        ();
 private:
     bool                        m_active        { true };
     GameObject* const           m_gameObject    { nullptr };
@@ -33,7 +37,15 @@ private:
     static unsigned int         m_count;
 };
 
-template <typename T>
+Template
+T* const Component::Requires() {
+    T* ptr = m_gameObject->GetComponent<T>();
+    return ptr ?
+        ptr :
+        m_gameObject->AddComponent<T>();
+}
+
+Template
 class BaseComponent abstract : public Component {
 public:
                                 ~BaseComponent  ();
@@ -50,29 +62,29 @@ private:
     static std::vector<T*>      m_instance;
 };
 
-template <typename T>
+Template
 unsigned int BaseComponent<T>::m_index = Component::getNewIndex();
 
-template <typename T>
+Template
 std::vector<T*> BaseComponent<T>::m_instance;
 
-template <typename T>
+Template
 BaseComponent<T>::BaseComponent(T* const com, GameObject* const obj) : Component(obj), m_self(com) {
     m_instance.push_back(com);
 }
 
-template <typename T>
+Template
 BaseComponent<T>::~BaseComponent() {
     m_instance.erase(std::remove(m_instance.begin(), m_instance.end(), m_self), m_instance.end());
     m_instance.shrink_to_fit();
 }
 
-template <typename T>
+Template
 const unsigned int BaseComponent<T>::getIndex() const {
     return m_index;
 }
 
-template <typename T>
+Template
 T** BaseComponent<T>::getAll() {
     return m_instance.data();
 }

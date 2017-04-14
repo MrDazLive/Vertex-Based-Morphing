@@ -1,7 +1,8 @@
 #include "LocalMorphScene.h"
 
 #include <Engine\Scene\GameObject\Collider.h>
-#include <Engine\Scene\GameObject\MorphRenderable.h>
+
+#include "..\Component\MorphRenderable.h"
 
 LocalMorphScene::LocalMorphScene(const std::string& name) : Scene(name) {
     AddGameObject(GameObject::getWithName("morph"));

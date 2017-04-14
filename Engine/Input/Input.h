@@ -13,6 +13,7 @@ using KeyBinding = std::function<void(void)>;
 class Input final {
 public:
     static const glm::vec2&     getCursorPosition               ();
+    static const bool           getButton                       (const KeyCode, const KeyState);
 
     static void                 Initialise                      ();
     static void                 OnUpdate                        ();

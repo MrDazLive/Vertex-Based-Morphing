@@ -15,26 +15,14 @@
 #include <Engine\Time\Time.h>
 #include <Engine\Input\Input.h>
 
-#include "Scene\UniformMorphScene.h"
-#include "Scene\LocalMorphScene.h"
-
 #include <Engine\Scene\GameObject\Collider.h>
-#include <Engine\Scene\GameObject\MorphRenderable.h>
-
 
 #include <Physics\Collision\RayHit.h>
 
-#include <iostream>
+#include "Component\PointMorph.h"
 
-void Morph(float weight) {
-    RayHit hit;
-    if (Physics::Raycast(Camera::Position(), Camera::DirectionFromPoint(Input::getCursorPosition()), &hit)) {
-        GameObject* const obj = GameObject::getWithIndex(hit.colliderIndex);
-        const MorphRenderable* const ren = obj->GetComponent<MorphRenderable>();
-        MorphSet* const set = ren->getMorphSet();
-        set->AdjustWeight(hit.triangle, weight);
-    }
-}
+#include "Scene\UniformMorphScene.h"
+#include "Scene\LocalMorphScene.h"
 
 int main(int argc, char* argv[]) {
 #pragma region Utility Set-up
@@ -82,7 +70,7 @@ int main(int argc, char* argv[]) {
     GameObject g("morph");
     g.renderable->setActive(false);
     g.AddComponent<Collider>();
-    g.AddComponent<MorphRenderable>();
+    g.AddComponent<PointMorph>();
 
     GameObject g2("root");
     g2.renderable->setMaterial("Default");
@@ -122,9 +110,6 @@ int main(int argc, char* argv[]) {
 
     Input::BindKey(KeyCode::NUM1, KeyState::DOWN, []() { Engine::SwapScene("Uniform Morph"); });
     Input::BindKey(KeyCode::NUM2, KeyState::DOWN, []() { Engine::SwapScene("Local Morph"); });
-
-    Input::BindKey(KeyCode::LEFT_MOUSE, KeyState::HOLD, []() { Morph(0.5f * Time::getDeltaTime()); });
-    Input::BindKey(KeyCode::RIGHT_MOUSE, KeyState::HOLD, []() { Morph(-0.5f * Time::getDeltaTime()); });
 
 #pragma endregion
 

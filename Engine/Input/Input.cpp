@@ -8,6 +8,10 @@ const glm::vec2& Input::getCursorPosition() {
     return m_cursorPosition;
 }
 
+const bool Input::getButton(const KeyCode key, const KeyState state) {
+    return m_keyState[(unsigned int)key] == state;
+}
+
 void Input::Initialise() {
     for (unsigned int i = 0; i < 255; i++) {
         m_keyState[i] = KeyState::FREE;

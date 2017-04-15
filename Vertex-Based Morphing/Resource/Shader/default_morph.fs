@@ -26,7 +26,12 @@ out vec4 colour;
 
 void main()
 {
-    colour = mix(
+	vec3 dir = normalize(vec3(-1, -1, -1));
+	vec3 norm = mix(o_vertex[0].normal, o_vertex[1].normal, o_morph);
+
+	float offset = dot(-dir, norm) / 2 + 0.5f;
+
+    colour = offset * mix(
 		texture(textures[int(o_material.diffuse)], o_vertex[0].uv),
 		texture(textures[int(o_material.morphDiffuse)], o_vertex[1].uv),
 		o_morph);

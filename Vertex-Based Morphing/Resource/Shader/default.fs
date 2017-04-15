@@ -15,5 +15,10 @@ out vec4 colour;
 
 void main()
 {
-    colour = texture(textures[o_diffuse], o_vertex.uv);
+	vec3 dir = normalize(vec3(-1, -1, -1));
+	vec3 norm = o_vertex.normal;
+
+	float offset = dot(-dir, norm) / 2 + 0.5f;
+
+    colour = offset * texture(textures[o_diffuse], o_vertex.uv);
 }

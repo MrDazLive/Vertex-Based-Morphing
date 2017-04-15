@@ -105,6 +105,7 @@ void MeshCollider::Raycast(const glm::vec3& position, const glm::vec3& direction
                 if (col) {
                     hit->triangle = tri;
                     hit->detected = true;
+                    hit->point = point1;
                     break;
                 }
             }

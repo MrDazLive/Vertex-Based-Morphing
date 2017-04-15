@@ -2,6 +2,7 @@
 
 #include <Engine\Scene\GameObject\Collider.h>
 
+#include "..\Component\PointMorph.h"
 #include "..\Component\MorphRenderable.h"
 
 LocalMorphScene::LocalMorphScene(const std::string& name) : Scene(name) {
@@ -23,6 +24,7 @@ void LocalMorphScene::OnFocusEnter() {
     ptr->transform->setPosition({ 0.0f, -5.0f, 10.0f });
     ptr->transform->setScale({ 1.8f, 1.8f, 1.8f });
     ptr->GetComponent<Collider>()->setMesh("hand");
+    ptr->GetComponent<PointMorph>()->setRange(4.0f);
     ptr->GetComponent<MorphRenderable>()->setMaterial("Local_Morph");
     ptr->GetComponent<MorphRenderable>()->setMorphSet("hand");
 

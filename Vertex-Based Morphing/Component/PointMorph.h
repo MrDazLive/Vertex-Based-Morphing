@@ -17,7 +17,7 @@ public:
     void                    setRange        (const float);
     void                    setWeight       (const float);
 
-    void                    OnStart         () override final;
+    void                    OnAwake         () override final;
     void                    OnUpdate        () override final;
 private:
     using Neighbour = std::vector<unsigned int>;

@@ -154,6 +154,7 @@
     <ClCompile Include="Component\PointMorph.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Scene\LocalMorphScene.cpp" />
+    <ClCompile Include="Scene\LocalMorphScene2.cpp" />
     <ClCompile Include="Scene\UniformMorphScene.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -169,6 +170,7 @@
     <ClInclude Include="Component\MorphRenderable.h" />
     <ClInclude Include="Component\PointMorph.h" />
     <ClInclude Include="Scene\LocalMorphScene.h" />
+    <ClInclude Include="Scene\LocalMorphScene2.h" />
     <ClInclude Include="Scene\UniformMorphScene.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

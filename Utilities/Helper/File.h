@@ -56,6 +56,7 @@ public:
                 std::istringstream stream(line.substr(3));
                 stream >> v.x;
                 stream >> v.y;
+                v.y = 1 - v.y;
                 t.push_back(v);
             }
             else if (line.substr(0, 2) == "f ") {

@@ -16,7 +16,7 @@ struct Material {
 	float pad3;
 };
 
-uniform sampler2D textures[4];
+uniform sampler2D textures[5];
 
 in float o_morph;
 in Vertex[2] o_vertex;

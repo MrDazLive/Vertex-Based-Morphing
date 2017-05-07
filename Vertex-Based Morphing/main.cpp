@@ -23,15 +23,17 @@
 
 #include "Scene\UniformMorphScene.h"
 #include "Scene\LocalMorphScene.h"
+#include "Scene\LocalMorphScene2.h"
 
 int main(int argc, char* argv[]) {
 #pragma region Utility Set-up
 
-    Mesh objects[3]{ "hand", "dragon_hand", "torso" };
+    Mesh objects[4]{ "hand", "dragon_hand", "torso", "dragon_torso" };
     for (Mesh& obj : objects) {
         obj.LoadFromFile("Resource/Mesh/" + obj.getName() + ".obj");
     }
     MeshCollider col("hand");
+    MeshCollider col2("torso");
 
 #pragma endregion
 #pragma region Renderer Set-up
@@ -41,7 +43,8 @@ int main(int argc, char* argv[]) {
     Renderer::CreateTexture("missing");
     Renderer::CreateTexture("red");
     Renderer::CreateTexture("green");
-    Renderer::CreateTexture("blue");
+    Renderer::CreateTexture("torso_texture");
+    Renderer::CreateTexture("dragon_torso_texture");
 
     Program::forEach([&](Program* const ptr_p) {
         int offset = 0;
@@ -57,8 +60,21 @@ int main(int argc, char* argv[]) {
     Material::getWithName("Local_Morph")->setDiffuse("green");
     Material::getWithName("Local_Morph")->setMorphDiffuse("red");
 
-    MorphSet ms("hand");
-    ms.setMorphSet("hand", "dragon_hand");
+    {
+        Material* ptr = Renderer::CreateMaterial("Dragon_Morph");
+        ptr->setShader("Local_Morph");
+        ptr->setDiffuse("torso_texture");
+        ptr->setMorphDiffuse("dragon_torso_texture");
+    }
+
+    Renderer::CreateMaterial("Torso")->setDiffuse("torso_texture");
+    Renderer::CreateMaterial("Dragon Torso")->setDiffuse("dragon_torso_texture");
+
+    MorphSet ms_h("hand");
+    ms_h.setMorphSet("hand", "dragon_hand");
+
+    MorphSet ms_t("torso");
+    ms_t.setMorphSet("torso", "dragon_torso");
 
     Renderer::ConfirmMorphSets();
 
@@ -80,8 +96,9 @@ int main(int argc, char* argv[]) {
 
     UniformMorphScene uniform_scene("Uniform Morph");
     LocalMorphScene local_scene("Local Morph");
+    LocalMorphScene2 local_scene_2("Local Morph 2");
 
-    Engine::OpenScene("Uniform Morph");
+    Engine::OpenScene("Local Morph");
 
 #pragma endregion
 #pragma region Input Bindings
@@ -110,6 +127,7 @@ int main(int argc, char* argv[]) {
 
     Input::BindKey(KeyCode::NUM1, KeyState::DOWN, []() { Engine::SwapScene("Uniform Morph"); });
     Input::BindKey(KeyCode::NUM2, KeyState::DOWN, []() { Engine::SwapScene("Local Morph"); });
+    Input::BindKey(KeyCode::NUM3, KeyState::DOWN, []() { Engine::SwapScene("Local Morph 2"); });
 
 #pragma endregion
 

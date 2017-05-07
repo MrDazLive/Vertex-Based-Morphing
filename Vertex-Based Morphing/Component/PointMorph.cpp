@@ -32,7 +32,7 @@ void PointMorph::setWeight(const float val) {
     m_morphWeight = val;
 }
 
-void PointMorph::OnStart() {
+void PointMorph::OnAwake() {
     m_morphSet = Requires<MorphRenderable>()->getMorphSet();
 
     Mesh* const mesh = Mesh::getWithIndex(m_morphSet->getMeshSet()[0]);

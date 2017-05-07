@@ -33,9 +33,11 @@ void MorphGeometry::FillBuffers() {
             ptr = Mesh::getWithIndex(ptrs[j]);
             const Vertex* vertex = ptr->getVertexArray();
             for (unsigned int k = 0; k < vertexCount; k++) {
-                vertices.insert(vertices.begin() + ((j + 1) * k + 1), vertex[k]);
+                vertices.insert(vertices.begin() + data.vertexOffset + ((j + 1) * k + 1), vertex[k]);
             }
         }
+
+        data.vertexOffset /= 2;
 
         m_meshOffsets.emplace(set->getIndex(), data);
     }

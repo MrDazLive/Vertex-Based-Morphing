@@ -58,9 +58,13 @@ Template
 Handler<T>::~Handler() {
     T* object = m_objectsByIndex[m_index];
 
-    auto &vec = m_objectsByName[m_name];
-    vec.erase(std::remove(vec.begin(), vec.end(), object), vec.end());
-    vec.shrink_to_fit();
+    auto& removeFrom = [&](std::vector<T*>& vec) {
+        vec.erase(std::remove(vec.begin(), vec.end(), object), vec.end());
+        vec.shrink_to_fit();
+    };
+
+    removeFrom(m_objectsByIndex);
+    removeFrom(m_objectsByName[m_name]);
 }
 
 Template

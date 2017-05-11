@@ -44,5 +44,6 @@ protected:
 
     std::unordered_map<unsigned int, MeshOffsets>                                       m_meshOffsets;
 private:
+
     std::unordered_map<unsigned int, std::map<unsigned int, std::vector<Instance>>>     m_commandList;
 };

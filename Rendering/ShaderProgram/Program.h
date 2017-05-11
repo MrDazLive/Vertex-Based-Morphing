@@ -6,6 +6,7 @@
 #include <Utilities\BaseClass\Handler.h>
 
 class Shader;
+class Texture;
 
 class Program final : public Handler<Program> {
 public:
@@ -26,11 +27,12 @@ public:
 
     static void     Reset                   ();
 
-    void            AddShader               (const Shader*);
+    void            AddShader               (const Shader* const);
     void            AddInAttribute          (const std::string&);
     void            AddOutAttribute         (const std::string&);
+    void            BindTexture             (const Texture* const, const std::string&);
     Template void   BindUniformBlock        (const std::string&);
-    Variadic void   AddShader               (const Shader*, const V...);
+    Variadic void   AddShader               (const Shader* const, const V...);
     Variadic void   AddInAttribute          (const std::string&, const V...);
     Variadic void   AddOutAttribute         (const std::string&, const V...);
 private:
@@ -40,6 +42,7 @@ private:
     const GLuint    m_program               { 0 };
     GLuint          m_inAttributeCount      { 0 };
     GLuint          m_outAttributeCount     { 0 };
+    GLuint          m_textureCount          { 0 };
     GLuint          m_status                { GL_FALSE };
     std::string     m_vertexSubroutine      { "" };
     std::string     m_fragmemtSubroutine    { "" };
@@ -51,7 +54,7 @@ void Program::BindUniformBlock(const std::string& name) {
 }
 
 Variadic
-void Program::AddShader(const Shader* ptr, const V... var) {
+void Program::AddShader(const Shader* const ptr, const V... var) {
     AddShader(ptr);
     AddShader(var...);
 }

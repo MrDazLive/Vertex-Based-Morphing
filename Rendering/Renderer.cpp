@@ -1,7 +1,11 @@
 #include "Renderer.h"
 
+#include "Texture\Image.h"
+#include "Texture\Texture.h"
+
 #include "ShaderProgram\Shader.h"
 #include "ShaderProgram\Program.h"
+
 #include "Geometry\Geometry.h"
 #include "Geometry\MorphGeometry.h"
 #include "Camera\Camera.h"
@@ -22,15 +26,18 @@ MorphGeometry* Renderer::m_morphGeometry = nullptr;
 Perspective* Renderer::m_perspective = nullptr;
 std::vector<Program*> Renderer::m_program;
 std::vector<Material*> Renderer::m_material;
+std::vector<Texture*> Renderer::m_texture;
 
 Renderer::~Renderer() {
     Renderer::Quit();
 }
 
 void Renderer::Initialise(int* argc, char* argv[]) {
+    const glm::vec2& resolution = Camera::Resolution();
+
     glutInit(argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
-    glutInitWindowSize(1080, 720);
+    glutInitWindowSize(resolution.x, resolution.y);
     m_window = glutCreateWindow("Vertex-Based Rendering");
 
     glewInit();
@@ -44,29 +51,45 @@ void Renderer::Initialise(int* argc, char* argv[]) {
     m_geometry->FillBuffers();
     m_geometry->BuildArray();
 
-    Program* def = new Program("Default");
-    m_program.push_back(def);
+    {
+        Program* pro = new Program("Default");
+        m_program.push_back(pro);
 
-    Shader r_vs(GL_VERTEX_SHADER);
-    Shader r_fs(GL_FRAGMENT_SHADER);
+        Shader vs(GL_VERTEX_SHADER);
+        Shader fs(GL_FRAGMENT_SHADER);
 
-    r_vs.LoadFromFile("Resource/Shader/default.vs");
-    r_fs.LoadFromFile("Resource/Shader/default.fs");
+        vs.LoadFromFile("Resource/Shader/default.vs");
+        fs.LoadFromFile("Resource/Shader/default.fs");
 
-    def->AddShader(&r_vs, &r_fs);
-    def->Link();
+        pro->AddShader(&vs, &fs);
+        pro->Link();
+    }
+    {
+        Program* pro = new Program("Default_Morph");
+        m_program.push_back(pro);
 
-    Program* blue = new Program("Default_Morph");
-    m_program.push_back(blue);
+        Shader vs(GL_VERTEX_SHADER);
+        Shader fs(GL_FRAGMENT_SHADER);
 
-    Shader b_vs(GL_VERTEX_SHADER);
-    Shader b_fs(GL_FRAGMENT_SHADER);
+        vs.LoadFromFile("Resource/Shader/default_morph.vs");
+        fs.LoadFromFile("Resource/Shader/default_morph.fs");
 
-    b_vs.LoadFromFile("Resource/Shader/default_morph.vs");
-    b_fs.LoadFromFile("Resource/Shader/default_morph.fs");
+        pro->AddShader(&vs, &fs);
+        pro->Link();
+    }
+    {
+        Program* pro = new Program("Local_Morph");
+        m_program.push_back(pro);
 
-    blue->AddShader(&b_vs, &b_fs);
-    blue->Link();
+        Shader vs(GL_VERTEX_SHADER);
+        Shader fs(GL_FRAGMENT_SHADER);
+
+        vs.LoadFromFile("Resource/Shader/local_morph.vs");
+        fs.LoadFromFile("Resource/Shader/default_morph.fs");
+
+        pro->AddShader(&vs, &fs);
+        pro->Link();
+    }
 
     m_perspective = new Perspective("Main");
 
@@ -74,11 +97,12 @@ void Renderer::Initialise(int* argc, char* argv[]) {
 
     CreateMaterial("Default")->setShader("Default");
     CreateMaterial("Default_Morph")->setShader("Default_Morph");
+    CreateMaterial("Local_Morph")->setShader("Local_Morph");
 
     Program::forEach([](Program* const ptr) { ptr->BindUniformBlock<Material>("Block_Material"); });
 
-    const float aspectRatio = 1080.0f / 720.0f;
-    glm::mat4 projection = glm::perspective(1.31f, aspectRatio, 1.0f, 1000.0f);
+    const float aspectRatio = resolution.x / resolution.y;
+    glm::mat4 projection = glm::perspective(1.31f, aspectRatio, 0.01f, 1000.0f);
     m_perspective->setProjection(projection);
 
     Program::Reset();
@@ -113,6 +137,8 @@ void Renderer::Quit() {
     m_program.clear();
     delete[] m_material.data();
     m_material.clear();
+    delete[] m_texture.data();
+    m_texture.clear();
 }
 
 const RenderMode Renderer::getRenderMode() {
@@ -136,6 +162,17 @@ Material* const Renderer::CreateMaterial(const std::string& name) {
     Material* material = new Material(name);
     m_material.push_back(material);
     return material;
+}
+
+Texture* const Renderer::CreateTexture(const std::string& name) {
+    Image image;
+    image.LoadFromFile("Resource/Image/" + name + ".png");
+
+    Texture* const texture = new Texture(name, GL_TEXTURE_2D);
+    texture->BufferImage(&image);
+    m_texture.push_back(texture);
+
+    return texture;
 }
 
 void Renderer::ConfirmMorphSets() {

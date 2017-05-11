@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Component.h"
+#include <Engine\Scene\GameObject\Component.h>
 
 class MorphSet;
 class Material;

@@ -33,9 +33,11 @@ void MorphGeometry::FillBuffers() {
             ptr = Mesh::getWithIndex(ptrs[j]);
             const Vertex* vertex = ptr->getVertexArray();
             for (unsigned int k = 0; k < vertexCount; k++) {
-                vertices.insert(vertices.begin() + ((j + 1) * k + 1), vertex[k]);
+                vertices.insert(vertices.begin() + data.vertexOffset + ((j + 1) * k + 1), vertex[k]);
             }
         }
+
+        data.vertexOffset /= 2;
 
         m_meshOffsets.emplace(set->getIndex(), data);
     }
@@ -58,7 +60,8 @@ void MorphGeometry::BuildArray() {
         m_vertexArray.AddAttribute<Vertex>(3, MorphSet::MaxSetSize(), (int*)(sizeof(glm::vec3) + offset));
         m_vertexArray.AddAttribute<Vertex>(2, MorphSet::MaxSetSize(), (int*)(sizeof(glm::vec3) * 2 + offset));
     }
-
+    m_morphBuffer.SetActive();
+    m_vertexArray.AddAttribute<float>(1);
     m_instanceBuffer.SetActive();
     m_vertexArray.AddAttributeDivisor<Instance>(4);
     m_vertexArray.AddAttributeDivisor<Instance>(4, (int*)(sizeof(glm::vec4)));
@@ -73,6 +76,19 @@ void MorphGeometry::BuildArray() {
 
 void MorphGeometry::Draw() {
     m_vertexArray.SetActive();
+
+    std::vector<float> weights;
+
+    MorphSet** sets = MorphSet::getAll();
+    const unsigned int setCount = MorphSet::getCount();
+    for (unsigned int i = 0; i < setCount; i++) {
+        const MorphSet* set = sets[i];
+        const unsigned int* ptrs = set->getMeshSet();
+
+        const Mesh* ptr = Mesh::getWithIndex(ptrs[0]);
+        weights.insert(weights.end(), set->getWeights(), set->getWeights() + ptr->getVertexCount());
+    }
+    m_morphBuffer.BufferData(weights.data(), sizeof(float) * weights.size());
 
     for (auto& program_it : m_commandList) {
         Program* program = Program::getWithIndex(program_it.first);

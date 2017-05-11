@@ -1,5 +1,6 @@
 #include "Engine.h"
 
+#include <Physics\Physics.h>
 #include <Rendering\Renderer.h>
 
 #include <iostream>
@@ -16,6 +17,9 @@ void Engine::Initialise(int* argc, char* argv[]) {
     glutKeyboardUpFunc(Input::KeyboardReleaseFunction);
     glutSpecialFunc(Input::KeyboardSpecialFunction);
     glutSpecialUpFunc(Input::KeyboardSpecialReleaseFunction);
+    glutPassiveMotionFunc(Input::CursorFunction);
+    glutMotionFunc(Input::CursorFunction);
+    glutMouseFunc(Input::MouseFunction);
     
     glutIdleFunc(IdleUpdate);
     glutDisplayFunc(DisplayUpdate);
@@ -44,6 +48,7 @@ void Engine::IdleUpdate() {
 }
 
 void Engine::DisplayUpdate() {
+    Physics::Loop();
     Renderer::Loop();
 }
 

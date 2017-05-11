@@ -21,6 +21,18 @@
     <ClCompile Include="Scene\UniformMorphScene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Scene\LocalMorphScene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Component\PointMorph.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Component\MorphRenderable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\LocalMorphScene2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -28,9 +40,23 @@
     <None Include="Resource\Shader\default_morph.vs" />
     <None Include="Resource\Shader\default.fs" />
     <None Include="Resource\Shader\default.vs" />
+    <None Include="Resource\Shader\local_morph.vs" />
+    <None Include="Resource\Shader\types.glsl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene\UniformMorphScene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\LocalMorphScene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\PointMorph.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\MorphRenderable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\LocalMorphScene2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

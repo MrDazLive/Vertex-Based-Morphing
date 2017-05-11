@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "Shader.h"
+#include "..\Texture\Texture.h"
 
 Program::Program(const std::string& name) : Handler<Program>(this, name), m_program(GenProgram()) {
 
@@ -61,7 +62,7 @@ void Program::Reset() {
     glUseProgram(0);
 }
 
-void Program::AddShader(const Shader* shader) {
+void Program::AddShader(const Shader* const shader) {
     glAttachShader(m_program, shader->getShader());
 }
 
@@ -73,6 +74,13 @@ void Program::AddInAttribute(const std::string& name) {
 void Program::AddOutAttribute(const std::string& name) {
     glBindAttribLocation(m_program, m_outAttributeCount, name.c_str());
     m_outAttributeCount++;
+}
+
+void Program::BindTexture(const Texture* const texture, const std::string& name) {
+    glActiveTexture(GL_TEXTURE0 + m_textureCount);
+    texture->SetActive();
+    GLuint index = glGetUniformLocation(m_program, name.c_str());
+    glUniform1i(index, m_textureCount++);
 }
 
 GLuint Program::GenProgram() {

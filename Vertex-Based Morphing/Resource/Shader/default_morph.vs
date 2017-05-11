@@ -14,7 +14,12 @@ struct Instance {
 
 struct Material {
 	vec3 colour;
+	float diffuse;
 	float morph;
+	float morphDiffuse;
+
+	float pad2;
+	float pad3;
 };
 
 layout(std140) uniform Block_Perspective {
@@ -23,29 +28,32 @@ layout(std140) uniform Block_Perspective {
 };
 
 layout(std140) uniform Block_Material {
-	Material material[2];
+	Material material[3];
 };
 
 layout(location = 0) in Vertex vertex[2];
-layout(location = 6) in Instance instance;
+layout(location = 6) in float morphWeight;
+layout(location = 7) in Instance instance;
 
-out vec3 o_normal;
+out float o_morph;
+out Vertex o_vertex[2];
+flat out Material o_material;
 
-subroutine vec3 Interpolate(vec3, vec3);
-subroutine uniform Interpolate interpolate;
+subroutine float ConvertWeight(float);
+subroutine uniform ConvertWeight convertWeight;
 
-subroutine(Interpolate) vec3 linear(vec3 min, vec3 max) {
-	float weight = material[instance.material].morph;
-	return mix(min, max, weight);
+subroutine(ConvertWeight) float linear(float morph) {
+	float weight = morph;
+	return weight;
 }
 
-subroutine(Interpolate) vec3 cosine(vec3 min, vec3 max) {
-	float weight = sin(material[instance.material].morph * PI / 2);
-	return mix(min, max, weight);
+subroutine(ConvertWeight) float cosine(float morph) {
+	float weight = sin(morph * PI / 2);
+	return weight;
 }
 
-subroutine(Interpolate) vec3 quadratic(vec3 min, vec3 max) {
-	float weightA = material[instance.material].morph;
+subroutine(ConvertWeight) float quadratic(float morph) {
+	float weightA = morph;
 	float weightB = 1 - weightA;
 
 	float a = 0.0f;
@@ -56,11 +64,11 @@ subroutine(Interpolate) vec3 quadratic(vec3 min, vec3 max) {
 					+ b * weightA * weightB
 					+ c * weightA * weightA;
 
-	return mix(min, max, weight);
+	return weight;
 }
 
-subroutine(Interpolate) vec3 cubic(vec3 min, vec3 max) {
-	float weightA = material[instance.material].morph;
+subroutine(ConvertWeight) float cubic(float morph) {
+	float weightA = morph;
 	float weightB = 1 - weightA;
 
 	float a = 0.0f;
@@ -73,12 +81,17 @@ subroutine(Interpolate) vec3 cubic(vec3 min, vec3 max) {
 					+ c * weightA * weightA * weightB
 					+ d * weightA * weightA * weightA;
 	
-	return mix(min, max, weight);
+	return weight;
 }
 
 void main()
 {
 	mat4 MVP = projection * view * instance.transform;
-	gl_Position = MVP * vec4(interpolate(vertex[0].position, vertex[1].position), 1.0);
-	o_normal = interpolate(vertex[0].normal, vertex[1].normal) * material[instance.material].colour;
+	float weight = convertWeight(material[instance.material].morph);
+
+	o_morph = weight;
+	o_vertex = vertex;
+	o_material = material[instance.material];
+
+	gl_Position = MVP * vec4(mix(vertex[0].position, vertex[1].position, weight), 1.0);
 }

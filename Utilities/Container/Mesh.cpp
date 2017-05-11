@@ -10,6 +10,10 @@ Mesh::~Mesh() {
 
 }
 
+const unsigned int Mesh::getTriangleCount() const {
+    return getElementCount() / 3;
+}
+
 const unsigned int Mesh::getElementCount() const {
     return (unsigned int)m_elementArray.size();
 }

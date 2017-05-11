@@ -5,7 +5,9 @@
 
 #include "Enumerators\RenderMode.h"
 
+class Image;
 class Program;
+class Texture;
 class Material;
 class Geometry;
 class Perspective;
@@ -24,10 +26,10 @@ public:
     static void             DrawRequest         (const unsigned int, const unsigned int, const glm::mat4&);
     static void             MorphDrawRequest    (const unsigned int, const unsigned int, const glm::mat4&);
     static Material* const  CreateMaterial      (const std::string&);
+    static Texture* const   CreateTexture       (const std::string&);
 
     static void             ConfirmMorphSets    ();
 private:
-
                             Renderer            () = delete;
                             ~Renderer           ();
 
@@ -40,4 +42,5 @@ private:
     static Perspective*             m_perspective;
     static std::vector<Program*>    m_program;
     static std::vector<Material*>   m_material;
+    static std::vector<Texture*>    m_texture;
 };
